@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.liferay.usermanagement.model.Department">
+		<field name="uuid" type="String" />
+		<field name="departmentCode" type="String" />
+		<field name="deapartmentName" type="String" />
+		<field name="leaderCode" type="String" />
+		<field name="description" type="String" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+	</model>
+	<model name="com.liferay.usermanagement.model.UserInfo">
+		<field name="uuid" type="String" />
+		<field name="userCode" type="String" />
+		<field name="userId" type="long" />
+		<field name="username" type="String" />
+		<field name="Male" type="boolean" />
+		<field name="birthday" type="Date" />
+		<field name="address" type="String" />
+		<field name="email" type="String" />
+		<field name="phone" type="String" />
+		<field name="departmentCode" type="String" />
+		<field name="role" type="String" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+	</model>
+	<model name="com.liferay.usermanagement.model.WorkingTime">
+		<field name="uuid" type="String" />
+		<field name="workingTimeId" type="long" />
+		<field name="date" type="Date" />
+		<field name="userCode" type="String" />
+		<field name="startTime" type="Date" />
+		<field name="endTime" type="Date" />
+	</model>
+</model-hints>

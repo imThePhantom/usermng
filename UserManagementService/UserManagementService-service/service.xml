@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_0_0.dtd">
+
+<service-builder package-path="com.liferay.usermanagement">
+    <author>phantoan</author>
+    <namespace>CRM</namespace>
+
+    <entity name="Department" local-service="true" remote-service="false" uuid="true">
+        <column name="departmentCode" type="String" primary="true"></column>
+        <column name="deapartmentName" type="String"></column>
+        <column name="leaderCode" type="String"></column>
+        <column name="description" type="String"></column>
+        <column name="groupId" type="long"></column>
+        <column name="companyId" type="long"></column>
+        <column name="createDate" type="Date"></column>
+        <column name="modifiedDate" type="Date"></column>
+        <finder name="GroupId" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+        </finder>
+    </entity>
+    <entity name="UserInfo" local-service="true" remote-service="false" uuid="true">
+        <column name="userCode" type="String" primary="true"></column>
+        <column name="userId" type="long"></column>
+        <column name="username" type="String"></column>
+        <column name="Male" type="boolean"></column>
+        <column name="birthday" type="Date"></column>
+        <column name="address" type="String"></column>
+        <column name="email" type="String"></column>
+        <column name="phone" type="String"></column>
+        <column name="departmentCode" type="String"></column>
+        <column name="role" type="String"></column>
+        <column name="groupId" type="long"></column>
+        <column name="companyId" type="long"></column>
+        <column name="createDate" type="Date"></column>
+        <column name="modifiedDate" type="Date"></column>
+        <finder name="groupId" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+        </finder>
+        <finder name="C_N_E" return-type="Collection">
+            <finder-column name="userCode"></finder-column>
+            <finder-column name="username"></finder-column>
+            <finder-column name="email"></finder-column>
+        </finder>
+    </entity>
+    <entity name="WorkingTime" local-service="true" remote-service="false" uuid="true">
+        <column name="workingTimeId" type="long" primary="true"></column>
+        <column name="date" type="Date"></column>
+        <column name="userCode" type="String"></column>
+        <column name="startTime" type="Date"></column>
+        <column name="endTime" type="Date"></column>
+        <finder name="Date" return-type="Collection">
+            <finder-column name="date"></finder-column>
+        </finder>
+        <finder name="userCode" return-type="Collection">
+            <finder-column name="userCode"></finder-column>
+        </finder>
+        <finder return-type="Collection" name="C_D">
+        	<finder-column name="date"></finder-column>
+        	<finder-column name="userCode"></finder-column>
+        </finder>
+    </entity>
+    <exceptions>
+        <exception>DepartmentCode</exception>
+        <exception>DepartmentName</exception>
+        <exception>DepartmentLeaderCode</exception>
+        <exception>UserCode</exception>
+        <exception>Username</exception>
+        <exception>UserEmail</exception>
+        <exception>UserPhone</exception>
+        <exception>WorkingTimeDate</exception>
+        <exception>WorkingTimeUserCode</exception>
+    </exceptions>
+</service-builder>
