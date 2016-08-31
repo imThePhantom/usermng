@@ -1,7 +1,7 @@
 create table CRM_Department (
 	uuid_ VARCHAR(75) null,
 	departmentCode VARCHAR(75) not null primary key,
-	deapartmentName VARCHAR(75) null,
+	departmentName VARCHAR(75) null,
 	leaderCode VARCHAR(75) null,
 	description VARCHAR(75) null,
 	groupId LONG,
@@ -15,7 +15,7 @@ create table CRM_UserInfo (
 	userCode VARCHAR(75) not null primary key,
 	userId LONG,
 	username VARCHAR(75) null,
-	Male BOOLEAN,
+	male BOOLEAN,
 	birthday DATE null,
 	address VARCHAR(75) null,
 	email VARCHAR(75) null,
@@ -34,5 +34,7 @@ create table CRM_WorkingTime (
 	date_ DATE null,
 	userCode VARCHAR(75) null,
 	startTime DATE null,
-	endTime DATE null
+	endTime DATE null,
+	groupId LONG,
+	companyId LONG
 );

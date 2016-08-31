@@ -66,7 +66,7 @@ public class WorkingTimeCacheModel implements CacheModel<WorkingTime>,
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -80,6 +80,10 @@ public class WorkingTimeCacheModel implements CacheModel<WorkingTime>,
 		sb.append(startTime);
 		sb.append(", endTime=");
 		sb.append(endTime);
+		sb.append(", groupId=");
+		sb.append(groupId);
+		sb.append(", companyId=");
+		sb.append(companyId);
 		sb.append("}");
 
 		return sb.toString();
@@ -126,6 +130,9 @@ public class WorkingTimeCacheModel implements CacheModel<WorkingTime>,
 			workingTimeImpl.setEndTime(new Date(endTime));
 		}
 
+		workingTimeImpl.setGroupId(groupId);
+		workingTimeImpl.setCompanyId(companyId);
+
 		workingTimeImpl.resetOriginalValues();
 
 		return workingTimeImpl;
@@ -140,6 +147,10 @@ public class WorkingTimeCacheModel implements CacheModel<WorkingTime>,
 		userCode = objectInput.readUTF();
 		startTime = objectInput.readLong();
 		endTime = objectInput.readLong();
+
+		groupId = objectInput.readLong();
+
+		companyId = objectInput.readLong();
 	}
 
 	@Override
@@ -164,6 +175,10 @@ public class WorkingTimeCacheModel implements CacheModel<WorkingTime>,
 
 		objectOutput.writeLong(startTime);
 		objectOutput.writeLong(endTime);
+
+		objectOutput.writeLong(groupId);
+
+		objectOutput.writeLong(companyId);
 	}
 
 	public String uuid;
@@ -172,4 +187,6 @@ public class WorkingTimeCacheModel implements CacheModel<WorkingTime>,
 	public String userCode;
 	public long startTime;
 	public long endTime;
+	public long groupId;
+	public long companyId;
 }

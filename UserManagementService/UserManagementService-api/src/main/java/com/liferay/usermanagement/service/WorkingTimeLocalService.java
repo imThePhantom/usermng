@@ -121,6 +121,17 @@ public interface WorkingTimeLocalService extends BaseLocalService,
 	public WorkingTime fetchWorkingTime(long workingTimeId);
 
 	/**
+	* Returns the working time matching the UUID and group.
+	*
+	* @param uuid the working time's UUID
+	* @param groupId the primary key of the group
+	* @return the matching working time, or <code>null</code> if a matching working time could not be found
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public WorkingTime fetchWorkingTimeByUuidAndGroupId(java.lang.String uuid,
+		long groupId);
+
+	/**
 	* Returns the working time with the primary key.
 	*
 	* @param workingTimeId the primary key of the working time
@@ -130,6 +141,18 @@ public interface WorkingTimeLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public WorkingTime getWorkingTime(long workingTimeId)
 		throws PortalException;
+
+	/**
+	* Returns the working time matching the UUID and group.
+	*
+	* @param uuid the working time's UUID
+	* @param groupId the primary key of the group
+	* @return the matching working time
+	* @throws PortalException if a matching working time could not be found
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public WorkingTime getWorkingTimeByUuidAndGroupId(java.lang.String uuid,
+		long groupId) throws PortalException;
 
 	/**
 	* Updates the working time in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
@@ -207,6 +230,32 @@ public interface WorkingTimeLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<WorkingTime> getWorkingTimes(int start, int end);
+
+	/**
+	* Returns all the working times matching the UUID and company.
+	*
+	* @param uuid the UUID of the working times
+	* @param companyId the primary key of the company
+	* @return the matching working times, or an empty list if no matches were found
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<WorkingTime> getWorkingTimesByUuidAndCompanyId(
+		java.lang.String uuid, long companyId);
+
+	/**
+	* Returns a range of working times matching the UUID and company.
+	*
+	* @param uuid the UUID of the working times
+	* @param companyId the primary key of the company
+	* @param start the lower bound of the range of working times
+	* @param end the upper bound of the range of working times (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the range of matching working times, or an empty list if no matches were found
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<WorkingTime> getWorkingTimesByUuidAndCompanyId(
+		java.lang.String uuid, long companyId, int start, int end,
+		OrderByComparator<WorkingTime> orderByComparator);
 
 	/**
 	* Returns the number of rows matching the dynamic query.

@@ -98,19 +98,19 @@ public interface DepartmentModel extends BaseModel<Department>, ShardedModel,
 	public void setDepartmentCode(String departmentCode);
 
 	/**
-	 * Returns the deapartment name of this department.
+	 * Returns the department name of this department.
 	 *
-	 * @return the deapartment name of this department
+	 * @return the department name of this department
 	 */
 	@AutoEscape
-	public String getDeapartmentName();
+	public String getDepartmentName();
 
 	/**
-	 * Sets the deapartment name of this department.
+	 * Sets the department name of this department.
 	 *
-	 * @param deapartmentName the deapartment name of this department
+	 * @param departmentName the department name of this department
 	 */
-	public void setDeapartmentName(String deapartmentName);
+	public void setDepartmentName(String departmentName);
 
 	/**
 	 * Returns the leader code of this department.

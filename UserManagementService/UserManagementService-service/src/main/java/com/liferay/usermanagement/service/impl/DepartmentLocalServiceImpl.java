@@ -21,16 +21,16 @@ import java.util.List;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.search.Indexer;
-import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.usermanagement.exception.DepartmentCodeException;
 import com.liferay.usermanagement.exception.DepartmentLeaderCodeException;
 import com.liferay.usermanagement.exception.DepartmentNameException;
+import com.liferay.usermanagement.exception.NoSuchDepartmentException;
 import com.liferay.usermanagement.model.Department;
 import com.liferay.usermanagement.service.base.DepartmentLocalServiceBaseImpl;
+import com.liferay.usermanagement.service.persistence.DepartmentUtil;
 
 /**
  * The implementation of the department local service.
@@ -59,7 +59,6 @@ public class DepartmentLocalServiceImpl extends DepartmentLocalServiceBaseImpl {
 	 * com.liferay.usermanagement.service.DepartmentLocalServiceUtil} to access
 	 * the department local service.
 	 */
-
 	public Department addDepartment(String departmentCode, String departmentName, String leaderCode, String description,
 			ServiceContext serviceContext) throws PortalException, SystemException {
 		long groupId = serviceContext.getScopeGroupId();
@@ -70,7 +69,7 @@ public class DepartmentLocalServiceImpl extends DepartmentLocalServiceBaseImpl {
 		Department department = departmentPersistence.create(departmentCode);
 
 		department.setUuid(serviceContext.getUuid());
-		department.setDeapartmentName(departmentName);
+		department.setDepartmentName(departmentName);
 		department.setLeaderCode(leaderCode);
 		department.setDescription(description);
 		department.setGroupId(groupId);
@@ -80,21 +79,16 @@ public class DepartmentLocalServiceImpl extends DepartmentLocalServiceBaseImpl {
 
 		departmentPersistence.update(department);
 
-		Indexer<Department> indexer = IndexerRegistryUtil.nullSafeGetIndexer(Department.class);
-		indexer.reindex(department);
-
 		return department;
 	}
 
 	public Department deleteDepartment(String departmentCode, ServiceContext serviceContext)
 			throws PortalException, SystemException {
+
 		Department department = getDepartment(departmentCode);
-		
-		Indexer<Department> indexer = IndexerRegistryUtil.nullSafeGetIndexer(Department.class);
-		indexer.delete(department);
-		
+
 		department = deleteDepartment(departmentCode);
-		
+
 		return department;
 	}
 
@@ -106,9 +100,12 @@ public class DepartmentLocalServiceImpl extends DepartmentLocalServiceBaseImpl {
 		return departmentPersistence.findByGroupId(groupId, start, end);
 	}
 
+	public Department getDepartmentByName(String departmentName) throws SystemException, NoSuchDepartmentException {
+		return departmentPersistence.findByDepartmentName(departmentName);
+	}
+
 	public int getDepartmentsCount(long groupId) throws SystemException {
-		List<Department> departments = this.getDepartments(groupId);
-		return departments.size();
+		return DepartmentUtil.countByGroupId(groupId);
 	}
 
 	public Department updateDepartment(String departmentCode, String departmentName, String leaderCode,
@@ -121,7 +118,7 @@ public class DepartmentLocalServiceImpl extends DepartmentLocalServiceBaseImpl {
 		Department department = getDepartment(departmentCode);
 
 		department.setUuid(serviceContext.getUuid());
-		department.setDeapartmentName(departmentName);
+		department.setDepartmentName(departmentName);
 		department.setLeaderCode(leaderCode);
 		department.setDescription(description);
 		department.setGroupId(groupId);
@@ -130,9 +127,6 @@ public class DepartmentLocalServiceImpl extends DepartmentLocalServiceBaseImpl {
 		department.setModifiedDate(serviceContext.getModifiedDate(now));
 
 		departmentPersistence.update(department);
-
-		Indexer<Department> indexer = IndexerRegistryUtil.nullSafeGetIndexer(Department.class);
-		indexer.reindex(department);
 
 		return department;
 	}

@@ -21,6 +21,7 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
@@ -41,7 +42,7 @@ import java.util.Date;
  * @generated
  */
 @ProviderType
-public interface WorkingTimeModel extends BaseModel<WorkingTime> {
+public interface WorkingTimeModel extends BaseModel<WorkingTime>, ShardedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -147,6 +148,36 @@ public interface WorkingTimeModel extends BaseModel<WorkingTime> {
 	 * @param endTime the end time of this working time
 	 */
 	public void setEndTime(Date endTime);
+
+	/**
+	 * Returns the group ID of this working time.
+	 *
+	 * @return the group ID of this working time
+	 */
+	public long getGroupId();
+
+	/**
+	 * Sets the group ID of this working time.
+	 *
+	 * @param groupId the group ID of this working time
+	 */
+	public void setGroupId(long groupId);
+
+	/**
+	 * Returns the company ID of this working time.
+	 *
+	 * @return the company ID of this working time
+	 */
+	@Override
+	public long getCompanyId();
+
+	/**
+	 * Sets the company ID of this working time.
+	 *
+	 * @param companyId the company ID of this working time
+	 */
+	@Override
+	public void setCompanyId(long companyId);
 
 	@Override
 	public boolean isNew();

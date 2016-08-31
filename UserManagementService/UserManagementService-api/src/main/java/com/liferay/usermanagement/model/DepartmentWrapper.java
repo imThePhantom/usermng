@@ -61,7 +61,7 @@ public class DepartmentWrapper implements Department, ModelWrapper<Department> {
 
 		attributes.put("uuid", getUuid());
 		attributes.put("departmentCode", getDepartmentCode());
-		attributes.put("deapartmentName", getDeapartmentName());
+		attributes.put("departmentName", getDepartmentName());
 		attributes.put("leaderCode", getLeaderCode());
 		attributes.put("description", getDescription());
 		attributes.put("groupId", getGroupId());
@@ -86,10 +86,10 @@ public class DepartmentWrapper implements Department, ModelWrapper<Department> {
 			setDepartmentCode(departmentCode);
 		}
 
-		String deapartmentName = (String)attributes.get("deapartmentName");
+		String departmentName = (String)attributes.get("departmentName");
 
-		if (deapartmentName != null) {
-			setDeapartmentName(deapartmentName);
+		if (departmentName != null) {
+			setDepartmentName(departmentName);
 		}
 
 		String leaderCode = (String)attributes.get("leaderCode");
@@ -185,16 +185,6 @@ public class DepartmentWrapper implements Department, ModelWrapper<Department> {
 	}
 
 	/**
-	* Returns the deapartment name of this department.
-	*
-	* @return the deapartment name of this department
-	*/
-	@Override
-	public java.lang.String getDeapartmentName() {
-		return _department.getDeapartmentName();
-	}
-
-	/**
 	* Returns the department code of this department.
 	*
 	* @return the department code of this department
@@ -202,6 +192,16 @@ public class DepartmentWrapper implements Department, ModelWrapper<Department> {
 	@Override
 	public java.lang.String getDepartmentCode() {
 		return _department.getDepartmentCode();
+	}
+
+	/**
+	* Returns the department name of this department.
+	*
+	* @return the department name of this department
+	*/
+	@Override
+	public java.lang.String getDepartmentName() {
+		return _department.getDepartmentName();
 	}
 
 	/**
@@ -325,16 +325,6 @@ public class DepartmentWrapper implements Department, ModelWrapper<Department> {
 	}
 
 	/**
-	* Sets the deapartment name of this department.
-	*
-	* @param deapartmentName the deapartment name of this department
-	*/
-	@Override
-	public void setDeapartmentName(java.lang.String deapartmentName) {
-		_department.setDeapartmentName(deapartmentName);
-	}
-
-	/**
 	* Sets the department code of this department.
 	*
 	* @param departmentCode the department code of this department
@@ -342,6 +332,16 @@ public class DepartmentWrapper implements Department, ModelWrapper<Department> {
 	@Override
 	public void setDepartmentCode(java.lang.String departmentCode) {
 		_department.setDepartmentCode(departmentCode);
+	}
+
+	/**
+	* Sets the department name of this department.
+	*
+	* @param departmentName the department name of this department
+	*/
+	@Override
+	public void setDepartmentName(java.lang.String departmentName) {
+		_department.setDepartmentName(departmentName);
 	}
 
 	/**

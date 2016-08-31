@@ -63,7 +63,7 @@ public class UserInfoWrapper implements UserInfo, ModelWrapper<UserInfo> {
 		attributes.put("userCode", getUserCode());
 		attributes.put("userId", getUserId());
 		attributes.put("username", getUsername());
-		attributes.put("Male", getMale());
+		attributes.put("male", getMale());
 		attributes.put("birthday", getBirthday());
 		attributes.put("address", getAddress());
 		attributes.put("email", getEmail());
@@ -104,10 +104,10 @@ public class UserInfoWrapper implements UserInfo, ModelWrapper<UserInfo> {
 			setUsername(username);
 		}
 
-		Boolean Male = (Boolean)attributes.get("Male");
+		Boolean male = (Boolean)attributes.get("male");
 
-		if (Male != null) {
-			setMale(Male);
+		if (male != null) {
+			setMale(male);
 		}
 
 		Date birthday = (Date)attributes.get("birthday");
@@ -515,11 +515,11 @@ public class UserInfoWrapper implements UserInfo, ModelWrapper<UserInfo> {
 	/**
 	* Sets whether this user info is male.
 	*
-	* @param Male the male of this user info
+	* @param male the male of this user info
 	*/
 	@Override
-	public void setMale(boolean Male) {
-		_userInfo.setMale(Male);
+	public void setMale(boolean male) {
+		_userInfo.setMale(male);
 	}
 
 	/**

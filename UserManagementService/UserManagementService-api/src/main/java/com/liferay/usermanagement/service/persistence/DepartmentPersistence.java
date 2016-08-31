@@ -501,6 +501,51 @@ public interface DepartmentPersistence extends BasePersistence<Department> {
 	public int countByGroupId(long groupId);
 
 	/**
+	* Returns the department where departmentName = &#63; or throws a {@link NoSuchDepartmentException} if it could not be found.
+	*
+	* @param departmentName the department name
+	* @return the matching department
+	* @throws NoSuchDepartmentException if a matching department could not be found
+	*/
+	public Department findByDepartmentName(java.lang.String departmentName)
+		throws NoSuchDepartmentException;
+
+	/**
+	* Returns the department where departmentName = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param departmentName the department name
+	* @return the matching department, or <code>null</code> if a matching department could not be found
+	*/
+	public Department fetchByDepartmentName(java.lang.String departmentName);
+
+	/**
+	* Returns the department where departmentName = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param departmentName the department name
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching department, or <code>null</code> if a matching department could not be found
+	*/
+	public Department fetchByDepartmentName(java.lang.String departmentName,
+		boolean retrieveFromCache);
+
+	/**
+	* Removes the department where departmentName = &#63; from the database.
+	*
+	* @param departmentName the department name
+	* @return the department that was removed
+	*/
+	public Department removeByDepartmentName(java.lang.String departmentName)
+		throws NoSuchDepartmentException;
+
+	/**
+	* Returns the number of departments where departmentName = &#63;.
+	*
+	* @param departmentName the department name
+	* @return the number of matching departments
+	*/
+	public int countByDepartmentName(java.lang.String departmentName);
+
+	/**
 	* Caches the department in the entity cache if it is enabled.
 	*
 	* @param department the department

@@ -35,7 +35,7 @@ public class DepartmentSoap implements Serializable {
 
 		soapModel.setUuid(model.getUuid());
 		soapModel.setDepartmentCode(model.getDepartmentCode());
-		soapModel.setDeapartmentName(model.getDeapartmentName());
+		soapModel.setDepartmentName(model.getDepartmentName());
 		soapModel.setLeaderCode(model.getLeaderCode());
 		soapModel.setDescription(model.getDescription());
 		soapModel.setGroupId(model.getGroupId());
@@ -110,12 +110,12 @@ public class DepartmentSoap implements Serializable {
 		_departmentCode = departmentCode;
 	}
 
-	public String getDeapartmentName() {
-		return _deapartmentName;
+	public String getDepartmentName() {
+		return _departmentName;
 	}
 
-	public void setDeapartmentName(String deapartmentName) {
-		_deapartmentName = deapartmentName;
+	public void setDepartmentName(String departmentName) {
+		_departmentName = departmentName;
 	}
 
 	public String getLeaderCode() {
@@ -168,7 +168,7 @@ public class DepartmentSoap implements Serializable {
 
 	private String _uuid;
 	private String _departmentCode;
-	private String _deapartmentName;
+	private String _departmentName;
 	private String _leaderCode;
 	private String _description;
 	private long _groupId;

@@ -64,6 +64,8 @@ public class WorkingTimeWrapper implements WorkingTime,
 		attributes.put("userCode", getUserCode());
 		attributes.put("startTime", getStartTime());
 		attributes.put("endTime", getEndTime());
+		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
 
 		return attributes;
 	}
@@ -104,6 +106,18 @@ public class WorkingTimeWrapper implements WorkingTime,
 
 		if (endTime != null) {
 			setEndTime(endTime);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
 		}
 	}
 
@@ -223,6 +237,26 @@ public class WorkingTimeWrapper implements WorkingTime,
 	}
 
 	/**
+	* Returns the company ID of this working time.
+	*
+	* @return the company ID of this working time
+	*/
+	@Override
+	public long getCompanyId() {
+		return _workingTime.getCompanyId();
+	}
+
+	/**
+	* Returns the group ID of this working time.
+	*
+	* @return the group ID of this working time
+	*/
+	@Override
+	public long getGroupId() {
+		return _workingTime.getGroupId();
+	}
+
+	/**
 	* Returns the primary key of this working time.
 	*
 	* @return the primary key of this working time
@@ -250,6 +284,16 @@ public class WorkingTimeWrapper implements WorkingTime,
 	@Override
 	public void setCachedModel(boolean cachedModel) {
 		_workingTime.setCachedModel(cachedModel);
+	}
+
+	/**
+	* Sets the company ID of this working time.
+	*
+	* @param companyId the company ID of this working time
+	*/
+	@Override
+	public void setCompanyId(long companyId) {
+		_workingTime.setCompanyId(companyId);
 	}
 
 	/**
@@ -286,6 +330,16 @@ public class WorkingTimeWrapper implements WorkingTime,
 	@Override
 	public void setExpandoBridgeAttributes(ServiceContext serviceContext) {
 		_workingTime.setExpandoBridgeAttributes(serviceContext);
+	}
+
+	/**
+	* Sets the group ID of this working time.
+	*
+	* @param groupId the group ID of this working time
+	*/
+	@Override
+	public void setGroupId(long groupId) {
+		_workingTime.setGroupId(groupId);
 	}
 
 	@Override

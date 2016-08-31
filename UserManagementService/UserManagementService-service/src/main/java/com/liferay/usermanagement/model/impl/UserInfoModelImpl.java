@@ -68,7 +68,7 @@ public class UserInfoModelImpl extends BaseModelImpl<UserInfo>
 			{ "userCode", Types.VARCHAR },
 			{ "userId", Types.BIGINT },
 			{ "username", Types.VARCHAR },
-			{ "Male", Types.BOOLEAN },
+			{ "male", Types.BOOLEAN },
 			{ "birthday", Types.TIMESTAMP },
 			{ "address", Types.VARCHAR },
 			{ "email", Types.VARCHAR },
@@ -87,7 +87,7 @@ public class UserInfoModelImpl extends BaseModelImpl<UserInfo>
 		TABLE_COLUMNS_MAP.put("userCode", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("username", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("Male", Types.BOOLEAN);
+		TABLE_COLUMNS_MAP.put("male", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("birthday", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("address", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("email", Types.VARCHAR);
@@ -100,7 +100,7 @@ public class UserInfoModelImpl extends BaseModelImpl<UserInfo>
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table CRM_UserInfo (uuid_ VARCHAR(75) null,userCode VARCHAR(75) not null primary key,userId LONG,username VARCHAR(75) null,Male BOOLEAN,birthday DATE null,address VARCHAR(75) null,email VARCHAR(75) null,phone VARCHAR(75) null,departmentCode VARCHAR(75) null,role VARCHAR(75) null,groupId LONG,companyId LONG,createDate DATE null,modifiedDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table CRM_UserInfo (uuid_ VARCHAR(75) null,userCode VARCHAR(75) not null primary key,userId LONG,username VARCHAR(75) null,male BOOLEAN,birthday DATE null,address VARCHAR(75) null,email VARCHAR(75) null,phone VARCHAR(75) null,departmentCode VARCHAR(75) null,role VARCHAR(75) null,groupId LONG,companyId LONG,createDate DATE null,modifiedDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table CRM_UserInfo";
 	public static final String ORDER_BY_JPQL = " ORDER BY userInfo.userCode ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY CRM_UserInfo.userCode ASC";
@@ -119,9 +119,8 @@ public class UserInfoModelImpl extends BaseModelImpl<UserInfo>
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long EMAIL_COLUMN_BITMASK = 2L;
 	public static final long GROUPID_COLUMN_BITMASK = 4L;
-	public static final long USERCODE_COLUMN_BITMASK = 8L;
-	public static final long USERNAME_COLUMN_BITMASK = 16L;
-	public static final long UUID_COLUMN_BITMASK = 32L;
+	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long USERCODE_COLUMN_BITMASK = 16L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.usermanagement.service.util.PropsUtil.get(
 				"lock.expiration.time.com.liferay.usermanagement.model.UserInfo"));
 
@@ -166,7 +165,7 @@ public class UserInfoModelImpl extends BaseModelImpl<UserInfo>
 		attributes.put("userCode", getUserCode());
 		attributes.put("userId", getUserId());
 		attributes.put("username", getUsername());
-		attributes.put("Male", getMale());
+		attributes.put("male", getMale());
 		attributes.put("birthday", getBirthday());
 		attributes.put("address", getAddress());
 		attributes.put("email", getEmail());
@@ -210,10 +209,10 @@ public class UserInfoModelImpl extends BaseModelImpl<UserInfo>
 			setUsername(username);
 		}
 
-		Boolean Male = (Boolean)attributes.get("Male");
+		Boolean male = (Boolean)attributes.get("male");
 
-		if (Male != null) {
-			setMale(Male);
+		if (male != null) {
+			setMale(male);
 		}
 
 		Date birthday = (Date)attributes.get("birthday");
@@ -312,17 +311,7 @@ public class UserInfoModelImpl extends BaseModelImpl<UserInfo>
 
 	@Override
 	public void setUserCode(String userCode) {
-		_columnBitmask |= USERCODE_COLUMN_BITMASK;
-
-		if (_originalUserCode == null) {
-			_originalUserCode = _userCode;
-		}
-
 		_userCode = userCode;
-	}
-
-	public String getOriginalUserCode() {
-		return GetterUtil.getString(_originalUserCode);
 	}
 
 	@Override
@@ -363,32 +352,22 @@ public class UserInfoModelImpl extends BaseModelImpl<UserInfo>
 
 	@Override
 	public void setUsername(String username) {
-		_columnBitmask |= USERNAME_COLUMN_BITMASK;
-
-		if (_originalUsername == null) {
-			_originalUsername = _username;
-		}
-
 		_username = username;
-	}
-
-	public String getOriginalUsername() {
-		return GetterUtil.getString(_originalUsername);
 	}
 
 	@Override
 	public boolean getMale() {
-		return _Male;
+		return _male;
 	}
 
 	@Override
 	public boolean isMale() {
-		return _Male;
+		return _male;
 	}
 
 	@Override
-	public void setMale(boolean Male) {
-		_Male = Male;
+	public void setMale(boolean male) {
+		_male = male;
 	}
 
 	@Override
@@ -651,10 +630,6 @@ public class UserInfoModelImpl extends BaseModelImpl<UserInfo>
 
 		userInfoModelImpl._originalUuid = userInfoModelImpl._uuid;
 
-		userInfoModelImpl._originalUserCode = userInfoModelImpl._userCode;
-
-		userInfoModelImpl._originalUsername = userInfoModelImpl._username;
-
 		userInfoModelImpl._originalEmail = userInfoModelImpl._email;
 
 		userInfoModelImpl._originalGroupId = userInfoModelImpl._groupId;
@@ -700,7 +675,7 @@ public class UserInfoModelImpl extends BaseModelImpl<UserInfo>
 			userInfoCacheModel.username = null;
 		}
 
-		userInfoCacheModel.Male = getMale();
+		userInfoCacheModel.male = getMale();
 
 		Date birthday = getBirthday();
 
@@ -788,7 +763,7 @@ public class UserInfoModelImpl extends BaseModelImpl<UserInfo>
 		sb.append(getUserId());
 		sb.append(", username=");
 		sb.append(getUsername());
-		sb.append(", Male=");
+		sb.append(", male=");
 		sb.append(getMale());
 		sb.append(", birthday=");
 		sb.append(getBirthday());
@@ -840,7 +815,7 @@ public class UserInfoModelImpl extends BaseModelImpl<UserInfo>
 		sb.append(getUsername());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>Male</column-name><column-value><![CDATA[");
+			"<column><column-name>male</column-name><column-value><![CDATA[");
 		sb.append(getMale());
 		sb.append("]]></column-value></column>");
 		sb.append(
@@ -896,11 +871,9 @@ public class UserInfoModelImpl extends BaseModelImpl<UserInfo>
 	private String _uuid;
 	private String _originalUuid;
 	private String _userCode;
-	private String _originalUserCode;
 	private long _userId;
 	private String _username;
-	private String _originalUsername;
-	private boolean _Male;
+	private boolean _male;
 	private Date _birthday;
 	private String _address;
 	private String _email;

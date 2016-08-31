@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
+import com.liferay.usermanagement.exception.NoSuchUserInfoException;
 import com.liferay.usermanagement.model.UserInfo;
 
 import java.io.Serializable;
@@ -146,6 +147,10 @@ public interface UserInfoLocalService extends BaseLocalService,
 	public UserInfo getUserInfo(java.lang.String userCode)
 		throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public UserInfo getUserInfoByEmail(java.lang.String email)
+		throws SystemException, NoSuchUserInfoException;
+
 	/**
 	* Returns the user info matching the UUID and group.
 	*
@@ -181,6 +186,9 @@ public interface UserInfoLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getUserInfosCount();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getUserInfosCount(long groupId) throws SystemException;
 
 	/**
 	* Returns the OSGi service identifier.
@@ -248,11 +256,6 @@ public interface UserInfoLocalService extends BaseLocalService,
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<UserInfo> getUserInfos(long groupId, int start, int end)
-		throws PortalException, SystemException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<UserInfo> getUserInfosByC_N_E(java.lang.String userCode,
-		java.lang.String username, java.lang.String email)
 		throws PortalException, SystemException;
 
 	/**

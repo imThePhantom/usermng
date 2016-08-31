@@ -25,6 +25,8 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.service.persistence.CompanyProvider;
+import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.SetUtil;
@@ -631,6 +633,846 @@ public class WorkingTimePersistenceImpl extends BasePersistenceImpl<WorkingTime>
 	private static final String _FINDER_COLUMN_UUID_UUID_1 = "workingTime.uuid IS NULL";
 	private static final String _FINDER_COLUMN_UUID_UUID_2 = "workingTime.uuid = ?";
 	private static final String _FINDER_COLUMN_UUID_UUID_3 = "(workingTime.uuid IS NULL OR workingTime.uuid = '')";
+	public static final FinderPath FINDER_PATH_FETCH_BY_UUID_G = new FinderPath(WorkingTimeModelImpl.ENTITY_CACHE_ENABLED,
+			WorkingTimeModelImpl.FINDER_CACHE_ENABLED, WorkingTimeImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByUUID_G",
+			new String[] { String.class.getName(), Long.class.getName() },
+			WorkingTimeModelImpl.UUID_COLUMN_BITMASK |
+			WorkingTimeModelImpl.GROUPID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_G = new FinderPath(WorkingTimeModelImpl.ENTITY_CACHE_ENABLED,
+			WorkingTimeModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUUID_G",
+			new String[] { String.class.getName(), Long.class.getName() });
+
+	/**
+	 * Returns the working time where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchWorkingTimeException} if it could not be found.
+	 *
+	 * @param uuid the uuid
+	 * @param groupId the group ID
+	 * @return the matching working time
+	 * @throws NoSuchWorkingTimeException if a matching working time could not be found
+	 */
+	@Override
+	public WorkingTime findByUUID_G(String uuid, long groupId)
+		throws NoSuchWorkingTimeException {
+		WorkingTime workingTime = fetchByUUID_G(uuid, groupId);
+
+		if (workingTime == null) {
+			StringBundler msg = new StringBundler(6);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("uuid=");
+			msg.append(uuid);
+
+			msg.append(", groupId=");
+			msg.append(groupId);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchWorkingTimeException(msg.toString());
+		}
+
+		return workingTime;
+	}
+
+	/**
+	 * Returns the working time where uuid = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param uuid the uuid
+	 * @param groupId the group ID
+	 * @return the matching working time, or <code>null</code> if a matching working time could not be found
+	 */
+	@Override
+	public WorkingTime fetchByUUID_G(String uuid, long groupId) {
+		return fetchByUUID_G(uuid, groupId, true);
+	}
+
+	/**
+	 * Returns the working time where uuid = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param uuid the uuid
+	 * @param groupId the group ID
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the matching working time, or <code>null</code> if a matching working time could not be found
+	 */
+	@Override
+	public WorkingTime fetchByUUID_G(String uuid, long groupId,
+		boolean retrieveFromCache) {
+		Object[] finderArgs = new Object[] { uuid, groupId };
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_UUID_G,
+					finderArgs, this);
+		}
+
+		if (result instanceof WorkingTime) {
+			WorkingTime workingTime = (WorkingTime)result;
+
+			if (!Objects.equals(uuid, workingTime.getUuid()) ||
+					(groupId != workingTime.getGroupId())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(4);
+
+			query.append(_SQL_SELECT_WORKINGTIME_WHERE);
+
+			boolean bindUuid = false;
+
+			if (uuid == null) {
+				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
+			}
+			else if (uuid.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+			}
+			else {
+				bindUuid = true;
+
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+			}
+
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindUuid) {
+					qPos.add(uuid);
+				}
+
+				qPos.add(groupId);
+
+				List<WorkingTime> list = q.list();
+
+				if (list.isEmpty()) {
+					finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
+						finderArgs, list);
+				}
+				else {
+					WorkingTime workingTime = list.get(0);
+
+					result = workingTime;
+
+					cacheResult(workingTime);
+
+					if ((workingTime.getUuid() == null) ||
+							!workingTime.getUuid().equals(uuid) ||
+							(workingTime.getGroupId() != groupId)) {
+						finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
+							finderArgs, workingTime);
+					}
+				}
+			}
+			catch (Exception e) {
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (WorkingTime)result;
+		}
+	}
+
+	/**
+	 * Removes the working time where uuid = &#63; and groupId = &#63; from the database.
+	 *
+	 * @param uuid the uuid
+	 * @param groupId the group ID
+	 * @return the working time that was removed
+	 */
+	@Override
+	public WorkingTime removeByUUID_G(String uuid, long groupId)
+		throws NoSuchWorkingTimeException {
+		WorkingTime workingTime = findByUUID_G(uuid, groupId);
+
+		return remove(workingTime);
+	}
+
+	/**
+	 * Returns the number of working times where uuid = &#63; and groupId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param groupId the group ID
+	 * @return the number of matching working times
+	 */
+	@Override
+	public int countByUUID_G(String uuid, long groupId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_G;
+
+		Object[] finderArgs = new Object[] { uuid, groupId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_COUNT_WORKINGTIME_WHERE);
+
+			boolean bindUuid = false;
+
+			if (uuid == null) {
+				query.append(_FINDER_COLUMN_UUID_G_UUID_1);
+			}
+			else if (uuid.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_UUID_G_UUID_3);
+			}
+			else {
+				bindUuid = true;
+
+				query.append(_FINDER_COLUMN_UUID_G_UUID_2);
+			}
+
+			query.append(_FINDER_COLUMN_UUID_G_GROUPID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindUuid) {
+					qPos.add(uuid);
+				}
+
+				qPos.add(groupId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_UUID_G_UUID_1 = "workingTime.uuid IS NULL AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_2 = "workingTime.uuid = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_G_UUID_3 = "(workingTime.uuid IS NULL OR workingTime.uuid = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_G_GROUPID_2 = "workingTime.groupId = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C = new FinderPath(WorkingTimeModelImpl.ENTITY_CACHE_ENABLED,
+			WorkingTimeModelImpl.FINDER_CACHE_ENABLED, WorkingTimeImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByUuid_C",
+			new String[] {
+				String.class.getName(), Long.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C =
+		new FinderPath(WorkingTimeModelImpl.ENTITY_CACHE_ENABLED,
+			WorkingTimeModelImpl.FINDER_CACHE_ENABLED, WorkingTimeImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByUuid_C",
+			new String[] { String.class.getName(), Long.class.getName() },
+			WorkingTimeModelImpl.UUID_COLUMN_BITMASK |
+			WorkingTimeModelImpl.COMPANYID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_UUID_C = new FinderPath(WorkingTimeModelImpl.ENTITY_CACHE_ENABLED,
+			WorkingTimeModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUuid_C",
+			new String[] { String.class.getName(), Long.class.getName() });
+
+	/**
+	 * Returns all the working times where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @return the matching working times
+	 */
+	@Override
+	public List<WorkingTime> findByUuid_C(String uuid, long companyId) {
+		return findByUuid_C(uuid, companyId, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the working times where uuid = &#63; and companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link WorkingTimeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of working times
+	 * @param end the upper bound of the range of working times (not inclusive)
+	 * @return the range of matching working times
+	 */
+	@Override
+	public List<WorkingTime> findByUuid_C(String uuid, long companyId,
+		int start, int end) {
+		return findByUuid_C(uuid, companyId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the working times where uuid = &#63; and companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link WorkingTimeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of working times
+	 * @param end the upper bound of the range of working times (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching working times
+	 */
+	@Override
+	public List<WorkingTime> findByUuid_C(String uuid, long companyId,
+		int start, int end, OrderByComparator<WorkingTime> orderByComparator) {
+		return findByUuid_C(uuid, companyId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the working times where uuid = &#63; and companyId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link WorkingTimeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param start the lower bound of the range of working times
+	 * @param end the upper bound of the range of working times (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching working times
+	 */
+	@Override
+	public List<WorkingTime> findByUuid_C(String uuid, long companyId,
+		int start, int end, OrderByComparator<WorkingTime> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C;
+			finderArgs = new Object[] { uuid, companyId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_UUID_C;
+			finderArgs = new Object[] {
+					uuid, companyId,
+					
+					start, end, orderByComparator
+				};
+		}
+
+		List<WorkingTime> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<WorkingTime>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (WorkingTime workingTime : list) {
+					if (!Objects.equals(uuid, workingTime.getUuid()) ||
+							(companyId != workingTime.getCompanyId())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(4 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(4);
+			}
+
+			query.append(_SQL_SELECT_WORKINGTIME_WHERE);
+
+			boolean bindUuid = false;
+
+			if (uuid == null) {
+				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
+			}
+			else if (uuid.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			}
+			else {
+				bindUuid = true;
+
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			}
+
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(WorkingTimeModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindUuid) {
+					qPos.add(uuid);
+				}
+
+				qPos.add(companyId);
+
+				if (!pagination) {
+					list = (List<WorkingTime>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<WorkingTime>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first working time in the ordered set where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching working time
+	 * @throws NoSuchWorkingTimeException if a matching working time could not be found
+	 */
+	@Override
+	public WorkingTime findByUuid_C_First(String uuid, long companyId,
+		OrderByComparator<WorkingTime> orderByComparator)
+		throws NoSuchWorkingTimeException {
+		WorkingTime workingTime = fetchByUuid_C_First(uuid, companyId,
+				orderByComparator);
+
+		if (workingTime != null) {
+			return workingTime;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("uuid=");
+		msg.append(uuid);
+
+		msg.append(", companyId=");
+		msg.append(companyId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchWorkingTimeException(msg.toString());
+	}
+
+	/**
+	 * Returns the first working time in the ordered set where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching working time, or <code>null</code> if a matching working time could not be found
+	 */
+	@Override
+	public WorkingTime fetchByUuid_C_First(String uuid, long companyId,
+		OrderByComparator<WorkingTime> orderByComparator) {
+		List<WorkingTime> list = findByUuid_C(uuid, companyId, 0, 1,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last working time in the ordered set where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching working time
+	 * @throws NoSuchWorkingTimeException if a matching working time could not be found
+	 */
+	@Override
+	public WorkingTime findByUuid_C_Last(String uuid, long companyId,
+		OrderByComparator<WorkingTime> orderByComparator)
+		throws NoSuchWorkingTimeException {
+		WorkingTime workingTime = fetchByUuid_C_Last(uuid, companyId,
+				orderByComparator);
+
+		if (workingTime != null) {
+			return workingTime;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("uuid=");
+		msg.append(uuid);
+
+		msg.append(", companyId=");
+		msg.append(companyId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchWorkingTimeException(msg.toString());
+	}
+
+	/**
+	 * Returns the last working time in the ordered set where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching working time, or <code>null</code> if a matching working time could not be found
+	 */
+	@Override
+	public WorkingTime fetchByUuid_C_Last(String uuid, long companyId,
+		OrderByComparator<WorkingTime> orderByComparator) {
+		int count = countByUuid_C(uuid, companyId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<WorkingTime> list = findByUuid_C(uuid, companyId, count - 1,
+				count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the working times before and after the current working time in the ordered set where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param workingTimeId the primary key of the current working time
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next working time
+	 * @throws NoSuchWorkingTimeException if a working time with the primary key could not be found
+	 */
+	@Override
+	public WorkingTime[] findByUuid_C_PrevAndNext(long workingTimeId,
+		String uuid, long companyId,
+		OrderByComparator<WorkingTime> orderByComparator)
+		throws NoSuchWorkingTimeException {
+		WorkingTime workingTime = findByPrimaryKey(workingTimeId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			WorkingTime[] array = new WorkingTimeImpl[3];
+
+			array[0] = getByUuid_C_PrevAndNext(session, workingTime, uuid,
+					companyId, orderByComparator, true);
+
+			array[1] = workingTime;
+
+			array[2] = getByUuid_C_PrevAndNext(session, workingTime, uuid,
+					companyId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected WorkingTime getByUuid_C_PrevAndNext(Session session,
+		WorkingTime workingTime, String uuid, long companyId,
+		OrderByComparator<WorkingTime> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(5 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(4);
+		}
+
+		query.append(_SQL_SELECT_WORKINGTIME_WHERE);
+
+		boolean bindUuid = false;
+
+		if (uuid == null) {
+			query.append(_FINDER_COLUMN_UUID_C_UUID_1);
+		}
+		else if (uuid.equals(StringPool.BLANK)) {
+			query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+		}
+		else {
+			bindUuid = true;
+
+			query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+		}
+
+		query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(WorkingTimeModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindUuid) {
+			qPos.add(uuid);
+		}
+
+		qPos.add(companyId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(workingTime);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<WorkingTime> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the working times where uuid = &#63; and companyId = &#63; from the database.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 */
+	@Override
+	public void removeByUuid_C(String uuid, long companyId) {
+		for (WorkingTime workingTime : findByUuid_C(uuid, companyId,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(workingTime);
+		}
+	}
+
+	/**
+	 * Returns the number of working times where uuid = &#63; and companyId = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @param companyId the company ID
+	 * @return the number of matching working times
+	 */
+	@Override
+	public int countByUuid_C(String uuid, long companyId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_UUID_C;
+
+		Object[] finderArgs = new Object[] { uuid, companyId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_COUNT_WORKINGTIME_WHERE);
+
+			boolean bindUuid = false;
+
+			if (uuid == null) {
+				query.append(_FINDER_COLUMN_UUID_C_UUID_1);
+			}
+			else if (uuid.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_UUID_C_UUID_3);
+			}
+			else {
+				bindUuid = true;
+
+				query.append(_FINDER_COLUMN_UUID_C_UUID_2);
+			}
+
+			query.append(_FINDER_COLUMN_UUID_C_COMPANYID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindUuid) {
+					qPos.add(uuid);
+				}
+
+				qPos.add(companyId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_UUID_C_UUID_1 = "workingTime.uuid IS NULL AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_2 = "workingTime.uuid = ? AND ";
+	private static final String _FINDER_COLUMN_UUID_C_UUID_3 = "(workingTime.uuid IS NULL OR workingTime.uuid = '') AND ";
+	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "workingTime.companyId = ?";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_DATE = new FinderPath(WorkingTimeModelImpl.ENTITY_CACHE_ENABLED,
 			WorkingTimeModelImpl.FINDER_CACHE_ENABLED, WorkingTimeImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByDate",
@@ -1712,157 +2554,98 @@ public class WorkingTimePersistenceImpl extends BasePersistenceImpl<WorkingTime>
 	private static final String _FINDER_COLUMN_USERCODE_USERCODE_1 = "workingTime.userCode IS NULL";
 	private static final String _FINDER_COLUMN_USERCODE_USERCODE_2 = "workingTime.userCode = ?";
 	private static final String _FINDER_COLUMN_USERCODE_USERCODE_3 = "(workingTime.userCode IS NULL OR workingTime.userCode = '')";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_C_D = new FinderPath(WorkingTimeModelImpl.ENTITY_CACHE_ENABLED,
+	public static final FinderPath FINDER_PATH_FETCH_BY_C_D = new FinderPath(WorkingTimeModelImpl.ENTITY_CACHE_ENABLED,
 			WorkingTimeModelImpl.FINDER_CACHE_ENABLED, WorkingTimeImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_D",
-			new String[] {
-				Date.class.getName(), String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_D = new FinderPath(WorkingTimeModelImpl.ENTITY_CACHE_ENABLED,
-			WorkingTimeModelImpl.FINDER_CACHE_ENABLED, WorkingTimeImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_D",
-			new String[] { Date.class.getName(), String.class.getName() },
-			WorkingTimeModelImpl.DATE_COLUMN_BITMASK |
-			WorkingTimeModelImpl.USERCODE_COLUMN_BITMASK);
+			FINDER_CLASS_NAME_ENTITY, "fetchByC_D",
+			new String[] { String.class.getName(), Date.class.getName() },
+			WorkingTimeModelImpl.USERCODE_COLUMN_BITMASK |
+			WorkingTimeModelImpl.DATE_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_C_D = new FinderPath(WorkingTimeModelImpl.ENTITY_CACHE_ENABLED,
 			WorkingTimeModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_D",
-			new String[] { Date.class.getName(), String.class.getName() });
+			new String[] { String.class.getName(), Date.class.getName() });
 
 	/**
-	 * Returns all the working times where date = &#63; and userCode = &#63;.
+	 * Returns the working time where userCode = &#63; and date = &#63; or throws a {@link NoSuchWorkingTimeException} if it could not be found.
 	 *
-	 * @param date the date
 	 * @param userCode the user code
-	 * @return the matching working times
+	 * @param date the date
+	 * @return the matching working time
+	 * @throws NoSuchWorkingTimeException if a matching working time could not be found
 	 */
 	@Override
-	public List<WorkingTime> findByC_D(Date date, String userCode) {
-		return findByC_D(date, userCode, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-			null);
+	public WorkingTime findByC_D(String userCode, Date date)
+		throws NoSuchWorkingTimeException {
+		WorkingTime workingTime = fetchByC_D(userCode, date);
+
+		if (workingTime == null) {
+			StringBundler msg = new StringBundler(6);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("userCode=");
+			msg.append(userCode);
+
+			msg.append(", date=");
+			msg.append(date);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchWorkingTimeException(msg.toString());
+		}
+
+		return workingTime;
 	}
 
 	/**
-	 * Returns a range of all the working times where date = &#63; and userCode = &#63;.
+	 * Returns the working time where userCode = &#63; and date = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link WorkingTimeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param date the date
 	 * @param userCode the user code
-	 * @param start the lower bound of the range of working times
-	 * @param end the upper bound of the range of working times (not inclusive)
-	 * @return the range of matching working times
+	 * @param date the date
+	 * @return the matching working time, or <code>null</code> if a matching working time could not be found
 	 */
 	@Override
-	public List<WorkingTime> findByC_D(Date date, String userCode, int start,
-		int end) {
-		return findByC_D(date, userCode, start, end, null);
+	public WorkingTime fetchByC_D(String userCode, Date date) {
+		return fetchByC_D(userCode, date, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the working times where date = &#63; and userCode = &#63;.
+	 * Returns the working time where userCode = &#63; and date = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link WorkingTimeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param date the date
 	 * @param userCode the user code
-	 * @param start the lower bound of the range of working times
-	 * @param end the upper bound of the range of working times (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching working times
-	 */
-	@Override
-	public List<WorkingTime> findByC_D(Date date, String userCode, int start,
-		int end, OrderByComparator<WorkingTime> orderByComparator) {
-		return findByC_D(date, userCode, start, end, orderByComparator, true);
-	}
-
-	/**
-	 * Returns an ordered range of all the working times where date = &#63; and userCode = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link WorkingTimeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
 	 * @param date the date
-	 * @param userCode the user code
-	 * @param start the lower bound of the range of working times
-	 * @param end the upper bound of the range of working times (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching working times
+	 * @return the matching working time, or <code>null</code> if a matching working time could not be found
 	 */
 	@Override
-	public List<WorkingTime> findByC_D(Date date, String userCode, int start,
-		int end, OrderByComparator<WorkingTime> orderByComparator,
+	public WorkingTime fetchByC_D(String userCode, Date date,
 		boolean retrieveFromCache) {
-		boolean pagination = true;
-		FinderPath finderPath = null;
-		Object[] finderArgs = null;
+		Object[] finderArgs = new Object[] { userCode, date };
 
-		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
-			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_D;
-			finderArgs = new Object[] { date, userCode };
-		}
-		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_C_D;
-			finderArgs = new Object[] {
-					date, userCode,
-					
-					start, end, orderByComparator
-				};
-		}
-
-		List<WorkingTime> list = null;
+		Object result = null;
 
 		if (retrieveFromCache) {
-			list = (List<WorkingTime>)finderCache.getResult(finderPath,
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_C_D,
 					finderArgs, this);
+		}
 
-			if ((list != null) && !list.isEmpty()) {
-				for (WorkingTime workingTime : list) {
-					if (!Objects.equals(date, workingTime.getDate()) ||
-							!Objects.equals(userCode, workingTime.getUserCode())) {
-						list = null;
+		if (result instanceof WorkingTime) {
+			WorkingTime workingTime = (WorkingTime)result;
 
-						break;
-					}
-				}
+			if (!Objects.equals(userCode, workingTime.getUserCode()) ||
+					!Objects.equals(date, workingTime.getDate())) {
+				result = null;
 			}
 		}
 
-		if (list == null) {
-			StringBundler query = null;
-
-			if (orderByComparator != null) {
-				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 2));
-			}
-			else {
-				query = new StringBundler(4);
-			}
+		if (result == null) {
+			StringBundler query = new StringBundler(4);
 
 			query.append(_SQL_SELECT_WORKINGTIME_WHERE);
-
-			boolean bindDate = false;
-
-			if (date == null) {
-				query.append(_FINDER_COLUMN_C_D_DATE_1);
-			}
-			else {
-				bindDate = true;
-
-				query.append(_FINDER_COLUMN_C_D_DATE_2);
-			}
 
 			boolean bindUserCode = false;
 
@@ -1878,13 +2661,15 @@ public class WorkingTimePersistenceImpl extends BasePersistenceImpl<WorkingTime>
 				query.append(_FINDER_COLUMN_C_D_USERCODE_2);
 			}
 
-			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
+			boolean bindDate = false;
+
+			if (date == null) {
+				query.append(_FINDER_COLUMN_C_D_DATE_1);
 			}
-			else
-			 if (pagination) {
-				query.append(WorkingTimeModelImpl.ORDER_BY_JPQL);
+			else {
+				bindDate = true;
+
+				query.append(_FINDER_COLUMN_C_D_DATE_2);
 			}
 
 			String sql = query.toString();
@@ -1898,33 +2683,38 @@ public class WorkingTimePersistenceImpl extends BasePersistenceImpl<WorkingTime>
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				if (bindDate) {
-					qPos.add(new Timestamp(date.getTime()));
-				}
-
 				if (bindUserCode) {
 					qPos.add(userCode);
 				}
 
-				if (!pagination) {
-					list = (List<WorkingTime>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+				if (bindDate) {
+					qPos.add(new Timestamp(date.getTime()));
+				}
 
-					Collections.sort(list);
+				List<WorkingTime> list = q.list();
 
-					list = Collections.unmodifiableList(list);
+				if (list.isEmpty()) {
+					finderCache.putResult(FINDER_PATH_FETCH_BY_C_D, finderArgs,
+						list);
 				}
 				else {
-					list = (List<WorkingTime>)QueryUtil.list(q, getDialect(),
-							start, end);
+					WorkingTime workingTime = list.get(0);
+
+					result = workingTime;
+
+					cacheResult(workingTime);
+
+					if ((workingTime.getUserCode() == null) ||
+							!workingTime.getUserCode().equals(userCode) ||
+							(workingTime.getDate() == null) ||
+							!workingTime.getDate().equals(date)) {
+						finderCache.putResult(FINDER_PATH_FETCH_BY_C_D,
+							finderArgs, workingTime);
+					}
 				}
-
-				cacheResult(list);
-
-				finderCache.putResult(finderPath, finderArgs, list);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_C_D, finderArgs);
 
 				throw processException(e);
 			}
@@ -1933,329 +2723,41 @@ public class WorkingTimePersistenceImpl extends BasePersistenceImpl<WorkingTime>
 			}
 		}
 
-		return list;
-	}
-
-	/**
-	 * Returns the first working time in the ordered set where date = &#63; and userCode = &#63;.
-	 *
-	 * @param date the date
-	 * @param userCode the user code
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching working time
-	 * @throws NoSuchWorkingTimeException if a matching working time could not be found
-	 */
-	@Override
-	public WorkingTime findByC_D_First(Date date, String userCode,
-		OrderByComparator<WorkingTime> orderByComparator)
-		throws NoSuchWorkingTimeException {
-		WorkingTime workingTime = fetchByC_D_First(date, userCode,
-				orderByComparator);
-
-		if (workingTime != null) {
-			return workingTime;
-		}
-
-		StringBundler msg = new StringBundler(6);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("date=");
-		msg.append(date);
-
-		msg.append(", userCode=");
-		msg.append(userCode);
-
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-		throw new NoSuchWorkingTimeException(msg.toString());
-	}
-
-	/**
-	 * Returns the first working time in the ordered set where date = &#63; and userCode = &#63;.
-	 *
-	 * @param date the date
-	 * @param userCode the user code
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching working time, or <code>null</code> if a matching working time could not be found
-	 */
-	@Override
-	public WorkingTime fetchByC_D_First(Date date, String userCode,
-		OrderByComparator<WorkingTime> orderByComparator) {
-		List<WorkingTime> list = findByC_D(date, userCode, 0, 1,
-				orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the last working time in the ordered set where date = &#63; and userCode = &#63;.
-	 *
-	 * @param date the date
-	 * @param userCode the user code
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching working time
-	 * @throws NoSuchWorkingTimeException if a matching working time could not be found
-	 */
-	@Override
-	public WorkingTime findByC_D_Last(Date date, String userCode,
-		OrderByComparator<WorkingTime> orderByComparator)
-		throws NoSuchWorkingTimeException {
-		WorkingTime workingTime = fetchByC_D_Last(date, userCode,
-				orderByComparator);
-
-		if (workingTime != null) {
-			return workingTime;
-		}
-
-		StringBundler msg = new StringBundler(6);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("date=");
-		msg.append(date);
-
-		msg.append(", userCode=");
-		msg.append(userCode);
-
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-		throw new NoSuchWorkingTimeException(msg.toString());
-	}
-
-	/**
-	 * Returns the last working time in the ordered set where date = &#63; and userCode = &#63;.
-	 *
-	 * @param date the date
-	 * @param userCode the user code
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching working time, or <code>null</code> if a matching working time could not be found
-	 */
-	@Override
-	public WorkingTime fetchByC_D_Last(Date date, String userCode,
-		OrderByComparator<WorkingTime> orderByComparator) {
-		int count = countByC_D(date, userCode);
-
-		if (count == 0) {
+		if (result instanceof List<?>) {
 			return null;
 		}
-
-		List<WorkingTime> list = findByC_D(date, userCode, count - 1, count,
-				orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
+		else {
+			return (WorkingTime)result;
 		}
-
-		return null;
 	}
 
 	/**
-	 * Returns the working times before and after the current working time in the ordered set where date = &#63; and userCode = &#63;.
+	 * Removes the working time where userCode = &#63; and date = &#63; from the database.
 	 *
-	 * @param workingTimeId the primary key of the current working time
-	 * @param date the date
 	 * @param userCode the user code
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next working time
-	 * @throws NoSuchWorkingTimeException if a working time with the primary key could not be found
+	 * @param date the date
+	 * @return the working time that was removed
 	 */
 	@Override
-	public WorkingTime[] findByC_D_PrevAndNext(long workingTimeId, Date date,
-		String userCode, OrderByComparator<WorkingTime> orderByComparator)
+	public WorkingTime removeByC_D(String userCode, Date date)
 		throws NoSuchWorkingTimeException {
-		WorkingTime workingTime = findByPrimaryKey(workingTimeId);
+		WorkingTime workingTime = findByC_D(userCode, date);
 
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			WorkingTime[] array = new WorkingTimeImpl[3];
-
-			array[0] = getByC_D_PrevAndNext(session, workingTime, date,
-					userCode, orderByComparator, true);
-
-			array[1] = workingTime;
-
-			array[2] = getByC_D_PrevAndNext(session, workingTime, date,
-					userCode, orderByComparator, false);
-
-			return array;
-		}
-		catch (Exception e) {
-			throw processException(e);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
-
-	protected WorkingTime getByC_D_PrevAndNext(Session session,
-		WorkingTime workingTime, Date date, String userCode,
-		OrderByComparator<WorkingTime> orderByComparator, boolean previous) {
-		StringBundler query = null;
-
-		if (orderByComparator != null) {
-			query = new StringBundler(5 +
-					(orderByComparator.getOrderByConditionFields().length * 3) +
-					(orderByComparator.getOrderByFields().length * 3));
-		}
-		else {
-			query = new StringBundler(4);
-		}
-
-		query.append(_SQL_SELECT_WORKINGTIME_WHERE);
-
-		boolean bindDate = false;
-
-		if (date == null) {
-			query.append(_FINDER_COLUMN_C_D_DATE_1);
-		}
-		else {
-			bindDate = true;
-
-			query.append(_FINDER_COLUMN_C_D_DATE_2);
-		}
-
-		boolean bindUserCode = false;
-
-		if (userCode == null) {
-			query.append(_FINDER_COLUMN_C_D_USERCODE_1);
-		}
-		else if (userCode.equals(StringPool.BLANK)) {
-			query.append(_FINDER_COLUMN_C_D_USERCODE_3);
-		}
-		else {
-			bindUserCode = true;
-
-			query.append(_FINDER_COLUMN_C_D_USERCODE_2);
-		}
-
-		if (orderByComparator != null) {
-			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
-
-			if (orderByConditionFields.length > 0) {
-				query.append(WHERE_AND);
-			}
-
-			for (int i = 0; i < orderByConditionFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByConditionFields[i]);
-
-				if ((i + 1) < orderByConditionFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN_HAS_NEXT);
-					}
-					else {
-						query.append(WHERE_LESSER_THAN_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(WHERE_GREATER_THAN);
-					}
-					else {
-						query.append(WHERE_LESSER_THAN);
-					}
-				}
-			}
-
-			query.append(ORDER_BY_CLAUSE);
-
-			String[] orderByFields = orderByComparator.getOrderByFields();
-
-			for (int i = 0; i < orderByFields.length; i++) {
-				query.append(_ORDER_BY_ENTITY_ALIAS);
-				query.append(orderByFields[i]);
-
-				if ((i + 1) < orderByFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC_HAS_NEXT);
-					}
-					else {
-						query.append(ORDER_BY_DESC_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						query.append(ORDER_BY_ASC);
-					}
-					else {
-						query.append(ORDER_BY_DESC);
-					}
-				}
-			}
-		}
-		else {
-			query.append(WorkingTimeModelImpl.ORDER_BY_JPQL);
-		}
-
-		String sql = query.toString();
-
-		Query q = session.createQuery(sql);
-
-		q.setFirstResult(0);
-		q.setMaxResults(2);
-
-		QueryPos qPos = QueryPos.getInstance(q);
-
-		if (bindDate) {
-			qPos.add(new Timestamp(date.getTime()));
-		}
-
-		if (bindUserCode) {
-			qPos.add(userCode);
-		}
-
-		if (orderByComparator != null) {
-			Object[] values = orderByComparator.getOrderByConditionValues(workingTime);
-
-			for (Object value : values) {
-				qPos.add(value);
-			}
-		}
-
-		List<WorkingTime> list = q.list();
-
-		if (list.size() == 2) {
-			return list.get(1);
-		}
-		else {
-			return null;
-		}
+		return remove(workingTime);
 	}
 
 	/**
-	 * Removes all the working times where date = &#63; and userCode = &#63; from the database.
+	 * Returns the number of working times where userCode = &#63; and date = &#63;.
 	 *
-	 * @param date the date
 	 * @param userCode the user code
-	 */
-	@Override
-	public void removeByC_D(Date date, String userCode) {
-		for (WorkingTime workingTime : findByC_D(date, userCode,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
-			remove(workingTime);
-		}
-	}
-
-	/**
-	 * Returns the number of working times where date = &#63; and userCode = &#63;.
-	 *
 	 * @param date the date
-	 * @param userCode the user code
 	 * @return the number of matching working times
 	 */
 	@Override
-	public int countByC_D(Date date, String userCode) {
+	public int countByC_D(String userCode, Date date) {
 		FinderPath finderPath = FINDER_PATH_COUNT_BY_C_D;
 
-		Object[] finderArgs = new Object[] { date, userCode };
+		Object[] finderArgs = new Object[] { userCode, date };
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
@@ -2263,17 +2765,6 @@ public class WorkingTimePersistenceImpl extends BasePersistenceImpl<WorkingTime>
 			StringBundler query = new StringBundler(3);
 
 			query.append(_SQL_COUNT_WORKINGTIME_WHERE);
-
-			boolean bindDate = false;
-
-			if (date == null) {
-				query.append(_FINDER_COLUMN_C_D_DATE_1);
-			}
-			else {
-				bindDate = true;
-
-				query.append(_FINDER_COLUMN_C_D_DATE_2);
-			}
 
 			boolean bindUserCode = false;
 
@@ -2289,6 +2780,17 @@ public class WorkingTimePersistenceImpl extends BasePersistenceImpl<WorkingTime>
 				query.append(_FINDER_COLUMN_C_D_USERCODE_2);
 			}
 
+			boolean bindDate = false;
+
+			if (date == null) {
+				query.append(_FINDER_COLUMN_C_D_DATE_1);
+			}
+			else {
+				bindDate = true;
+
+				query.append(_FINDER_COLUMN_C_D_DATE_2);
+			}
+
 			String sql = query.toString();
 
 			Session session = null;
@@ -2300,12 +2802,12 @@ public class WorkingTimePersistenceImpl extends BasePersistenceImpl<WorkingTime>
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				if (bindDate) {
-					qPos.add(new Timestamp(date.getTime()));
-				}
-
 				if (bindUserCode) {
 					qPos.add(userCode);
+				}
+
+				if (bindDate) {
+					qPos.add(new Timestamp(date.getTime()));
 				}
 
 				count = (Long)q.uniqueResult();
@@ -2325,11 +2827,11 @@ public class WorkingTimePersistenceImpl extends BasePersistenceImpl<WorkingTime>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_D_DATE_1 = "workingTime.date IS NULL AND ";
-	private static final String _FINDER_COLUMN_C_D_DATE_2 = "workingTime.date = ? AND ";
-	private static final String _FINDER_COLUMN_C_D_USERCODE_1 = "workingTime.userCode IS NULL";
-	private static final String _FINDER_COLUMN_C_D_USERCODE_2 = "workingTime.userCode = ?";
-	private static final String _FINDER_COLUMN_C_D_USERCODE_3 = "(workingTime.userCode IS NULL OR workingTime.userCode = '')";
+	private static final String _FINDER_COLUMN_C_D_USERCODE_1 = "workingTime.userCode IS NULL AND ";
+	private static final String _FINDER_COLUMN_C_D_USERCODE_2 = "workingTime.userCode = ? AND ";
+	private static final String _FINDER_COLUMN_C_D_USERCODE_3 = "(workingTime.userCode IS NULL OR workingTime.userCode = '') AND ";
+	private static final String _FINDER_COLUMN_C_D_DATE_1 = "workingTime.date IS NULL";
+	private static final String _FINDER_COLUMN_C_D_DATE_2 = "workingTime.date = ?";
 
 	public WorkingTimePersistenceImpl() {
 		setModelClass(WorkingTime.class);
@@ -2344,6 +2846,14 @@ public class WorkingTimePersistenceImpl extends BasePersistenceImpl<WorkingTime>
 	public void cacheResult(WorkingTime workingTime) {
 		entityCache.putResult(WorkingTimeModelImpl.ENTITY_CACHE_ENABLED,
 			WorkingTimeImpl.class, workingTime.getPrimaryKey(), workingTime);
+
+		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
+			new Object[] { workingTime.getUuid(), workingTime.getGroupId() },
+			workingTime);
+
+		finderCache.putResult(FINDER_PATH_FETCH_BY_C_D,
+			new Object[] { workingTime.getUserCode(), workingTime.getDate() },
+			workingTime);
 
 		workingTime.resetOriginalValues();
 	}
@@ -2397,6 +2907,8 @@ public class WorkingTimePersistenceImpl extends BasePersistenceImpl<WorkingTime>
 
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		clearUniqueFindersCache((WorkingTimeModelImpl)workingTime);
 	}
 
 	@Override
@@ -2407,6 +2919,101 @@ public class WorkingTimePersistenceImpl extends BasePersistenceImpl<WorkingTime>
 		for (WorkingTime workingTime : workingTimes) {
 			entityCache.removeResult(WorkingTimeModelImpl.ENTITY_CACHE_ENABLED,
 				WorkingTimeImpl.class, workingTime.getPrimaryKey());
+
+			clearUniqueFindersCache((WorkingTimeModelImpl)workingTime);
+		}
+	}
+
+	protected void cacheUniqueFindersCache(
+		WorkingTimeModelImpl workingTimeModelImpl, boolean isNew) {
+		if (isNew) {
+			Object[] args = new Object[] {
+					workingTimeModelImpl.getUuid(),
+					workingTimeModelImpl.getGroupId()
+				};
+
+			finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
+				Long.valueOf(1));
+			finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
+				workingTimeModelImpl);
+
+			args = new Object[] {
+					workingTimeModelImpl.getUserCode(),
+					workingTimeModelImpl.getDate()
+				};
+
+			finderCache.putResult(FINDER_PATH_COUNT_BY_C_D, args,
+				Long.valueOf(1));
+			finderCache.putResult(FINDER_PATH_FETCH_BY_C_D, args,
+				workingTimeModelImpl);
+		}
+		else {
+			if ((workingTimeModelImpl.getColumnBitmask() &
+					FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						workingTimeModelImpl.getUuid(),
+						workingTimeModelImpl.getGroupId()
+					};
+
+				finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
+					Long.valueOf(1));
+				finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
+					workingTimeModelImpl);
+			}
+
+			if ((workingTimeModelImpl.getColumnBitmask() &
+					FINDER_PATH_FETCH_BY_C_D.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						workingTimeModelImpl.getUserCode(),
+						workingTimeModelImpl.getDate()
+					};
+
+				finderCache.putResult(FINDER_PATH_COUNT_BY_C_D, args,
+					Long.valueOf(1));
+				finderCache.putResult(FINDER_PATH_FETCH_BY_C_D, args,
+					workingTimeModelImpl);
+			}
+		}
+	}
+
+	protected void clearUniqueFindersCache(
+		WorkingTimeModelImpl workingTimeModelImpl) {
+		Object[] args = new Object[] {
+				workingTimeModelImpl.getUuid(),
+				workingTimeModelImpl.getGroupId()
+			};
+
+		finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
+		finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+
+		if ((workingTimeModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_UUID_G.getColumnBitmask()) != 0) {
+			args = new Object[] {
+					workingTimeModelImpl.getOriginalUuid(),
+					workingTimeModelImpl.getOriginalGroupId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		}
+
+		args = new Object[] {
+				workingTimeModelImpl.getUserCode(),
+				workingTimeModelImpl.getDate()
+			};
+
+		finderCache.removeResult(FINDER_PATH_COUNT_BY_C_D, args);
+		finderCache.removeResult(FINDER_PATH_FETCH_BY_C_D, args);
+
+		if ((workingTimeModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_C_D.getColumnBitmask()) != 0) {
+			args = new Object[] {
+					workingTimeModelImpl.getOriginalUserCode(),
+					workingTimeModelImpl.getOriginalDate()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_C_D, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_C_D, args);
 		}
 	}
 
@@ -2426,6 +3033,8 @@ public class WorkingTimePersistenceImpl extends BasePersistenceImpl<WorkingTime>
 		String uuid = PortalUUIDUtil.generate();
 
 		workingTime.setUuid(uuid);
+
+		workingTime.setCompanyId(companyProvider.getCompanyId());
 
 		return workingTime;
 	}
@@ -2575,6 +3184,27 @@ public class WorkingTimePersistenceImpl extends BasePersistenceImpl<WorkingTime>
 			}
 
 			if ((workingTimeModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						workingTimeModelImpl.getOriginalUuid(),
+						workingTimeModelImpl.getOriginalCompanyId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
+					args);
+
+				args = new Object[] {
+						workingTimeModelImpl.getUuid(),
+						workingTimeModelImpl.getCompanyId()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_C, args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_UUID_C,
+					args);
+			}
+
+			if ((workingTimeModelImpl.getColumnBitmask() &
 					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_DATE.getColumnBitmask()) != 0) {
 				Object[] args = new Object[] {
 						workingTimeModelImpl.getOriginalDate()
@@ -2607,32 +3237,14 @@ public class WorkingTimePersistenceImpl extends BasePersistenceImpl<WorkingTime>
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_USERCODE,
 					args);
 			}
-
-			if ((workingTimeModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_D.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						workingTimeModelImpl.getOriginalDate(),
-						workingTimeModelImpl.getOriginalUserCode()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_C_D, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_D,
-					args);
-
-				args = new Object[] {
-						workingTimeModelImpl.getDate(),
-						workingTimeModelImpl.getUserCode()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_C_D, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_D,
-					args);
-			}
 		}
 
 		entityCache.putResult(WorkingTimeModelImpl.ENTITY_CACHE_ENABLED,
 			WorkingTimeImpl.class, workingTime.getPrimaryKey(), workingTime,
 			false);
+
+		clearUniqueFindersCache(workingTimeModelImpl);
+		cacheUniqueFindersCache(workingTimeModelImpl, isNew);
 
 		workingTime.resetOriginalValues();
 
@@ -2655,6 +3267,8 @@ public class WorkingTimePersistenceImpl extends BasePersistenceImpl<WorkingTime>
 		workingTimeImpl.setUserCode(workingTime.getUserCode());
 		workingTimeImpl.setStartTime(workingTime.getStartTime());
 		workingTimeImpl.setEndTime(workingTime.getEndTime());
+		workingTimeImpl.setGroupId(workingTime.getGroupId());
+		workingTimeImpl.setCompanyId(workingTime.getCompanyId());
 
 		return workingTimeImpl;
 	}
@@ -3063,6 +3677,8 @@ public class WorkingTimePersistenceImpl extends BasePersistenceImpl<WorkingTime>
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@ServiceReference(type = CompanyProviderWrapper.class)
+	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)

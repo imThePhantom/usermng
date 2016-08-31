@@ -6,57 +6,74 @@
     <namespace>CRM</namespace>
 
     <entity name="Department" local-service="true" remote-service="false" uuid="true">
+        
         <column name="departmentCode" type="String" primary="true"></column>
-        <column name="deapartmentName" type="String"></column>
+        
+        <column name="departmentName" type="String"></column>
         <column name="leaderCode" type="String"></column>
         <column name="description" type="String"></column>
+        
         <column name="groupId" type="long"></column>
         <column name="companyId" type="long"></column>
         <column name="createDate" type="Date"></column>
         <column name="modifiedDate" type="Date"></column>
+        
         <finder name="GroupId" return-type="Collection">
             <finder-column name="groupId"></finder-column>
         </finder>
+        <finder name="DepartmentName" return-type="Department" unique="true">
+            <finder-column name="departmentName"></finder-column>
+        </finder>
+    
     </entity>
     <entity name="UserInfo" local-service="true" remote-service="false" uuid="true">
+    
         <column name="userCode" type="String" primary="true"></column>
+    
         <column name="userId" type="long"></column>
+    
         <column name="username" type="String"></column>
-        <column name="Male" type="boolean"></column>
+        <column name="male" type="boolean"></column>
         <column name="birthday" type="Date"></column>
         <column name="address" type="String"></column>
         <column name="email" type="String"></column>
         <column name="phone" type="String"></column>
         <column name="departmentCode" type="String"></column>
         <column name="role" type="String"></column>
+    
         <column name="groupId" type="long"></column>
         <column name="companyId" type="long"></column>
         <column name="createDate" type="Date"></column>
         <column name="modifiedDate" type="Date"></column>
+    
         <finder name="groupId" return-type="Collection">
             <finder-column name="groupId"></finder-column>
         </finder>
-        <finder name="C_N_E" return-type="Collection">
-            <finder-column name="userCode"></finder-column>
-            <finder-column name="username"></finder-column>
+        <finder name="Email" return-type="UserInfo" unique="true">
             <finder-column name="email"></finder-column>
         </finder>
     </entity>
     <entity name="WorkingTime" local-service="true" remote-service="false" uuid="true">
+    
         <column name="workingTimeId" type="long" primary="true"></column>
-        <column name="date" type="Date"></column>
-        <column name="userCode" type="String"></column>
+    
+        <column name="date" type="Date" ></column>
+        <column name="userCode" type="String" ></column>
         <column name="startTime" type="Date"></column>
         <column name="endTime" type="Date"></column>
+    
+        <column name="groupId" type="long"></column>
+        <column name="companyId" type="long"></column>
+    
         <finder name="Date" return-type="Collection">
             <finder-column name="date"></finder-column>
         </finder>
         <finder name="userCode" return-type="Collection">
             <finder-column name="userCode"></finder-column>
         </finder>
-        <finder return-type="Collection" name="C_D">
-        	<finder-column name="date"></finder-column>
+        <finder name="C_D" unique="true" return-type="WorkingTime">
         	<finder-column name="userCode"></finder-column>
+        	<finder-column name="date"></finder-column>
         </finder>
     </entity>
     <exceptions>

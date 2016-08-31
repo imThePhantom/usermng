@@ -157,6 +157,13 @@ public class UserInfoLocalServiceUtil {
 		return getService().getUserInfo(userCode);
 	}
 
+	public static com.liferay.usermanagement.model.UserInfo getUserInfoByEmail(
+		java.lang.String email)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			com.liferay.usermanagement.exception.NoSuchUserInfoException {
+		return getService().getUserInfoByEmail(email);
+	}
+
 	/**
 	* Returns the user info matching the UUID and group.
 	*
@@ -202,6 +209,11 @@ public class UserInfoLocalServiceUtil {
 	*/
 	public static int getUserInfosCount() {
 		return getService().getUserInfosCount();
+	}
+
+	public static int getUserInfosCount(long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getUserInfosCount(groupId);
 	}
 
 	/**
@@ -291,14 +303,6 @@ public class UserInfoLocalServiceUtil {
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		return getService().getUserInfos(groupId, start, end);
-	}
-
-	public static java.util.List<com.liferay.usermanagement.model.UserInfo> getUserInfosByC_N_E(
-		java.lang.String userCode, java.lang.String username,
-		java.lang.String email)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return getService().getUserInfosByC_N_E(userCode, username, email);
 	}
 
 	/**

@@ -75,8 +75,8 @@ public class UserInfoCacheModel implements CacheModel<UserInfo>, Externalizable 
 		sb.append(userId);
 		sb.append(", username=");
 		sb.append(username);
-		sb.append(", Male=");
-		sb.append(Male);
+		sb.append(", male=");
+		sb.append(male);
 		sb.append(", birthday=");
 		sb.append(birthday);
 		sb.append(", address=");
@@ -129,7 +129,7 @@ public class UserInfoCacheModel implements CacheModel<UserInfo>, Externalizable 
 			userInfoImpl.setUsername(username);
 		}
 
-		userInfoImpl.setMale(Male);
+		userInfoImpl.setMale(male);
 
 		if (birthday == Long.MIN_VALUE) {
 			userInfoImpl.setBirthday(null);
@@ -203,7 +203,7 @@ public class UserInfoCacheModel implements CacheModel<UserInfo>, Externalizable 
 		userId = objectInput.readLong();
 		username = objectInput.readUTF();
 
-		Male = objectInput.readBoolean();
+		male = objectInput.readBoolean();
 		birthday = objectInput.readLong();
 		address = objectInput.readUTF();
 		email = objectInput.readUTF();
@@ -244,7 +244,7 @@ public class UserInfoCacheModel implements CacheModel<UserInfo>, Externalizable 
 			objectOutput.writeUTF(username);
 		}
 
-		objectOutput.writeBoolean(Male);
+		objectOutput.writeBoolean(male);
 		objectOutput.writeLong(birthday);
 
 		if (address == null) {
@@ -293,7 +293,7 @@ public class UserInfoCacheModel implements CacheModel<UserInfo>, Externalizable 
 	public String userCode;
 	public long userId;
 	public String username;
-	public boolean Male;
+	public boolean male;
 	public long birthday;
 	public String address;
 	public String email;

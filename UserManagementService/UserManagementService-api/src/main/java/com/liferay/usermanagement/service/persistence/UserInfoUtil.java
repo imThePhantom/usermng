@@ -655,180 +655,58 @@ public class UserInfoUtil {
 	}
 
 	/**
-	* Returns all the user infos where userCode = &#63; and username = &#63; and email = &#63;.
+	* Returns the user info where email = &#63; or throws a {@link NoSuchUserInfoException} if it could not be found.
 	*
-	* @param userCode the user code
-	* @param username the username
 	* @param email the email
-	* @return the matching user infos
+	* @return the matching user info
+	* @throws NoSuchUserInfoException if a matching user info could not be found
 	*/
-	public static List<UserInfo> findByC_N_E(java.lang.String userCode,
-		java.lang.String username, java.lang.String email) {
-		return getPersistence().findByC_N_E(userCode, username, email);
+	public static UserInfo findByEmail(java.lang.String email)
+		throws com.liferay.usermanagement.exception.NoSuchUserInfoException {
+		return getPersistence().findByEmail(email);
 	}
 
 	/**
-	* Returns a range of all the user infos where userCode = &#63; and username = &#63; and email = &#63;.
+	* Returns the user info where email = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link UserInfoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param userCode the user code
-	* @param username the username
 	* @param email the email
-	* @param start the lower bound of the range of user infos
-	* @param end the upper bound of the range of user infos (not inclusive)
-	* @return the range of matching user infos
+	* @return the matching user info, or <code>null</code> if a matching user info could not be found
 	*/
-	public static List<UserInfo> findByC_N_E(java.lang.String userCode,
-		java.lang.String username, java.lang.String email, int start, int end) {
-		return getPersistence()
-				   .findByC_N_E(userCode, username, email, start, end);
+	public static UserInfo fetchByEmail(java.lang.String email) {
+		return getPersistence().fetchByEmail(email);
 	}
 
 	/**
-	* Returns an ordered range of all the user infos where userCode = &#63; and username = &#63; and email = &#63;.
+	* Returns the user info where email = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link UserInfoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param userCode the user code
-	* @param username the username
 	* @param email the email
-	* @param start the lower bound of the range of user infos
-	* @param end the upper bound of the range of user infos (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of matching user infos
-	*/
-	public static List<UserInfo> findByC_N_E(java.lang.String userCode,
-		java.lang.String username, java.lang.String email, int start, int end,
-		OrderByComparator<UserInfo> orderByComparator) {
-		return getPersistence()
-				   .findByC_N_E(userCode, username, email, start, end,
-			orderByComparator);
-	}
-
-	/**
-	* Returns an ordered range of all the user infos where userCode = &#63; and username = &#63; and email = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link UserInfoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param userCode the user code
-	* @param username the username
-	* @param email the email
-	* @param start the lower bound of the range of user infos
-	* @param end the upper bound of the range of user infos (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @param retrieveFromCache whether to retrieve from the finder cache
-	* @return the ordered range of matching user infos
+	* @return the matching user info, or <code>null</code> if a matching user info could not be found
 	*/
-	public static List<UserInfo> findByC_N_E(java.lang.String userCode,
-		java.lang.String username, java.lang.String email, int start, int end,
-		OrderByComparator<UserInfo> orderByComparator, boolean retrieveFromCache) {
-		return getPersistence()
-				   .findByC_N_E(userCode, username, email, start, end,
-			orderByComparator, retrieveFromCache);
+	public static UserInfo fetchByEmail(java.lang.String email,
+		boolean retrieveFromCache) {
+		return getPersistence().fetchByEmail(email, retrieveFromCache);
 	}
 
 	/**
-	* Returns the first user info in the ordered set where userCode = &#63; and username = &#63; and email = &#63;.
+	* Removes the user info where email = &#63; from the database.
 	*
-	* @param userCode the user code
-	* @param username the username
 	* @param email the email
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the first matching user info
-	* @throws NoSuchUserInfoException if a matching user info could not be found
+	* @return the user info that was removed
 	*/
-	public static UserInfo findByC_N_E_First(java.lang.String userCode,
-		java.lang.String username, java.lang.String email,
-		OrderByComparator<UserInfo> orderByComparator)
+	public static UserInfo removeByEmail(java.lang.String email)
 		throws com.liferay.usermanagement.exception.NoSuchUserInfoException {
-		return getPersistence()
-				   .findByC_N_E_First(userCode, username, email,
-			orderByComparator);
+		return getPersistence().removeByEmail(email);
 	}
 
 	/**
-	* Returns the first user info in the ordered set where userCode = &#63; and username = &#63; and email = &#63;.
+	* Returns the number of user infos where email = &#63;.
 	*
-	* @param userCode the user code
-	* @param username the username
-	* @param email the email
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the first matching user info, or <code>null</code> if a matching user info could not be found
-	*/
-	public static UserInfo fetchByC_N_E_First(java.lang.String userCode,
-		java.lang.String username, java.lang.String email,
-		OrderByComparator<UserInfo> orderByComparator) {
-		return getPersistence()
-				   .fetchByC_N_E_First(userCode, username, email,
-			orderByComparator);
-	}
-
-	/**
-	* Returns the last user info in the ordered set where userCode = &#63; and username = &#63; and email = &#63;.
-	*
-	* @param userCode the user code
-	* @param username the username
-	* @param email the email
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the last matching user info
-	* @throws NoSuchUserInfoException if a matching user info could not be found
-	*/
-	public static UserInfo findByC_N_E_Last(java.lang.String userCode,
-		java.lang.String username, java.lang.String email,
-		OrderByComparator<UserInfo> orderByComparator)
-		throws com.liferay.usermanagement.exception.NoSuchUserInfoException {
-		return getPersistence()
-				   .findByC_N_E_Last(userCode, username, email,
-			orderByComparator);
-	}
-
-	/**
-	* Returns the last user info in the ordered set where userCode = &#63; and username = &#63; and email = &#63;.
-	*
-	* @param userCode the user code
-	* @param username the username
-	* @param email the email
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the last matching user info, or <code>null</code> if a matching user info could not be found
-	*/
-	public static UserInfo fetchByC_N_E_Last(java.lang.String userCode,
-		java.lang.String username, java.lang.String email,
-		OrderByComparator<UserInfo> orderByComparator) {
-		return getPersistence()
-				   .fetchByC_N_E_Last(userCode, username, email,
-			orderByComparator);
-	}
-
-	/**
-	* Removes all the user infos where userCode = &#63; and username = &#63; and email = &#63; from the database.
-	*
-	* @param userCode the user code
-	* @param username the username
-	* @param email the email
-	*/
-	public static void removeByC_N_E(java.lang.String userCode,
-		java.lang.String username, java.lang.String email) {
-		getPersistence().removeByC_N_E(userCode, username, email);
-	}
-
-	/**
-	* Returns the number of user infos where userCode = &#63; and username = &#63; and email = &#63;.
-	*
-	* @param userCode the user code
-	* @param username the username
 	* @param email the email
 	* @return the number of matching user infos
 	*/
-	public static int countByC_N_E(java.lang.String userCode,
-		java.lang.String username, java.lang.String email) {
-		return getPersistence().countByC_N_E(userCode, username, email);
+	public static int countByEmail(java.lang.String email) {
+		return getPersistence().countByEmail(email);
 	}
 
 	/**

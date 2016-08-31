@@ -1970,212 +1970,101 @@ public class UserInfoPersistenceImpl extends BasePersistenceImpl<UserInfo>
 	}
 
 	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "userInfo.groupId = ?";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_C_N_E = new FinderPath(UserInfoModelImpl.ENTITY_CACHE_ENABLED,
+	public static final FinderPath FINDER_PATH_FETCH_BY_EMAIL = new FinderPath(UserInfoModelImpl.ENTITY_CACHE_ENABLED,
 			UserInfoModelImpl.FINDER_CACHE_ENABLED, UserInfoImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_N_E",
-			new String[] {
-				String.class.getName(), String.class.getName(),
-				String.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_N_E = new FinderPath(UserInfoModelImpl.ENTITY_CACHE_ENABLED,
-			UserInfoModelImpl.FINDER_CACHE_ENABLED, UserInfoImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_N_E",
-			new String[] {
-				String.class.getName(), String.class.getName(),
-				String.class.getName()
-			},
-			UserInfoModelImpl.USERCODE_COLUMN_BITMASK |
-			UserInfoModelImpl.USERNAME_COLUMN_BITMASK |
+			FINDER_CLASS_NAME_ENTITY, "fetchByEmail",
+			new String[] { String.class.getName() },
 			UserInfoModelImpl.EMAIL_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_C_N_E = new FinderPath(UserInfoModelImpl.ENTITY_CACHE_ENABLED,
+	public static final FinderPath FINDER_PATH_COUNT_BY_EMAIL = new FinderPath(UserInfoModelImpl.ENTITY_CACHE_ENABLED,
 			UserInfoModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_N_E",
-			new String[] {
-				String.class.getName(), String.class.getName(),
-				String.class.getName()
-			});
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByEmail",
+			new String[] { String.class.getName() });
 
 	/**
-	 * Returns all the user infos where userCode = &#63; and username = &#63; and email = &#63;.
+	 * Returns the user info where email = &#63; or throws a {@link NoSuchUserInfoException} if it could not be found.
 	 *
-	 * @param userCode the user code
-	 * @param username the username
 	 * @param email the email
-	 * @return the matching user infos
+	 * @return the matching user info
+	 * @throws NoSuchUserInfoException if a matching user info could not be found
 	 */
 	@Override
-	public List<UserInfo> findByC_N_E(String userCode, String username,
-		String email) {
-		return findByC_N_E(userCode, username, email, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+	public UserInfo findByEmail(String email) throws NoSuchUserInfoException {
+		UserInfo userInfo = fetchByEmail(email);
+
+		if (userInfo == null) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("email=");
+			msg.append(email);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchUserInfoException(msg.toString());
+		}
+
+		return userInfo;
 	}
 
 	/**
-	 * Returns a range of all the user infos where userCode = &#63; and username = &#63; and email = &#63;.
+	 * Returns the user info where email = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link UserInfoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param userCode the user code
-	 * @param username the username
 	 * @param email the email
-	 * @param start the lower bound of the range of user infos
-	 * @param end the upper bound of the range of user infos (not inclusive)
-	 * @return the range of matching user infos
+	 * @return the matching user info, or <code>null</code> if a matching user info could not be found
 	 */
 	@Override
-	public List<UserInfo> findByC_N_E(String userCode, String username,
-		String email, int start, int end) {
-		return findByC_N_E(userCode, username, email, start, end, null);
+	public UserInfo fetchByEmail(String email) {
+		return fetchByEmail(email, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the user infos where userCode = &#63; and username = &#63; and email = &#63;.
+	 * Returns the user info where email = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link UserInfoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param userCode the user code
-	 * @param username the username
 	 * @param email the email
-	 * @param start the lower bound of the range of user infos
-	 * @param end the upper bound of the range of user infos (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching user infos
-	 */
-	@Override
-	public List<UserInfo> findByC_N_E(String userCode, String username,
-		String email, int start, int end,
-		OrderByComparator<UserInfo> orderByComparator) {
-		return findByC_N_E(userCode, username, email, start, end,
-			orderByComparator, true);
-	}
-
-	/**
-	 * Returns an ordered range of all the user infos where userCode = &#63; and username = &#63; and email = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link UserInfoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param userCode the user code
-	 * @param username the username
-	 * @param email the email
-	 * @param start the lower bound of the range of user infos
-	 * @param end the upper bound of the range of user infos (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching user infos
+	 * @return the matching user info, or <code>null</code> if a matching user info could not be found
 	 */
 	@Override
-	public List<UserInfo> findByC_N_E(String userCode, String username,
-		String email, int start, int end,
-		OrderByComparator<UserInfo> orderByComparator, boolean retrieveFromCache) {
-		boolean pagination = true;
-		FinderPath finderPath = null;
-		Object[] finderArgs = null;
+	public UserInfo fetchByEmail(String email, boolean retrieveFromCache) {
+		Object[] finderArgs = new Object[] { email };
 
-		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
-			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_N_E;
-			finderArgs = new Object[] { userCode, username, email };
-		}
-		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_C_N_E;
-			finderArgs = new Object[] {
-					userCode, username, email,
-					
-					start, end, orderByComparator
-				};
-		}
-
-		List<UserInfo> list = null;
+		Object result = null;
 
 		if (retrieveFromCache) {
-			list = (List<UserInfo>)finderCache.getResult(finderPath,
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_EMAIL,
 					finderArgs, this);
+		}
 
-			if ((list != null) && !list.isEmpty()) {
-				for (UserInfo userInfo : list) {
-					if (!Objects.equals(userCode, userInfo.getUserCode()) ||
-							!Objects.equals(username, userInfo.getUsername()) ||
-							!Objects.equals(email, userInfo.getEmail())) {
-						list = null;
+		if (result instanceof UserInfo) {
+			UserInfo userInfo = (UserInfo)result;
 
-						break;
-					}
-				}
+			if (!Objects.equals(email, userInfo.getEmail())) {
+				result = null;
 			}
 		}
 
-		if (list == null) {
-			StringBundler query = null;
-
-			if (orderByComparator != null) {
-				query = new StringBundler(5 +
-						(orderByComparator.getOrderByFields().length * 2));
-			}
-			else {
-				query = new StringBundler(5);
-			}
+		if (result == null) {
+			StringBundler query = new StringBundler(3);
 
 			query.append(_SQL_SELECT_USERINFO_WHERE);
-
-			boolean bindUserCode = false;
-
-			if (userCode == null) {
-				query.append(_FINDER_COLUMN_C_N_E_USERCODE_1);
-			}
-			else if (userCode.equals(StringPool.BLANK)) {
-				query.append(_FINDER_COLUMN_C_N_E_USERCODE_3);
-			}
-			else {
-				bindUserCode = true;
-
-				query.append(_FINDER_COLUMN_C_N_E_USERCODE_2);
-			}
-
-			boolean bindUsername = false;
-
-			if (username == null) {
-				query.append(_FINDER_COLUMN_C_N_E_USERNAME_1);
-			}
-			else if (username.equals(StringPool.BLANK)) {
-				query.append(_FINDER_COLUMN_C_N_E_USERNAME_3);
-			}
-			else {
-				bindUsername = true;
-
-				query.append(_FINDER_COLUMN_C_N_E_USERNAME_2);
-			}
 
 			boolean bindEmail = false;
 
 			if (email == null) {
-				query.append(_FINDER_COLUMN_C_N_E_EMAIL_1);
+				query.append(_FINDER_COLUMN_EMAIL_EMAIL_1);
 			}
 			else if (email.equals(StringPool.BLANK)) {
-				query.append(_FINDER_COLUMN_C_N_E_EMAIL_3);
+				query.append(_FINDER_COLUMN_EMAIL_EMAIL_3);
 			}
 			else {
 				bindEmail = true;
 
-				query.append(_FINDER_COLUMN_C_N_E_EMAIL_2);
-			}
-
-			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
-			}
-			else
-			 if (pagination) {
-				query.append(UserInfoModelImpl.ORDER_BY_JPQL);
+				query.append(_FINDER_COLUMN_EMAIL_EMAIL_2);
 			}
 
 			String sql = query.toString();
@@ -2189,37 +2078,32 @@ public class UserInfoPersistenceImpl extends BasePersistenceImpl<UserInfo>
 
 				QueryPos qPos = QueryPos.getInstance(q);
 
-				if (bindUserCode) {
-					qPos.add(userCode);
-				}
-
-				if (bindUsername) {
-					qPos.add(username);
-				}
-
 				if (bindEmail) {
 					qPos.add(email);
 				}
 
-				if (!pagination) {
-					list = (List<UserInfo>)QueryUtil.list(q, getDialect(),
-							start, end, false);
+				List<UserInfo> list = q.list();
 
-					Collections.sort(list);
-
-					list = Collections.unmodifiableList(list);
+				if (list.isEmpty()) {
+					finderCache.putResult(FINDER_PATH_FETCH_BY_EMAIL,
+						finderArgs, list);
 				}
 				else {
-					list = (List<UserInfo>)QueryUtil.list(q, getDialect(),
-							start, end);
+					UserInfo userInfo = list.get(0);
+
+					result = userInfo;
+
+					cacheResult(userInfo);
+
+					if ((userInfo.getEmail() == null) ||
+							!userInfo.getEmail().equals(email)) {
+						finderCache.putResult(FINDER_PATH_FETCH_BY_EMAIL,
+							finderArgs, userInfo);
+					}
 				}
-
-				cacheResult(list);
-
-				finderCache.putResult(finderPath, finderArgs, list);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_EMAIL, finderArgs);
 
 				throw processException(e);
 			}
@@ -2228,213 +2112,58 @@ public class UserInfoPersistenceImpl extends BasePersistenceImpl<UserInfo>
 			}
 		}
 
-		return list;
-	}
-
-	/**
-	 * Returns the first user info in the ordered set where userCode = &#63; and username = &#63; and email = &#63;.
-	 *
-	 * @param userCode the user code
-	 * @param username the username
-	 * @param email the email
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching user info
-	 * @throws NoSuchUserInfoException if a matching user info could not be found
-	 */
-	@Override
-	public UserInfo findByC_N_E_First(String userCode, String username,
-		String email, OrderByComparator<UserInfo> orderByComparator)
-		throws NoSuchUserInfoException {
-		UserInfo userInfo = fetchByC_N_E_First(userCode, username, email,
-				orderByComparator);
-
-		if (userInfo != null) {
-			return userInfo;
-		}
-
-		StringBundler msg = new StringBundler(8);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("userCode=");
-		msg.append(userCode);
-
-		msg.append(", username=");
-		msg.append(username);
-
-		msg.append(", email=");
-		msg.append(email);
-
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-		throw new NoSuchUserInfoException(msg.toString());
-	}
-
-	/**
-	 * Returns the first user info in the ordered set where userCode = &#63; and username = &#63; and email = &#63;.
-	 *
-	 * @param userCode the user code
-	 * @param username the username
-	 * @param email the email
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching user info, or <code>null</code> if a matching user info could not be found
-	 */
-	@Override
-	public UserInfo fetchByC_N_E_First(String userCode, String username,
-		String email, OrderByComparator<UserInfo> orderByComparator) {
-		List<UserInfo> list = findByC_N_E(userCode, username, email, 0, 1,
-				orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the last user info in the ordered set where userCode = &#63; and username = &#63; and email = &#63;.
-	 *
-	 * @param userCode the user code
-	 * @param username the username
-	 * @param email the email
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching user info
-	 * @throws NoSuchUserInfoException if a matching user info could not be found
-	 */
-	@Override
-	public UserInfo findByC_N_E_Last(String userCode, String username,
-		String email, OrderByComparator<UserInfo> orderByComparator)
-		throws NoSuchUserInfoException {
-		UserInfo userInfo = fetchByC_N_E_Last(userCode, username, email,
-				orderByComparator);
-
-		if (userInfo != null) {
-			return userInfo;
-		}
-
-		StringBundler msg = new StringBundler(8);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("userCode=");
-		msg.append(userCode);
-
-		msg.append(", username=");
-		msg.append(username);
-
-		msg.append(", email=");
-		msg.append(email);
-
-		msg.append(StringPool.CLOSE_CURLY_BRACE);
-
-		throw new NoSuchUserInfoException(msg.toString());
-	}
-
-	/**
-	 * Returns the last user info in the ordered set where userCode = &#63; and username = &#63; and email = &#63;.
-	 *
-	 * @param userCode the user code
-	 * @param username the username
-	 * @param email the email
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching user info, or <code>null</code> if a matching user info could not be found
-	 */
-	@Override
-	public UserInfo fetchByC_N_E_Last(String userCode, String username,
-		String email, OrderByComparator<UserInfo> orderByComparator) {
-		int count = countByC_N_E(userCode, username, email);
-
-		if (count == 0) {
+		if (result instanceof List<?>) {
 			return null;
 		}
-
-		List<UserInfo> list = findByC_N_E(userCode, username, email, count - 1,
-				count, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
+		else {
+			return (UserInfo)result;
 		}
-
-		return null;
 	}
 
 	/**
-	 * Removes all the user infos where userCode = &#63; and username = &#63; and email = &#63; from the database.
+	 * Removes the user info where email = &#63; from the database.
 	 *
-	 * @param userCode the user code
-	 * @param username the username
 	 * @param email the email
+	 * @return the user info that was removed
 	 */
 	@Override
-	public void removeByC_N_E(String userCode, String username, String email) {
-		for (UserInfo userInfo : findByC_N_E(userCode, username, email,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
-			remove(userInfo);
-		}
+	public UserInfo removeByEmail(String email) throws NoSuchUserInfoException {
+		UserInfo userInfo = findByEmail(email);
+
+		return remove(userInfo);
 	}
 
 	/**
-	 * Returns the number of user infos where userCode = &#63; and username = &#63; and email = &#63;.
+	 * Returns the number of user infos where email = &#63;.
 	 *
-	 * @param userCode the user code
-	 * @param username the username
 	 * @param email the email
 	 * @return the number of matching user infos
 	 */
 	@Override
-	public int countByC_N_E(String userCode, String username, String email) {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_C_N_E;
+	public int countByEmail(String email) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_EMAIL;
 
-		Object[] finderArgs = new Object[] { userCode, username, email };
+		Object[] finderArgs = new Object[] { email };
 
 		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
 
 		if (count == null) {
-			StringBundler query = new StringBundler(4);
+			StringBundler query = new StringBundler(2);
 
 			query.append(_SQL_COUNT_USERINFO_WHERE);
-
-			boolean bindUserCode = false;
-
-			if (userCode == null) {
-				query.append(_FINDER_COLUMN_C_N_E_USERCODE_1);
-			}
-			else if (userCode.equals(StringPool.BLANK)) {
-				query.append(_FINDER_COLUMN_C_N_E_USERCODE_3);
-			}
-			else {
-				bindUserCode = true;
-
-				query.append(_FINDER_COLUMN_C_N_E_USERCODE_2);
-			}
-
-			boolean bindUsername = false;
-
-			if (username == null) {
-				query.append(_FINDER_COLUMN_C_N_E_USERNAME_1);
-			}
-			else if (username.equals(StringPool.BLANK)) {
-				query.append(_FINDER_COLUMN_C_N_E_USERNAME_3);
-			}
-			else {
-				bindUsername = true;
-
-				query.append(_FINDER_COLUMN_C_N_E_USERNAME_2);
-			}
 
 			boolean bindEmail = false;
 
 			if (email == null) {
-				query.append(_FINDER_COLUMN_C_N_E_EMAIL_1);
+				query.append(_FINDER_COLUMN_EMAIL_EMAIL_1);
 			}
 			else if (email.equals(StringPool.BLANK)) {
-				query.append(_FINDER_COLUMN_C_N_E_EMAIL_3);
+				query.append(_FINDER_COLUMN_EMAIL_EMAIL_3);
 			}
 			else {
 				bindEmail = true;
 
-				query.append(_FINDER_COLUMN_C_N_E_EMAIL_2);
+				query.append(_FINDER_COLUMN_EMAIL_EMAIL_2);
 			}
 
 			String sql = query.toString();
@@ -2447,14 +2176,6 @@ public class UserInfoPersistenceImpl extends BasePersistenceImpl<UserInfo>
 				Query q = session.createQuery(sql);
 
 				QueryPos qPos = QueryPos.getInstance(q);
-
-				if (bindUserCode) {
-					qPos.add(userCode);
-				}
-
-				if (bindUsername) {
-					qPos.add(username);
-				}
 
 				if (bindEmail) {
 					qPos.add(email);
@@ -2477,15 +2198,9 @@ public class UserInfoPersistenceImpl extends BasePersistenceImpl<UserInfo>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_C_N_E_USERCODE_1 = "userInfo.userCode IS NULL AND ";
-	private static final String _FINDER_COLUMN_C_N_E_USERCODE_2 = "userInfo.userCode = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_E_USERCODE_3 = "(userInfo.userCode IS NULL OR userInfo.userCode = '') AND ";
-	private static final String _FINDER_COLUMN_C_N_E_USERNAME_1 = "userInfo.username IS NULL AND ";
-	private static final String _FINDER_COLUMN_C_N_E_USERNAME_2 = "userInfo.username = ? AND ";
-	private static final String _FINDER_COLUMN_C_N_E_USERNAME_3 = "(userInfo.username IS NULL OR userInfo.username = '') AND ";
-	private static final String _FINDER_COLUMN_C_N_E_EMAIL_1 = "userInfo.email IS NULL";
-	private static final String _FINDER_COLUMN_C_N_E_EMAIL_2 = "userInfo.email = ?";
-	private static final String _FINDER_COLUMN_C_N_E_EMAIL_3 = "(userInfo.email IS NULL OR userInfo.email = '')";
+	private static final String _FINDER_COLUMN_EMAIL_EMAIL_1 = "userInfo.email IS NULL";
+	private static final String _FINDER_COLUMN_EMAIL_EMAIL_2 = "userInfo.email = ?";
+	private static final String _FINDER_COLUMN_EMAIL_EMAIL_3 = "(userInfo.email IS NULL OR userInfo.email = '')";
 
 	public UserInfoPersistenceImpl() {
 		setModelClass(UserInfo.class);
@@ -2503,6 +2218,9 @@ public class UserInfoPersistenceImpl extends BasePersistenceImpl<UserInfo>
 
 		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
 			new Object[] { userInfo.getUuid(), userInfo.getGroupId() }, userInfo);
+
+		finderCache.putResult(FINDER_PATH_FETCH_BY_EMAIL,
+			new Object[] { userInfo.getEmail() }, userInfo);
 
 		userInfo.resetOriginalValues();
 	}
@@ -2583,6 +2301,13 @@ public class UserInfoPersistenceImpl extends BasePersistenceImpl<UserInfo>
 				Long.valueOf(1));
 			finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
 				userInfoModelImpl);
+
+			args = new Object[] { userInfoModelImpl.getEmail() };
+
+			finderCache.putResult(FINDER_PATH_COUNT_BY_EMAIL, args,
+				Long.valueOf(1));
+			finderCache.putResult(FINDER_PATH_FETCH_BY_EMAIL, args,
+				userInfoModelImpl);
 		}
 		else {
 			if ((userInfoModelImpl.getColumnBitmask() &
@@ -2595,6 +2320,16 @@ public class UserInfoPersistenceImpl extends BasePersistenceImpl<UserInfo>
 				finderCache.putResult(FINDER_PATH_COUNT_BY_UUID_G, args,
 					Long.valueOf(1));
 				finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
+					userInfoModelImpl);
+			}
+
+			if ((userInfoModelImpl.getColumnBitmask() &
+					FINDER_PATH_FETCH_BY_EMAIL.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] { userInfoModelImpl.getEmail() };
+
+				finderCache.putResult(FINDER_PATH_COUNT_BY_EMAIL, args,
+					Long.valueOf(1));
+				finderCache.putResult(FINDER_PATH_FETCH_BY_EMAIL, args,
 					userInfoModelImpl);
 			}
 		}
@@ -2617,6 +2352,19 @@ public class UserInfoPersistenceImpl extends BasePersistenceImpl<UserInfo>
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
 			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		}
+
+		args = new Object[] { userInfoModelImpl.getEmail() };
+
+		finderCache.removeResult(FINDER_PATH_COUNT_BY_EMAIL, args);
+		finderCache.removeResult(FINDER_PATH_FETCH_BY_EMAIL, args);
+
+		if ((userInfoModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_EMAIL.getColumnBitmask()) != 0) {
+			args = new Object[] { userInfoModelImpl.getOriginalEmail() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_EMAIL, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_EMAIL, args);
 		}
 	}
 
@@ -2840,29 +2588,6 @@ public class UserInfoPersistenceImpl extends BasePersistenceImpl<UserInfo>
 
 				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
-					args);
-			}
-
-			if ((userInfoModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_N_E.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						userInfoModelImpl.getOriginalUserCode(),
-						userInfoModelImpl.getOriginalUsername(),
-						userInfoModelImpl.getOriginalEmail()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_C_N_E, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_N_E,
-					args);
-
-				args = new Object[] {
-						userInfoModelImpl.getUserCode(),
-						userInfoModelImpl.getUsername(),
-						userInfoModelImpl.getEmail()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_C_N_E, args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_C_N_E,
 					args);
 			}
 		}

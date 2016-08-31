@@ -1973,6 +1973,242 @@ public class DepartmentPersistenceImpl extends BasePersistenceImpl<Department>
 	}
 
 	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "department.groupId = ?";
+	public static final FinderPath FINDER_PATH_FETCH_BY_DEPARTMENTNAME = new FinderPath(DepartmentModelImpl.ENTITY_CACHE_ENABLED,
+			DepartmentModelImpl.FINDER_CACHE_ENABLED, DepartmentImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByDepartmentName",
+			new String[] { String.class.getName() },
+			DepartmentModelImpl.DEPARTMENTNAME_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_DEPARTMENTNAME = new FinderPath(DepartmentModelImpl.ENTITY_CACHE_ENABLED,
+			DepartmentModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByDepartmentName",
+			new String[] { String.class.getName() });
+
+	/**
+	 * Returns the department where departmentName = &#63; or throws a {@link NoSuchDepartmentException} if it could not be found.
+	 *
+	 * @param departmentName the department name
+	 * @return the matching department
+	 * @throws NoSuchDepartmentException if a matching department could not be found
+	 */
+	@Override
+	public Department findByDepartmentName(String departmentName)
+		throws NoSuchDepartmentException {
+		Department department = fetchByDepartmentName(departmentName);
+
+		if (department == null) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("departmentName=");
+			msg.append(departmentName);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchDepartmentException(msg.toString());
+		}
+
+		return department;
+	}
+
+	/**
+	 * Returns the department where departmentName = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param departmentName the department name
+	 * @return the matching department, or <code>null</code> if a matching department could not be found
+	 */
+	@Override
+	public Department fetchByDepartmentName(String departmentName) {
+		return fetchByDepartmentName(departmentName, true);
+	}
+
+	/**
+	 * Returns the department where departmentName = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param departmentName the department name
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the matching department, or <code>null</code> if a matching department could not be found
+	 */
+	@Override
+	public Department fetchByDepartmentName(String departmentName,
+		boolean retrieveFromCache) {
+		Object[] finderArgs = new Object[] { departmentName };
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_DEPARTMENTNAME,
+					finderArgs, this);
+		}
+
+		if (result instanceof Department) {
+			Department department = (Department)result;
+
+			if (!Objects.equals(departmentName, department.getDepartmentName())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_SELECT_DEPARTMENT_WHERE);
+
+			boolean bindDepartmentName = false;
+
+			if (departmentName == null) {
+				query.append(_FINDER_COLUMN_DEPARTMENTNAME_DEPARTMENTNAME_1);
+			}
+			else if (departmentName.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_DEPARTMENTNAME_DEPARTMENTNAME_3);
+			}
+			else {
+				bindDepartmentName = true;
+
+				query.append(_FINDER_COLUMN_DEPARTMENTNAME_DEPARTMENTNAME_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindDepartmentName) {
+					qPos.add(departmentName);
+				}
+
+				List<Department> list = q.list();
+
+				if (list.isEmpty()) {
+					finderCache.putResult(FINDER_PATH_FETCH_BY_DEPARTMENTNAME,
+						finderArgs, list);
+				}
+				else {
+					Department department = list.get(0);
+
+					result = department;
+
+					cacheResult(department);
+
+					if ((department.getDepartmentName() == null) ||
+							!department.getDepartmentName()
+										   .equals(departmentName)) {
+						finderCache.putResult(FINDER_PATH_FETCH_BY_DEPARTMENTNAME,
+							finderArgs, department);
+					}
+				}
+			}
+			catch (Exception e) {
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_DEPARTMENTNAME,
+					finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Department)result;
+		}
+	}
+
+	/**
+	 * Removes the department where departmentName = &#63; from the database.
+	 *
+	 * @param departmentName the department name
+	 * @return the department that was removed
+	 */
+	@Override
+	public Department removeByDepartmentName(String departmentName)
+		throws NoSuchDepartmentException {
+		Department department = findByDepartmentName(departmentName);
+
+		return remove(department);
+	}
+
+	/**
+	 * Returns the number of departments where departmentName = &#63;.
+	 *
+	 * @param departmentName the department name
+	 * @return the number of matching departments
+	 */
+	@Override
+	public int countByDepartmentName(String departmentName) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_DEPARTMENTNAME;
+
+		Object[] finderArgs = new Object[] { departmentName };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_DEPARTMENT_WHERE);
+
+			boolean bindDepartmentName = false;
+
+			if (departmentName == null) {
+				query.append(_FINDER_COLUMN_DEPARTMENTNAME_DEPARTMENTNAME_1);
+			}
+			else if (departmentName.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_DEPARTMENTNAME_DEPARTMENTNAME_3);
+			}
+			else {
+				bindDepartmentName = true;
+
+				query.append(_FINDER_COLUMN_DEPARTMENTNAME_DEPARTMENTNAME_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindDepartmentName) {
+					qPos.add(departmentName);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_DEPARTMENTNAME_DEPARTMENTNAME_1 = "department.departmentName IS NULL";
+	private static final String _FINDER_COLUMN_DEPARTMENTNAME_DEPARTMENTNAME_2 = "department.departmentName = ?";
+	private static final String _FINDER_COLUMN_DEPARTMENTNAME_DEPARTMENTNAME_3 = "(department.departmentName IS NULL OR department.departmentName = '')";
 
 	public DepartmentPersistenceImpl() {
 		setModelClass(Department.class);
@@ -1991,6 +2227,9 @@ public class DepartmentPersistenceImpl extends BasePersistenceImpl<Department>
 		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
 			new Object[] { department.getUuid(), department.getGroupId() },
 			department);
+
+		finderCache.putResult(FINDER_PATH_FETCH_BY_DEPARTMENTNAME,
+			new Object[] { department.getDepartmentName() }, department);
 
 		department.resetOriginalValues();
 	}
@@ -2073,6 +2312,13 @@ public class DepartmentPersistenceImpl extends BasePersistenceImpl<Department>
 				Long.valueOf(1));
 			finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
 				departmentModelImpl);
+
+			args = new Object[] { departmentModelImpl.getDepartmentName() };
+
+			finderCache.putResult(FINDER_PATH_COUNT_BY_DEPARTMENTNAME, args,
+				Long.valueOf(1));
+			finderCache.putResult(FINDER_PATH_FETCH_BY_DEPARTMENTNAME, args,
+				departmentModelImpl);
 		}
 		else {
 			if ((departmentModelImpl.getColumnBitmask() &
@@ -2086,6 +2332,18 @@ public class DepartmentPersistenceImpl extends BasePersistenceImpl<Department>
 					Long.valueOf(1));
 				finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
 					departmentModelImpl);
+			}
+
+			if ((departmentModelImpl.getColumnBitmask() &
+					FINDER_PATH_FETCH_BY_DEPARTMENTNAME.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						departmentModelImpl.getDepartmentName()
+					};
+
+				finderCache.putResult(FINDER_PATH_COUNT_BY_DEPARTMENTNAME,
+					args, Long.valueOf(1));
+				finderCache.putResult(FINDER_PATH_FETCH_BY_DEPARTMENTNAME,
+					args, departmentModelImpl);
 			}
 		}
 	}
@@ -2108,6 +2366,19 @@ public class DepartmentPersistenceImpl extends BasePersistenceImpl<Department>
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
 			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		}
+
+		args = new Object[] { departmentModelImpl.getDepartmentName() };
+
+		finderCache.removeResult(FINDER_PATH_COUNT_BY_DEPARTMENTNAME, args);
+		finderCache.removeResult(FINDER_PATH_FETCH_BY_DEPARTMENTNAME, args);
+
+		if ((departmentModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_DEPARTMENTNAME.getColumnBitmask()) != 0) {
+			args = new Object[] { departmentModelImpl.getOriginalDepartmentName() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_DEPARTMENTNAME, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_DEPARTMENTNAME, args);
 		}
 	}
 
@@ -2361,7 +2632,7 @@ public class DepartmentPersistenceImpl extends BasePersistenceImpl<Department>
 
 		departmentImpl.setUuid(department.getUuid());
 		departmentImpl.setDepartmentCode(department.getDepartmentCode());
-		departmentImpl.setDeapartmentName(department.getDeapartmentName());
+		departmentImpl.setDepartmentName(department.getDepartmentName());
 		departmentImpl.setLeaderCode(department.getLeaderCode());
 		departmentImpl.setDescription(department.getDescription());
 		departmentImpl.setGroupId(department.getGroupId());

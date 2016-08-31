@@ -157,9 +157,9 @@ public interface UserInfoModel extends BaseModel<UserInfo>, ShardedModel,
 	/**
 	 * Sets whether this user info is male.
 	 *
-	 * @param Male the male of this user info
+	 * @param male the male of this user info
 	 */
-	public void setMale(boolean Male);
+	public void setMale(boolean male);
 
 	/**
 	 * Returns the birthday of this user info.

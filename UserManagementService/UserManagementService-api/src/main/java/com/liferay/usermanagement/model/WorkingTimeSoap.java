@@ -39,6 +39,8 @@ public class WorkingTimeSoap implements Serializable {
 		soapModel.setUserCode(model.getUserCode());
 		soapModel.setStartTime(model.getStartTime());
 		soapModel.setEndTime(model.getEndTime());
+		soapModel.setGroupId(model.getGroupId());
+		soapModel.setCompanyId(model.getCompanyId());
 
 		return soapModel;
 	}
@@ -139,10 +141,28 @@ public class WorkingTimeSoap implements Serializable {
 		_endTime = endTime;
 	}
 
+	public long getGroupId() {
+		return _groupId;
+	}
+
+	public void setGroupId(long groupId) {
+		_groupId = groupId;
+	}
+
+	public long getCompanyId() {
+		return _companyId;
+	}
+
+	public void setCompanyId(long companyId) {
+		_companyId = companyId;
+	}
+
 	private String _uuid;
 	private long _workingTimeId;
 	private Date _date;
 	private String _userCode;
 	private Date _startTime;
 	private Date _endTime;
+	private long _groupId;
+	private long _companyId;
 }

@@ -176,6 +176,203 @@ public interface WorkingTimePersistence extends BasePersistence<WorkingTime> {
 	public int countByUuid(java.lang.String uuid);
 
 	/**
+	* Returns the working time where uuid = &#63; and groupId = &#63; or throws a {@link NoSuchWorkingTimeException} if it could not be found.
+	*
+	* @param uuid the uuid
+	* @param groupId the group ID
+	* @return the matching working time
+	* @throws NoSuchWorkingTimeException if a matching working time could not be found
+	*/
+	public WorkingTime findByUUID_G(java.lang.String uuid, long groupId)
+		throws NoSuchWorkingTimeException;
+
+	/**
+	* Returns the working time where uuid = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param uuid the uuid
+	* @param groupId the group ID
+	* @return the matching working time, or <code>null</code> if a matching working time could not be found
+	*/
+	public WorkingTime fetchByUUID_G(java.lang.String uuid, long groupId);
+
+	/**
+	* Returns the working time where uuid = &#63; and groupId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param uuid the uuid
+	* @param groupId the group ID
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching working time, or <code>null</code> if a matching working time could not be found
+	*/
+	public WorkingTime fetchByUUID_G(java.lang.String uuid, long groupId,
+		boolean retrieveFromCache);
+
+	/**
+	* Removes the working time where uuid = &#63; and groupId = &#63; from the database.
+	*
+	* @param uuid the uuid
+	* @param groupId the group ID
+	* @return the working time that was removed
+	*/
+	public WorkingTime removeByUUID_G(java.lang.String uuid, long groupId)
+		throws NoSuchWorkingTimeException;
+
+	/**
+	* Returns the number of working times where uuid = &#63; and groupId = &#63;.
+	*
+	* @param uuid the uuid
+	* @param groupId the group ID
+	* @return the number of matching working times
+	*/
+	public int countByUUID_G(java.lang.String uuid, long groupId);
+
+	/**
+	* Returns all the working times where uuid = &#63; and companyId = &#63;.
+	*
+	* @param uuid the uuid
+	* @param companyId the company ID
+	* @return the matching working times
+	*/
+	public java.util.List<WorkingTime> findByUuid_C(java.lang.String uuid,
+		long companyId);
+
+	/**
+	* Returns a range of all the working times where uuid = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link WorkingTimeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param uuid the uuid
+	* @param companyId the company ID
+	* @param start the lower bound of the range of working times
+	* @param end the upper bound of the range of working times (not inclusive)
+	* @return the range of matching working times
+	*/
+	public java.util.List<WorkingTime> findByUuid_C(java.lang.String uuid,
+		long companyId, int start, int end);
+
+	/**
+	* Returns an ordered range of all the working times where uuid = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link WorkingTimeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param uuid the uuid
+	* @param companyId the company ID
+	* @param start the lower bound of the range of working times
+	* @param end the upper bound of the range of working times (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching working times
+	*/
+	public java.util.List<WorkingTime> findByUuid_C(java.lang.String uuid,
+		long companyId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<WorkingTime> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the working times where uuid = &#63; and companyId = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link WorkingTimeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param uuid the uuid
+	* @param companyId the company ID
+	* @param start the lower bound of the range of working times
+	* @param end the upper bound of the range of working times (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching working times
+	*/
+	public java.util.List<WorkingTime> findByUuid_C(java.lang.String uuid,
+		long companyId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<WorkingTime> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first working time in the ordered set where uuid = &#63; and companyId = &#63;.
+	*
+	* @param uuid the uuid
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching working time
+	* @throws NoSuchWorkingTimeException if a matching working time could not be found
+	*/
+	public WorkingTime findByUuid_C_First(java.lang.String uuid,
+		long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<WorkingTime> orderByComparator)
+		throws NoSuchWorkingTimeException;
+
+	/**
+	* Returns the first working time in the ordered set where uuid = &#63; and companyId = &#63;.
+	*
+	* @param uuid the uuid
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching working time, or <code>null</code> if a matching working time could not be found
+	*/
+	public WorkingTime fetchByUuid_C_First(java.lang.String uuid,
+		long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<WorkingTime> orderByComparator);
+
+	/**
+	* Returns the last working time in the ordered set where uuid = &#63; and companyId = &#63;.
+	*
+	* @param uuid the uuid
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching working time
+	* @throws NoSuchWorkingTimeException if a matching working time could not be found
+	*/
+	public WorkingTime findByUuid_C_Last(java.lang.String uuid, long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<WorkingTime> orderByComparator)
+		throws NoSuchWorkingTimeException;
+
+	/**
+	* Returns the last working time in the ordered set where uuid = &#63; and companyId = &#63;.
+	*
+	* @param uuid the uuid
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching working time, or <code>null</code> if a matching working time could not be found
+	*/
+	public WorkingTime fetchByUuid_C_Last(java.lang.String uuid,
+		long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<WorkingTime> orderByComparator);
+
+	/**
+	* Returns the working times before and after the current working time in the ordered set where uuid = &#63; and companyId = &#63;.
+	*
+	* @param workingTimeId the primary key of the current working time
+	* @param uuid the uuid
+	* @param companyId the company ID
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next working time
+	* @throws NoSuchWorkingTimeException if a working time with the primary key could not be found
+	*/
+	public WorkingTime[] findByUuid_C_PrevAndNext(long workingTimeId,
+		java.lang.String uuid, long companyId,
+		com.liferay.portal.kernel.util.OrderByComparator<WorkingTime> orderByComparator)
+		throws NoSuchWorkingTimeException;
+
+	/**
+	* Removes all the working times where uuid = &#63; and companyId = &#63; from the database.
+	*
+	* @param uuid the uuid
+	* @param companyId the company ID
+	*/
+	public void removeByUuid_C(java.lang.String uuid, long companyId);
+
+	/**
+	* Returns the number of working times where uuid = &#63; and companyId = &#63;.
+	*
+	* @param uuid the uuid
+	* @param companyId the company ID
+	* @return the number of matching working times
+	*/
+	public int countByUuid_C(java.lang.String uuid, long companyId);
+
+	/**
 	* Returns all the working times where date = &#63;.
 	*
 	* @param date the date
@@ -438,148 +635,54 @@ public interface WorkingTimePersistence extends BasePersistence<WorkingTime> {
 	public int countByuserCode(java.lang.String userCode);
 
 	/**
-	* Returns all the working times where date = &#63; and userCode = &#63;.
+	* Returns the working time where userCode = &#63; and date = &#63; or throws a {@link NoSuchWorkingTimeException} if it could not be found.
 	*
-	* @param date the date
 	* @param userCode the user code
-	* @return the matching working times
+	* @param date the date
+	* @return the matching working time
+	* @throws NoSuchWorkingTimeException if a matching working time could not be found
 	*/
-	public java.util.List<WorkingTime> findByC_D(Date date,
-		java.lang.String userCode);
+	public WorkingTime findByC_D(java.lang.String userCode, Date date)
+		throws NoSuchWorkingTimeException;
 
 	/**
-	* Returns a range of all the working times where date = &#63; and userCode = &#63;.
+	* Returns the working time where userCode = &#63; and date = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link WorkingTimeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param date the date
 	* @param userCode the user code
-	* @param start the lower bound of the range of working times
-	* @param end the upper bound of the range of working times (not inclusive)
-	* @return the range of matching working times
+	* @param date the date
+	* @return the matching working time, or <code>null</code> if a matching working time could not be found
 	*/
-	public java.util.List<WorkingTime> findByC_D(Date date,
-		java.lang.String userCode, int start, int end);
+	public WorkingTime fetchByC_D(java.lang.String userCode, Date date);
 
 	/**
-	* Returns an ordered range of all the working times where date = &#63; and userCode = &#63;.
+	* Returns the working time where userCode = &#63; and date = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link WorkingTimeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param date the date
 	* @param userCode the user code
-	* @param start the lower bound of the range of working times
-	* @param end the upper bound of the range of working times (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of matching working times
-	*/
-	public java.util.List<WorkingTime> findByC_D(Date date,
-		java.lang.String userCode, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<WorkingTime> orderByComparator);
-
-	/**
-	* Returns an ordered range of all the working times where date = &#63; and userCode = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link WorkingTimeModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
 	* @param date the date
-	* @param userCode the user code
-	* @param start the lower bound of the range of working times
-	* @param end the upper bound of the range of working times (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @param retrieveFromCache whether to retrieve from the finder cache
-	* @return the ordered range of matching working times
+	* @return the matching working time, or <code>null</code> if a matching working time could not be found
 	*/
-	public java.util.List<WorkingTime> findByC_D(Date date,
-		java.lang.String userCode, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<WorkingTime> orderByComparator,
+	public WorkingTime fetchByC_D(java.lang.String userCode, Date date,
 		boolean retrieveFromCache);
 
 	/**
-	* Returns the first working time in the ordered set where date = &#63; and userCode = &#63;.
+	* Removes the working time where userCode = &#63; and date = &#63; from the database.
 	*
-	* @param date the date
 	* @param userCode the user code
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the first matching working time
-	* @throws NoSuchWorkingTimeException if a matching working time could not be found
+	* @param date the date
+	* @return the working time that was removed
 	*/
-	public WorkingTime findByC_D_First(Date date, java.lang.String userCode,
-		com.liferay.portal.kernel.util.OrderByComparator<WorkingTime> orderByComparator)
+	public WorkingTime removeByC_D(java.lang.String userCode, Date date)
 		throws NoSuchWorkingTimeException;
 
 	/**
-	* Returns the first working time in the ordered set where date = &#63; and userCode = &#63;.
+	* Returns the number of working times where userCode = &#63; and date = &#63;.
 	*
-	* @param date the date
 	* @param userCode the user code
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the first matching working time, or <code>null</code> if a matching working time could not be found
-	*/
-	public WorkingTime fetchByC_D_First(Date date, java.lang.String userCode,
-		com.liferay.portal.kernel.util.OrderByComparator<WorkingTime> orderByComparator);
-
-	/**
-	* Returns the last working time in the ordered set where date = &#63; and userCode = &#63;.
-	*
 	* @param date the date
-	* @param userCode the user code
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the last matching working time
-	* @throws NoSuchWorkingTimeException if a matching working time could not be found
-	*/
-	public WorkingTime findByC_D_Last(Date date, java.lang.String userCode,
-		com.liferay.portal.kernel.util.OrderByComparator<WorkingTime> orderByComparator)
-		throws NoSuchWorkingTimeException;
-
-	/**
-	* Returns the last working time in the ordered set where date = &#63; and userCode = &#63;.
-	*
-	* @param date the date
-	* @param userCode the user code
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the last matching working time, or <code>null</code> if a matching working time could not be found
-	*/
-	public WorkingTime fetchByC_D_Last(Date date, java.lang.String userCode,
-		com.liferay.portal.kernel.util.OrderByComparator<WorkingTime> orderByComparator);
-
-	/**
-	* Returns the working times before and after the current working time in the ordered set where date = &#63; and userCode = &#63;.
-	*
-	* @param workingTimeId the primary key of the current working time
-	* @param date the date
-	* @param userCode the user code
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the previous, current, and next working time
-	* @throws NoSuchWorkingTimeException if a working time with the primary key could not be found
-	*/
-	public WorkingTime[] findByC_D_PrevAndNext(long workingTimeId, Date date,
-		java.lang.String userCode,
-		com.liferay.portal.kernel.util.OrderByComparator<WorkingTime> orderByComparator)
-		throws NoSuchWorkingTimeException;
-
-	/**
-	* Removes all the working times where date = &#63; and userCode = &#63; from the database.
-	*
-	* @param date the date
-	* @param userCode the user code
-	*/
-	public void removeByC_D(Date date, java.lang.String userCode);
-
-	/**
-	* Returns the number of working times where date = &#63; and userCode = &#63;.
-	*
-	* @param date the date
-	* @param userCode the user code
 	* @return the number of matching working times
 	*/
-	public int countByC_D(Date date, java.lang.String userCode);
+	public int countByC_D(java.lang.String userCode, Date date);
 
 	/**
 	* Caches the working time in the entity cache if it is enabled.

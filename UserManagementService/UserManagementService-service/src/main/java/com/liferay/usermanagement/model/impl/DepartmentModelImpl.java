@@ -63,7 +63,7 @@ public class DepartmentModelImpl extends BaseModelImpl<Department>
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "uuid_", Types.VARCHAR },
 			{ "departmentCode", Types.VARCHAR },
-			{ "deapartmentName", Types.VARCHAR },
+			{ "departmentName", Types.VARCHAR },
 			{ "leaderCode", Types.VARCHAR },
 			{ "description", Types.VARCHAR },
 			{ "groupId", Types.BIGINT },
@@ -76,7 +76,7 @@ public class DepartmentModelImpl extends BaseModelImpl<Department>
 	static {
 		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("departmentCode", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("deapartmentName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("departmentName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("leaderCode", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
@@ -85,7 +85,7 @@ public class DepartmentModelImpl extends BaseModelImpl<Department>
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table CRM_Department (uuid_ VARCHAR(75) null,departmentCode VARCHAR(75) not null primary key,deapartmentName VARCHAR(75) null,leaderCode VARCHAR(75) null,description VARCHAR(75) null,groupId LONG,companyId LONG,createDate DATE null,modifiedDate DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table CRM_Department (uuid_ VARCHAR(75) null,departmentCode VARCHAR(75) not null primary key,departmentName VARCHAR(75) null,leaderCode VARCHAR(75) null,description VARCHAR(75) null,groupId LONG,companyId LONG,createDate DATE null,modifiedDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table CRM_Department";
 	public static final String ORDER_BY_JPQL = " ORDER BY department.departmentCode ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY CRM_Department.departmentCode ASC";
@@ -102,9 +102,10 @@ public class DepartmentModelImpl extends BaseModelImpl<Department>
 				"value.object.column.bitmask.enabled.com.liferay.usermanagement.model.Department"),
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long UUID_COLUMN_BITMASK = 4L;
-	public static final long DEPARTMENTCODE_COLUMN_BITMASK = 8L;
+	public static final long DEPARTMENTNAME_COLUMN_BITMASK = 2L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long DEPARTMENTCODE_COLUMN_BITMASK = 16L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.usermanagement.service.util.PropsUtil.get(
 				"lock.expiration.time.com.liferay.usermanagement.model.Department"));
 
@@ -147,7 +148,7 @@ public class DepartmentModelImpl extends BaseModelImpl<Department>
 
 		attributes.put("uuid", getUuid());
 		attributes.put("departmentCode", getDepartmentCode());
-		attributes.put("deapartmentName", getDeapartmentName());
+		attributes.put("departmentName", getDepartmentName());
 		attributes.put("leaderCode", getLeaderCode());
 		attributes.put("description", getDescription());
 		attributes.put("groupId", getGroupId());
@@ -175,10 +176,10 @@ public class DepartmentModelImpl extends BaseModelImpl<Department>
 			setDepartmentCode(departmentCode);
 		}
 
-		String deapartmentName = (String)attributes.get("deapartmentName");
+		String departmentName = (String)attributes.get("departmentName");
 
-		if (deapartmentName != null) {
-			setDeapartmentName(deapartmentName);
+		if (departmentName != null) {
+			setDepartmentName(departmentName);
 		}
 
 		String leaderCode = (String)attributes.get("leaderCode");
@@ -257,18 +258,28 @@ public class DepartmentModelImpl extends BaseModelImpl<Department>
 	}
 
 	@Override
-	public String getDeapartmentName() {
-		if (_deapartmentName == null) {
+	public String getDepartmentName() {
+		if (_departmentName == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _deapartmentName;
+			return _departmentName;
 		}
 	}
 
 	@Override
-	public void setDeapartmentName(String deapartmentName) {
-		_deapartmentName = deapartmentName;
+	public void setDepartmentName(String departmentName) {
+		_columnBitmask |= DEPARTMENTNAME_COLUMN_BITMASK;
+
+		if (_originalDepartmentName == null) {
+			_originalDepartmentName = _departmentName;
+		}
+
+		_departmentName = departmentName;
+	}
+
+	public String getOriginalDepartmentName() {
+		return GetterUtil.getString(_originalDepartmentName);
 	}
 
 	@Override
@@ -397,7 +408,7 @@ public class DepartmentModelImpl extends BaseModelImpl<Department>
 
 		departmentImpl.setUuid(getUuid());
 		departmentImpl.setDepartmentCode(getDepartmentCode());
-		departmentImpl.setDeapartmentName(getDeapartmentName());
+		departmentImpl.setDepartmentName(getDepartmentName());
 		departmentImpl.setLeaderCode(getLeaderCode());
 		departmentImpl.setDescription(getDescription());
 		departmentImpl.setGroupId(getGroupId());
@@ -460,6 +471,8 @@ public class DepartmentModelImpl extends BaseModelImpl<Department>
 
 		departmentModelImpl._originalUuid = departmentModelImpl._uuid;
 
+		departmentModelImpl._originalDepartmentName = departmentModelImpl._departmentName;
+
 		departmentModelImpl._originalGroupId = departmentModelImpl._groupId;
 
 		departmentModelImpl._setOriginalGroupId = false;
@@ -493,12 +506,12 @@ public class DepartmentModelImpl extends BaseModelImpl<Department>
 			departmentCacheModel.departmentCode = null;
 		}
 
-		departmentCacheModel.deapartmentName = getDeapartmentName();
+		departmentCacheModel.departmentName = getDepartmentName();
 
-		String deapartmentName = departmentCacheModel.deapartmentName;
+		String departmentName = departmentCacheModel.departmentName;
 
-		if ((deapartmentName != null) && (deapartmentName.length() == 0)) {
-			departmentCacheModel.deapartmentName = null;
+		if ((departmentName != null) && (departmentName.length() == 0)) {
+			departmentCacheModel.departmentName = null;
 		}
 
 		departmentCacheModel.leaderCode = getLeaderCode();
@@ -550,8 +563,8 @@ public class DepartmentModelImpl extends BaseModelImpl<Department>
 		sb.append(getUuid());
 		sb.append(", departmentCode=");
 		sb.append(getDepartmentCode());
-		sb.append(", deapartmentName=");
-		sb.append(getDeapartmentName());
+		sb.append(", departmentName=");
+		sb.append(getDepartmentName());
 		sb.append(", leaderCode=");
 		sb.append(getLeaderCode());
 		sb.append(", description=");
@@ -586,8 +599,8 @@ public class DepartmentModelImpl extends BaseModelImpl<Department>
 		sb.append(getDepartmentCode());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>deapartmentName</column-name><column-value><![CDATA[");
-		sb.append(getDeapartmentName());
+			"<column><column-name>departmentName</column-name><column-value><![CDATA[");
+		sb.append(getDepartmentName());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>leaderCode</column-name><column-value><![CDATA[");
@@ -626,7 +639,8 @@ public class DepartmentModelImpl extends BaseModelImpl<Department>
 	private String _uuid;
 	private String _originalUuid;
 	private String _departmentCode;
-	private String _deapartmentName;
+	private String _departmentName;
+	private String _originalDepartmentName;
 	private String _leaderCode;
 	private String _description;
 	private long _groupId;

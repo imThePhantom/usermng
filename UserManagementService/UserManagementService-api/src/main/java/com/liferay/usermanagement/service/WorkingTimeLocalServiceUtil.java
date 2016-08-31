@@ -120,6 +120,18 @@ public class WorkingTimeLocalServiceUtil {
 	}
 
 	/**
+	* Returns the working time matching the UUID and group.
+	*
+	* @param uuid the working time's UUID
+	* @param groupId the primary key of the group
+	* @return the matching working time, or <code>null</code> if a matching working time could not be found
+	*/
+	public static com.liferay.usermanagement.model.WorkingTime fetchWorkingTimeByUuidAndGroupId(
+		java.lang.String uuid, long groupId) {
+		return getService().fetchWorkingTimeByUuidAndGroupId(uuid, groupId);
+	}
+
+	/**
 	* Returns the working time with the primary key.
 	*
 	* @param workingTimeId the primary key of the working time
@@ -130,6 +142,20 @@ public class WorkingTimeLocalServiceUtil {
 		long workingTimeId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getWorkingTime(workingTimeId);
+	}
+
+	/**
+	* Returns the working time matching the UUID and group.
+	*
+	* @param uuid the working time's UUID
+	* @param groupId the primary key of the group
+	* @return the matching working time
+	* @throws PortalException if a matching working time could not be found
+	*/
+	public static com.liferay.usermanagement.model.WorkingTime getWorkingTimeByUuidAndGroupId(
+		java.lang.String uuid, long groupId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().getWorkingTimeByUuidAndGroupId(uuid, groupId);
 	}
 
 	/**
@@ -225,6 +251,36 @@ public class WorkingTimeLocalServiceUtil {
 	public static java.util.List<com.liferay.usermanagement.model.WorkingTime> getWorkingTimes(
 		int start, int end) {
 		return getService().getWorkingTimes(start, end);
+	}
+
+	/**
+	* Returns all the working times matching the UUID and company.
+	*
+	* @param uuid the UUID of the working times
+	* @param companyId the primary key of the company
+	* @return the matching working times, or an empty list if no matches were found
+	*/
+	public static java.util.List<com.liferay.usermanagement.model.WorkingTime> getWorkingTimesByUuidAndCompanyId(
+		java.lang.String uuid, long companyId) {
+		return getService().getWorkingTimesByUuidAndCompanyId(uuid, companyId);
+	}
+
+	/**
+	* Returns a range of working times matching the UUID and company.
+	*
+	* @param uuid the UUID of the working times
+	* @param companyId the primary key of the company
+	* @param start the lower bound of the range of working times
+	* @param end the upper bound of the range of working times (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the range of matching working times, or an empty list if no matches were found
+	*/
+	public static java.util.List<com.liferay.usermanagement.model.WorkingTime> getWorkingTimesByUuidAndCompanyId(
+		java.lang.String uuid, long companyId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.usermanagement.model.WorkingTime> orderByComparator) {
+		return getService()
+				   .getWorkingTimesByUuidAndCompanyId(uuid, companyId, start,
+			end, orderByComparator);
 	}
 
 	/**

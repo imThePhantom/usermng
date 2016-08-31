@@ -133,15 +133,15 @@ public class UserInfoSoap implements Serializable {
 	}
 
 	public boolean getMale() {
-		return _Male;
+		return _male;
 	}
 
 	public boolean isMale() {
-		return _Male;
+		return _male;
 	}
 
-	public void setMale(boolean Male) {
-		_Male = Male;
+	public void setMale(boolean male) {
+		_male = male;
 	}
 
 	public Date getBirthday() {
@@ -228,7 +228,7 @@ public class UserInfoSoap implements Serializable {
 	private String _userCode;
 	private long _userId;
 	private String _username;
-	private boolean _Male;
+	private boolean _male;
 	private Date _birthday;
 	private String _address;
 	private String _email;

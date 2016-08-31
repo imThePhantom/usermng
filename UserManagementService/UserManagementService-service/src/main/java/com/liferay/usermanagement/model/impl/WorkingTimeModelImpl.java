@@ -67,7 +67,9 @@ public class WorkingTimeModelImpl extends BaseModelImpl<WorkingTime>
 			{ "date_", Types.TIMESTAMP },
 			{ "userCode", Types.VARCHAR },
 			{ "startTime", Types.TIMESTAMP },
-			{ "endTime", Types.TIMESTAMP }
+			{ "endTime", Types.TIMESTAMP },
+			{ "groupId", Types.BIGINT },
+			{ "companyId", Types.BIGINT }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -78,9 +80,11 @@ public class WorkingTimeModelImpl extends BaseModelImpl<WorkingTime>
 		TABLE_COLUMNS_MAP.put("userCode", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("startTime", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("endTime", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table CRM_WorkingTime (uuid_ VARCHAR(75) null,workingTimeId LONG not null primary key,date_ DATE null,userCode VARCHAR(75) null,startTime DATE null,endTime DATE null)";
+	public static final String TABLE_SQL_CREATE = "create table CRM_WorkingTime (uuid_ VARCHAR(75) null,workingTimeId LONG not null primary key,date_ DATE null,userCode VARCHAR(75) null,startTime DATE null,endTime DATE null,groupId LONG,companyId LONG)";
 	public static final String TABLE_SQL_DROP = "drop table CRM_WorkingTime";
 	public static final String ORDER_BY_JPQL = " ORDER BY workingTime.workingTimeId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY CRM_WorkingTime.workingTimeId ASC";
@@ -96,10 +100,12 @@ public class WorkingTimeModelImpl extends BaseModelImpl<WorkingTime>
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.usermanagement.service.util.PropsUtil.get(
 				"value.object.column.bitmask.enabled.com.liferay.usermanagement.model.WorkingTime"),
 			true);
-	public static final long DATE_COLUMN_BITMASK = 1L;
-	public static final long USERCODE_COLUMN_BITMASK = 2L;
-	public static final long UUID_COLUMN_BITMASK = 4L;
-	public static final long WORKINGTIMEID_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 1L;
+	public static final long DATE_COLUMN_BITMASK = 2L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long USERCODE_COLUMN_BITMASK = 8L;
+	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long WORKINGTIMEID_COLUMN_BITMASK = 32L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.usermanagement.service.util.PropsUtil.get(
 				"lock.expiration.time.com.liferay.usermanagement.model.WorkingTime"));
 
@@ -146,6 +152,8 @@ public class WorkingTimeModelImpl extends BaseModelImpl<WorkingTime>
 		attributes.put("userCode", getUserCode());
 		attributes.put("startTime", getStartTime());
 		attributes.put("endTime", getEndTime());
+		attributes.put("groupId", getGroupId());
+		attributes.put("companyId", getCompanyId());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -189,6 +197,18 @@ public class WorkingTimeModelImpl extends BaseModelImpl<WorkingTime>
 
 		if (endTime != null) {
 			setEndTime(endTime);
+		}
+
+		Long groupId = (Long)attributes.get("groupId");
+
+		if (groupId != null) {
+			setGroupId(groupId);
+		}
+
+		Long companyId = (Long)attributes.get("companyId");
+
+		if (companyId != null) {
+			setCompanyId(companyId);
 		}
 	}
 
@@ -290,13 +310,57 @@ public class WorkingTimeModelImpl extends BaseModelImpl<WorkingTime>
 		_endTime = endTime;
 	}
 
+	@Override
+	public long getGroupId() {
+		return _groupId;
+	}
+
+	@Override
+	public void setGroupId(long groupId) {
+		_columnBitmask |= GROUPID_COLUMN_BITMASK;
+
+		if (!_setOriginalGroupId) {
+			_setOriginalGroupId = true;
+
+			_originalGroupId = _groupId;
+		}
+
+		_groupId = groupId;
+	}
+
+	public long getOriginalGroupId() {
+		return _originalGroupId;
+	}
+
+	@Override
+	public long getCompanyId() {
+		return _companyId;
+	}
+
+	@Override
+	public void setCompanyId(long companyId) {
+		_columnBitmask |= COMPANYID_COLUMN_BITMASK;
+
+		if (!_setOriginalCompanyId) {
+			_setOriginalCompanyId = true;
+
+			_originalCompanyId = _companyId;
+		}
+
+		_companyId = companyId;
+	}
+
+	public long getOriginalCompanyId() {
+		return _originalCompanyId;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
 
 	@Override
 	public ExpandoBridge getExpandoBridge() {
-		return ExpandoBridgeFactoryUtil.getExpandoBridge(0,
+		return ExpandoBridgeFactoryUtil.getExpandoBridge(getCompanyId(),
 			WorkingTime.class.getName(), getPrimaryKey());
 	}
 
@@ -327,6 +391,8 @@ public class WorkingTimeModelImpl extends BaseModelImpl<WorkingTime>
 		workingTimeImpl.setUserCode(getUserCode());
 		workingTimeImpl.setStartTime(getStartTime());
 		workingTimeImpl.setEndTime(getEndTime());
+		workingTimeImpl.setGroupId(getGroupId());
+		workingTimeImpl.setCompanyId(getCompanyId());
 
 		workingTimeImpl.resetOriginalValues();
 
@@ -395,6 +461,14 @@ public class WorkingTimeModelImpl extends BaseModelImpl<WorkingTime>
 
 		workingTimeModelImpl._originalUserCode = workingTimeModelImpl._userCode;
 
+		workingTimeModelImpl._originalGroupId = workingTimeModelImpl._groupId;
+
+		workingTimeModelImpl._setOriginalGroupId = false;
+
+		workingTimeModelImpl._originalCompanyId = workingTimeModelImpl._companyId;
+
+		workingTimeModelImpl._setOriginalCompanyId = false;
+
 		workingTimeModelImpl._columnBitmask = 0;
 	}
 
@@ -447,12 +521,16 @@ public class WorkingTimeModelImpl extends BaseModelImpl<WorkingTime>
 			workingTimeCacheModel.endTime = Long.MIN_VALUE;
 		}
 
+		workingTimeCacheModel.groupId = getGroupId();
+
+		workingTimeCacheModel.companyId = getCompanyId();
+
 		return workingTimeCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -466,6 +544,10 @@ public class WorkingTimeModelImpl extends BaseModelImpl<WorkingTime>
 		sb.append(getStartTime());
 		sb.append(", endTime=");
 		sb.append(getEndTime());
+		sb.append(", groupId=");
+		sb.append(getGroupId());
+		sb.append(", companyId=");
+		sb.append(getCompanyId());
 		sb.append("}");
 
 		return sb.toString();
@@ -473,7 +555,7 @@ public class WorkingTimeModelImpl extends BaseModelImpl<WorkingTime>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(22);
+		StringBundler sb = new StringBundler(28);
 
 		sb.append("<model><model-name>");
 		sb.append("com.liferay.usermanagement.model.WorkingTime");
@@ -503,6 +585,14 @@ public class WorkingTimeModelImpl extends BaseModelImpl<WorkingTime>
 			"<column><column-name>endTime</column-name><column-value><![CDATA[");
 		sb.append(getEndTime());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>groupId</column-name><column-value><![CDATA[");
+		sb.append(getGroupId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>companyId</column-name><column-value><![CDATA[");
+		sb.append(getCompanyId());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -522,6 +612,12 @@ public class WorkingTimeModelImpl extends BaseModelImpl<WorkingTime>
 	private String _originalUserCode;
 	private Date _startTime;
 	private Date _endTime;
+	private long _groupId;
+	private long _originalGroupId;
+	private boolean _setOriginalGroupId;
+	private long _companyId;
+	private long _originalCompanyId;
+	private boolean _setOriginalCompanyId;
 	private long _columnBitmask;
 	private WorkingTime _escapedModel;
 }

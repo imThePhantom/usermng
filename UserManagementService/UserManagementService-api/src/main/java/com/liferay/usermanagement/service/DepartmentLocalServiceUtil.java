@@ -155,6 +155,13 @@ public class DepartmentLocalServiceUtil {
 		return getService().getDepartment(departmentCode);
 	}
 
+	public static com.liferay.usermanagement.model.Department getDepartmentByName(
+		java.lang.String departmentName)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			com.liferay.usermanagement.exception.NoSuchDepartmentException {
+		return getService().getDepartmentByName(departmentName);
+	}
+
 	/**
 	* Returns the department matching the UUID and group.
 	*

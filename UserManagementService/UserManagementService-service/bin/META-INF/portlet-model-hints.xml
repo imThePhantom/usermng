@@ -4,7 +4,7 @@
 	<model name="com.liferay.usermanagement.model.Department">
 		<field name="uuid" type="String" />
 		<field name="departmentCode" type="String" />
-		<field name="deapartmentName" type="String" />
+		<field name="departmentName" type="String" />
 		<field name="leaderCode" type="String" />
 		<field name="description" type="String" />
 		<field name="groupId" type="long" />
@@ -17,7 +17,7 @@
 		<field name="userCode" type="String" />
 		<field name="userId" type="long" />
 		<field name="username" type="String" />
-		<field name="Male" type="boolean" />
+		<field name="male" type="boolean" />
 		<field name="birthday" type="Date" />
 		<field name="address" type="String" />
 		<field name="email" type="String" />
@@ -36,5 +36,7 @@
 		<field name="userCode" type="String" />
 		<field name="startTime" type="Date" />
 		<field name="endTime" type="Date" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
 	</model>
 </model-hints>

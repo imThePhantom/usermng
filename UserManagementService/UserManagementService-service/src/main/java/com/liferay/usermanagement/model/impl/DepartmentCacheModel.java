@@ -72,8 +72,8 @@ public class DepartmentCacheModel implements CacheModel<Department>,
 		sb.append(uuid);
 		sb.append(", departmentCode=");
 		sb.append(departmentCode);
-		sb.append(", deapartmentName=");
-		sb.append(deapartmentName);
+		sb.append(", departmentName=");
+		sb.append(departmentName);
 		sb.append(", leaderCode=");
 		sb.append(leaderCode);
 		sb.append(", description=");
@@ -109,11 +109,11 @@ public class DepartmentCacheModel implements CacheModel<Department>,
 			departmentImpl.setDepartmentCode(departmentCode);
 		}
 
-		if (deapartmentName == null) {
-			departmentImpl.setDeapartmentName(StringPool.BLANK);
+		if (departmentName == null) {
+			departmentImpl.setDepartmentName(StringPool.BLANK);
 		}
 		else {
-			departmentImpl.setDeapartmentName(deapartmentName);
+			departmentImpl.setDepartmentName(departmentName);
 		}
 
 		if (leaderCode == null) {
@@ -156,7 +156,7 @@ public class DepartmentCacheModel implements CacheModel<Department>,
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		uuid = objectInput.readUTF();
 		departmentCode = objectInput.readUTF();
-		deapartmentName = objectInput.readUTF();
+		departmentName = objectInput.readUTF();
 		leaderCode = objectInput.readUTF();
 		description = objectInput.readUTF();
 
@@ -184,11 +184,11 @@ public class DepartmentCacheModel implements CacheModel<Department>,
 			objectOutput.writeUTF(departmentCode);
 		}
 
-		if (deapartmentName == null) {
+		if (departmentName == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(deapartmentName);
+			objectOutput.writeUTF(departmentName);
 		}
 
 		if (leaderCode == null) {
@@ -214,7 +214,7 @@ public class DepartmentCacheModel implements CacheModel<Department>,
 
 	public String uuid;
 	public String departmentCode;
-	public String deapartmentName;
+	public String departmentName;
 	public String leaderCode;
 	public String description;
 	public long groupId;

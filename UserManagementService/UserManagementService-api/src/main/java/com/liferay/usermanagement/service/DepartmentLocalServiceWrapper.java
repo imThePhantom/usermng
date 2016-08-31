@@ -160,6 +160,14 @@ public class DepartmentLocalServiceWrapper implements DepartmentLocalService,
 		return _departmentLocalService.getDepartment(departmentCode);
 	}
 
+	@Override
+	public com.liferay.usermanagement.model.Department getDepartmentByName(
+		java.lang.String departmentName)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			com.liferay.usermanagement.exception.NoSuchDepartmentException {
+		return _departmentLocalService.getDepartmentByName(departmentName);
+	}
+
 	/**
 	* Returns the department matching the UUID and group.
 	*
