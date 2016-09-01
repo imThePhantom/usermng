@@ -1,4 +1,5 @@
-create unique index IX_A39614CA on CRM_Department (departmentName[$COLUMN_LENGTH:75$]);
+create index IX_9191F7AC on CRM_Department (departmentCode[$COLUMN_LENGTH:75$]);
+create index IX_A39614CA on CRM_Department (departmentName[$COLUMN_LENGTH:75$]);
 create index IX_A817B931 on CRM_Department (groupId);
 create index IX_73EF654D on CRM_Department (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_F0BADB0F on CRM_Department (uuid_[$COLUMN_LENGTH:75$], groupId);

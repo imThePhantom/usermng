@@ -12,17 +12,12 @@ import com.liferay.usermanagement.model.Department;
 import com.liferay.usermanagement.model.UserInfo;
 import com.liferay.usermanagement.service.DepartmentLocalServiceUtil;
 import com.liferay.usermanagement.service.UserInfoLocalServiceUtil;
+import com.liferay.usermanagement.service.persistence.DepartmentUtil;
 import com.liferay.usermanagement.util.Role;
-
-import java.io.IOException;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.Portlet;
-import javax.portlet.PortletException;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-
 import org.osgi.service.component.annotations.Component;
 
 @Component(immediate = true, property = { "com.liferay.portlet.display-category=category.sample",
@@ -36,31 +31,30 @@ public class UserManagementPortlet extends MVCPortlet {
 			throws PortalException, SystemException {
 		ServiceContext serviceContext = ServiceContextFactory.getInstance(Department.class.getName(), actionRequest);
 		String departmentCode = ParamUtil.getString(actionRequest, "departmentCode");
+		departmentCode = departmentCode.toLowerCase().replaceAll("\\s+", "");
+		int check = DepartmentLocalServiceUtil.countDepartmentByCode(departmentCode);
+		if ( check > 0){
+			System.out.println("it works");
+		}
 		String departmentName = ParamUtil.getString(actionRequest, "departmentName");
+
 		String leaderCode = ParamUtil.getString(actionRequest, "leaderCode");
+		leaderCode = leaderCode.toLowerCase().replaceAll("\\s+", "");
+
 		String description = ParamUtil.getString(actionRequest, "description");
 
-		if (DepartmentLocalServiceUtil.getDepartment(departmentCode) != null
-				|| DepartmentLocalServiceUtil.getDepartmentByName(departmentName) != null) {
-			throw new PortalException("DepartmentCode exist.");
-		}
-		UserInfo userInfo = UserInfoLocalServiceUtil.getUserInfo(leaderCode);
-		if (userInfo == null) {
-			throw new PortalException("User not exist.");
-		} else if (userInfo.getRole() == Role.LEADER.role()) {
-			throw new PortalException("User are leader of another department");
-		}
-
 		try {
+			System.out.println(departmentCode);
+			System.out.println(departmentName);
+			System.out.println(leaderCode);
 			DepartmentLocalServiceUtil.addDepartment(departmentCode, departmentName, leaderCode, description,
 					serviceContext);
-			SessionMessages.add(actionRequest, "Department added");
+			SessionMessages.add(actionRequest, "department-added");
 		} catch (Exception e) {
 			SessionErrors.add(actionRequest, e.getClass(), e);
-			actionResponse.setRenderParameter("mvcPath", "/usermanagement/edit_department.jsp");
+			actionResponse.setRenderParameter("mvcPath", "/departmentmng/edit_department.jsp");
 		}
 	}
-	
-	
 
+	
 }

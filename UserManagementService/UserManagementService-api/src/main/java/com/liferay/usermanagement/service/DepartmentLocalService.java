@@ -31,7 +31,6 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
-import com.liferay.usermanagement.exception.NoSuchDepartmentException;
 import com.liferay.usermanagement.model.Department;
 
 import java.io.Serializable;
@@ -144,10 +143,6 @@ public interface DepartmentLocalService extends BaseLocalService,
 	public Department getDepartment(java.lang.String departmentCode)
 		throws PortalException;
 
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Department getDepartmentByName(java.lang.String departmentName)
-		throws SystemException, NoSuchDepartmentException;
-
 	/**
 	* Returns the department matching the UUID and group.
 	*
@@ -173,6 +168,9 @@ public interface DepartmentLocalService extends BaseLocalService,
 		java.lang.String departmentName, java.lang.String leaderCode,
 		java.lang.String description, ServiceContext serviceContext)
 		throws PortalException, SystemException;
+
+	public int countDepartmentByCode(java.lang.String departmentCode)
+		throws SystemException;
 
 	/**
 	* Returns the number of departments.

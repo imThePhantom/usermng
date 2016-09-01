@@ -2,7 +2,7 @@
 
 <portlet:renderURL var="addDepartmentURL">
 	<portlet:param name="mvcPath"
-		value="/usermanagement/edit_department.jsp"></portlet:param>
+		value="/departmentmng/edit_department.jsp"></portlet:param>
 </portlet:renderURL>
 
 <b>Department Management</b>

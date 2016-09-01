@@ -660,52 +660,163 @@ public class DepartmentUtil {
 	}
 
 	/**
-	* Returns the department where departmentName = &#63; or throws a {@link NoSuchDepartmentException} if it could not be found.
+	* Returns all the departments where departmentName = &#63;.
 	*
 	* @param departmentName the department name
-	* @return the matching department
-	* @throws NoSuchDepartmentException if a matching department could not be found
+	* @return the matching departments
 	*/
-	public static Department findByDepartmentName(
-		java.lang.String departmentName)
-		throws com.liferay.usermanagement.exception.NoSuchDepartmentException {
+	public static List<Department> findByDepartmentName(
+		java.lang.String departmentName) {
 		return getPersistence().findByDepartmentName(departmentName);
 	}
 
 	/**
-	* Returns the department where departmentName = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	* Returns a range of all the departments where departmentName = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link DepartmentModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
 	*
 	* @param departmentName the department name
-	* @return the matching department, or <code>null</code> if a matching department could not be found
+	* @param start the lower bound of the range of departments
+	* @param end the upper bound of the range of departments (not inclusive)
+	* @return the range of matching departments
 	*/
-	public static Department fetchByDepartmentName(
-		java.lang.String departmentName) {
-		return getPersistence().fetchByDepartmentName(departmentName);
+	public static List<Department> findByDepartmentName(
+		java.lang.String departmentName, int start, int end) {
+		return getPersistence().findByDepartmentName(departmentName, start, end);
 	}
 
 	/**
-	* Returns the department where departmentName = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	* Returns an ordered range of all the departments where departmentName = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link DepartmentModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
 	*
 	* @param departmentName the department name
-	* @param retrieveFromCache whether to retrieve from the finder cache
-	* @return the matching department, or <code>null</code> if a matching department could not be found
+	* @param start the lower bound of the range of departments
+	* @param end the upper bound of the range of departments (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching departments
 	*/
-	public static Department fetchByDepartmentName(
-		java.lang.String departmentName, boolean retrieveFromCache) {
+	public static List<Department> findByDepartmentName(
+		java.lang.String departmentName, int start, int end,
+		OrderByComparator<Department> orderByComparator) {
 		return getPersistence()
-				   .fetchByDepartmentName(departmentName, retrieveFromCache);
+				   .findByDepartmentName(departmentName, start, end,
+			orderByComparator);
 	}
 
 	/**
-	* Removes the department where departmentName = &#63; from the database.
+	* Returns an ordered range of all the departments where departmentName = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link DepartmentModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
 	*
 	* @param departmentName the department name
-	* @return the department that was removed
+	* @param start the lower bound of the range of departments
+	* @param end the upper bound of the range of departments (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching departments
 	*/
-	public static Department removeByDepartmentName(
-		java.lang.String departmentName)
+	public static List<Department> findByDepartmentName(
+		java.lang.String departmentName, int start, int end,
+		OrderByComparator<Department> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByDepartmentName(departmentName, start, end,
+			orderByComparator, retrieveFromCache);
+	}
+
+	/**
+	* Returns the first department in the ordered set where departmentName = &#63;.
+	*
+	* @param departmentName the department name
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching department
+	* @throws NoSuchDepartmentException if a matching department could not be found
+	*/
+	public static Department findByDepartmentName_First(
+		java.lang.String departmentName,
+		OrderByComparator<Department> orderByComparator)
 		throws com.liferay.usermanagement.exception.NoSuchDepartmentException {
-		return getPersistence().removeByDepartmentName(departmentName);
+		return getPersistence()
+				   .findByDepartmentName_First(departmentName, orderByComparator);
+	}
+
+	/**
+	* Returns the first department in the ordered set where departmentName = &#63;.
+	*
+	* @param departmentName the department name
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching department, or <code>null</code> if a matching department could not be found
+	*/
+	public static Department fetchByDepartmentName_First(
+		java.lang.String departmentName,
+		OrderByComparator<Department> orderByComparator) {
+		return getPersistence()
+				   .fetchByDepartmentName_First(departmentName,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last department in the ordered set where departmentName = &#63;.
+	*
+	* @param departmentName the department name
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching department
+	* @throws NoSuchDepartmentException if a matching department could not be found
+	*/
+	public static Department findByDepartmentName_Last(
+		java.lang.String departmentName,
+		OrderByComparator<Department> orderByComparator)
+		throws com.liferay.usermanagement.exception.NoSuchDepartmentException {
+		return getPersistence()
+				   .findByDepartmentName_Last(departmentName, orderByComparator);
+	}
+
+	/**
+	* Returns the last department in the ordered set where departmentName = &#63;.
+	*
+	* @param departmentName the department name
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching department, or <code>null</code> if a matching department could not be found
+	*/
+	public static Department fetchByDepartmentName_Last(
+		java.lang.String departmentName,
+		OrderByComparator<Department> orderByComparator) {
+		return getPersistence()
+				   .fetchByDepartmentName_Last(departmentName, orderByComparator);
+	}
+
+	/**
+	* Returns the departments before and after the current department in the ordered set where departmentName = &#63;.
+	*
+	* @param departmentCode the primary key of the current department
+	* @param departmentName the department name
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next department
+	* @throws NoSuchDepartmentException if a department with the primary key could not be found
+	*/
+	public static Department[] findByDepartmentName_PrevAndNext(
+		java.lang.String departmentCode, java.lang.String departmentName,
+		OrderByComparator<Department> orderByComparator)
+		throws com.liferay.usermanagement.exception.NoSuchDepartmentException {
+		return getPersistence()
+				   .findByDepartmentName_PrevAndNext(departmentCode,
+			departmentName, orderByComparator);
+	}
+
+	/**
+	* Removes all the departments where departmentName = &#63; from the database.
+	*
+	* @param departmentName the department name
+	*/
+	public static void removeByDepartmentName(java.lang.String departmentName) {
+		getPersistence().removeByDepartmentName(departmentName);
 	}
 
 	/**
@@ -716,6 +827,150 @@ public class DepartmentUtil {
 	*/
 	public static int countByDepartmentName(java.lang.String departmentName) {
 		return getPersistence().countByDepartmentName(departmentName);
+	}
+
+	/**
+	* Returns all the departments where departmentCode = &#63;.
+	*
+	* @param departmentCode the department code
+	* @return the matching departments
+	*/
+	public static List<Department> findByCode(java.lang.String departmentCode) {
+		return getPersistence().findByCode(departmentCode);
+	}
+
+	/**
+	* Returns a range of all the departments where departmentCode = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link DepartmentModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param departmentCode the department code
+	* @param start the lower bound of the range of departments
+	* @param end the upper bound of the range of departments (not inclusive)
+	* @return the range of matching departments
+	*/
+	public static List<Department> findByCode(java.lang.String departmentCode,
+		int start, int end) {
+		return getPersistence().findByCode(departmentCode, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the departments where departmentCode = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link DepartmentModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param departmentCode the department code
+	* @param start the lower bound of the range of departments
+	* @param end the upper bound of the range of departments (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching departments
+	*/
+	public static List<Department> findByCode(java.lang.String departmentCode,
+		int start, int end, OrderByComparator<Department> orderByComparator) {
+		return getPersistence()
+				   .findByCode(departmentCode, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the departments where departmentCode = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link DepartmentModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param departmentCode the department code
+	* @param start the lower bound of the range of departments
+	* @param end the upper bound of the range of departments (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching departments
+	*/
+	public static List<Department> findByCode(java.lang.String departmentCode,
+		int start, int end, OrderByComparator<Department> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByCode(departmentCode, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	* Returns the first department in the ordered set where departmentCode = &#63;.
+	*
+	* @param departmentCode the department code
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching department
+	* @throws NoSuchDepartmentException if a matching department could not be found
+	*/
+	public static Department findByCode_First(java.lang.String departmentCode,
+		OrderByComparator<Department> orderByComparator)
+		throws com.liferay.usermanagement.exception.NoSuchDepartmentException {
+		return getPersistence()
+				   .findByCode_First(departmentCode, orderByComparator);
+	}
+
+	/**
+	* Returns the first department in the ordered set where departmentCode = &#63;.
+	*
+	* @param departmentCode the department code
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching department, or <code>null</code> if a matching department could not be found
+	*/
+	public static Department fetchByCode_First(
+		java.lang.String departmentCode,
+		OrderByComparator<Department> orderByComparator) {
+		return getPersistence()
+				   .fetchByCode_First(departmentCode, orderByComparator);
+	}
+
+	/**
+	* Returns the last department in the ordered set where departmentCode = &#63;.
+	*
+	* @param departmentCode the department code
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching department
+	* @throws NoSuchDepartmentException if a matching department could not be found
+	*/
+	public static Department findByCode_Last(java.lang.String departmentCode,
+		OrderByComparator<Department> orderByComparator)
+		throws com.liferay.usermanagement.exception.NoSuchDepartmentException {
+		return getPersistence()
+				   .findByCode_Last(departmentCode, orderByComparator);
+	}
+
+	/**
+	* Returns the last department in the ordered set where departmentCode = &#63;.
+	*
+	* @param departmentCode the department code
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching department, or <code>null</code> if a matching department could not be found
+	*/
+	public static Department fetchByCode_Last(java.lang.String departmentCode,
+		OrderByComparator<Department> orderByComparator) {
+		return getPersistence()
+				   .fetchByCode_Last(departmentCode, orderByComparator);
+	}
+
+	/**
+	* Removes all the departments where departmentCode = &#63; from the database.
+	*
+	* @param departmentCode the department code
+	*/
+	public static void removeByCode(java.lang.String departmentCode) {
+		getPersistence().removeByCode(departmentCode);
+	}
+
+	/**
+	* Returns the number of departments where departmentCode = &#63;.
+	*
+	* @param departmentCode the department code
+	* @return the number of matching departments
+	*/
+	public static int countByCode(java.lang.String departmentCode) {
+		return getPersistence().countByCode(departmentCode);
 	}
 
 	/**

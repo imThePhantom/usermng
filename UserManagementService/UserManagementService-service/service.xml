@@ -24,10 +24,12 @@
         <finder name="GroupId" return-type="Collection">
             <finder-column name="groupId"></finder-column>
         </finder>
-        <finder name="DepartmentName" return-type="Department" unique="true">
+        <finder name="DepartmentName" return-type="Collection">
             <finder-column name="departmentName"></finder-column>
-        </finder>
-    
+        </finder>   
+    	<finder return-type="Collection" name="Code">
+    		<finder-column name="departmentCode"></finder-column>
+    	</finder>
     </entity>
     <entity name="UserInfo" local-service="true" remote-service="false" uuid="true">
     	<!-- PK field -->
