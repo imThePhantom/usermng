@@ -60,10 +60,7 @@ public class UserManagementPortlet extends MVCPortlet {
 			actionResponse.setRenderParameter("mvcPath", "/usermanagement/edit_department.jsp");
 		}
 	}
+	
+	
 
-	@Override
-	public void render(RenderRequest renderRequest,
-		       RenderResponse renderResponse) throws PortletException, IOException{
-		super.render(renderRequest, renderResponse);
-	}
 }

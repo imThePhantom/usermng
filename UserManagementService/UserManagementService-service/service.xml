@@ -6,18 +6,21 @@
     <namespace>CRM</namespace>
 
     <entity name="Department" local-service="true" remote-service="false" uuid="true">
-        
+        <!-- PK field -->
         <column name="departmentCode" type="String" primary="true"></column>
         
+        <!-- Data fields -->
         <column name="departmentName" type="String"></column>
         <column name="leaderCode" type="String"></column>
         <column name="description" type="String"></column>
         
+        <!-- Audit fields -->
         <column name="groupId" type="long"></column>
         <column name="companyId" type="long"></column>
         <column name="createDate" type="Date"></column>
         <column name="modifiedDate" type="Date"></column>
         
+        <!-- Finder -->
         <finder name="GroupId" return-type="Collection">
             <finder-column name="groupId"></finder-column>
         </finder>
@@ -27,11 +30,13 @@
     
     </entity>
     <entity name="UserInfo" local-service="true" remote-service="false" uuid="true">
-    
+    	<!-- PK field -->
         <column name="userCode" type="String" primary="true"></column>
-    
+    	
+    	<!-- Liferay user reference -->
         <column name="userId" type="long"></column>
-    
+    	
+    	<!-- Data fields -->
         <column name="username" type="String"></column>
         <column name="male" type="boolean"></column>
         <column name="birthday" type="Date"></column>
@@ -40,12 +45,14 @@
         <column name="phone" type="String"></column>
         <column name="departmentCode" type="String"></column>
         <column name="role" type="String"></column>
-    
+    	
+    	<!-- Audit fields -->
         <column name="groupId" type="long"></column>
         <column name="companyId" type="long"></column>
         <column name="createDate" type="Date"></column>
         <column name="modifiedDate" type="Date"></column>
-    
+    	
+    	<!-- Finder -->
         <finder name="groupId" return-type="Collection">
             <finder-column name="groupId"></finder-column>
         </finder>
@@ -54,17 +61,20 @@
         </finder>
     </entity>
     <entity name="WorkingTime" local-service="true" remote-service="false" uuid="true">
-    
+    	<!-- PK field -->
         <column name="workingTimeId" type="long" primary="true"></column>
-    
+    	
+    	<!-- Data fields -->
         <column name="date" type="Date" ></column>
         <column name="userCode" type="String" ></column>
         <column name="startTime" type="Date"></column>
         <column name="endTime" type="Date"></column>
-    
+    	
+    	<!-- Audit fields -->
         <column name="groupId" type="long"></column>
         <column name="companyId" type="long"></column>
-    
+    	
+    	<!-- Finder -->
         <finder name="Date" return-type="Collection">
             <finder-column name="date"></finder-column>
         </finder>
@@ -76,6 +86,7 @@
         	<finder-column name="date"></finder-column>
         </finder>
     </entity>
+    
     <exceptions>
         <exception>DepartmentCode</exception>
         <exception>DepartmentName</exception>

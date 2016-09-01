@@ -38,7 +38,6 @@ import com.liferay.usermanagement.exception.UserPhoneException;
 import com.liferay.usermanagement.exception.UsernameException;
 import com.liferay.usermanagement.model.UserInfo;
 import com.liferay.usermanagement.service.base.UserInfoLocalServiceBaseImpl;
-import com.liferay.usermanagement.service.persistence.UserInfoUtil;
 
 /**
  * The implementation of the user info local service.
@@ -138,18 +137,18 @@ public class UserInfoLocalServiceImpl extends UserInfoLocalServiceBaseImpl {
 		return userInfoPersistence.findBygroupId(groupId);
 	}
 
-	public List<UserInfo> getUserInfos(long groupId, int start, int end) throws PortalException, SystemException{
+	public List<UserInfo> getUserInfos(long groupId, int start, int end) throws PortalException, SystemException {
 		return userInfoPersistence.findBygroupId(groupId, start, end);
 	}
-	
-	public int getUserInfosCount(long groupId) throws SystemException{
-		return UserInfoUtil.countBygroupId(groupId);
+
+	public int getUserInfosCount(long groupId) throws SystemException {
+		return userInfoPersistence.countBygroupId(groupId);
 	}
-	
-	public UserInfo getUserInfoByEmail(String email) throws SystemException, NoSuchUserInfoException{
+
+	public UserInfo getUserInfoByEmail(String email) throws SystemException, NoSuchUserInfoException {
 		return userInfoPersistence.findByEmail(email);
 	}
-	
+
 	public UserInfo updateUserInfo(String userCode, String username, boolean male, Date birthday, String address,
 			String email, String phone, String departmentCode, String role, ServiceContext serviceContext)
 			throws PortalException, SystemException {
