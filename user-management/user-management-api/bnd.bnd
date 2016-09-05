@@ -1,0 +1,7 @@
+Bundle-SymbolicName: user.management-api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.liferay.usermanagement.exception,\
+	com.liferay.usermanagement.model,\
+	com.liferay.usermanagement.service,\
+	com.liferay.usermanagement.service.persistence
