@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean class="com.liferay.usermanagement.service.impl.DepartmentLocalServiceImpl" id="com.liferay.usermanagement.service.DepartmentLocalService" />
+	<bean class="com.liferay.usermanagement.service.persistence.impl.DepartmentPersistenceImpl" id="com.liferay.usermanagement.service.persistence.DepartmentPersistence" parent="basePersistence" />
+	<bean class="com.liferay.usermanagement.service.impl.UserInfoLocalServiceImpl" id="com.liferay.usermanagement.service.UserInfoLocalService" />
+	<bean class="com.liferay.usermanagement.service.persistence.impl.UserInfoPersistenceImpl" id="com.liferay.usermanagement.service.persistence.UserInfoPersistence" parent="basePersistence" />
+	<bean class="com.liferay.usermanagement.service.impl.WorkingTimeLocalServiceImpl" id="com.liferay.usermanagement.service.WorkingTimeLocalService" />
+	<bean class="com.liferay.usermanagement.service.persistence.impl.WorkingTimePersistenceImpl" id="com.liferay.usermanagement.service.persistence.WorkingTimePersistence" parent="basePersistence" />
+</beans>

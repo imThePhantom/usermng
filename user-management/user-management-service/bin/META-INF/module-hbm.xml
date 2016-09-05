@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-lazy="false">
+	<import class="com.liferay.usermanagement.model.Department" />
+	<import class="com.liferay.usermanagement.model.UserInfo" />
+	<import class="com.liferay.usermanagement.model.WorkingTime" />
+	<class name="com.liferay.usermanagement.model.impl.DepartmentImpl" table="CRM_Department">
+		<id name="departmentCode" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="departmentName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="leaderCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+	</class>
+	<class name="com.liferay.usermanagement.model.impl.UserInfoImpl" table="CRM_UserInfo">
+		<id name="userCode" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="userId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="username" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="male" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="birthday" type="org.hibernate.type.TimestampType" />
+		<property name="address" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="email" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="phone" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="departmentCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="role" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+	</class>
+	<class name="com.liferay.usermanagement.model.impl.WorkingTimeImpl" table="CRM_WorkingTime">
+		<id name="workingTimeId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property column="uuid_" name="uuid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="date_" name="date" type="org.hibernate.type.TimestampType" />
+		<property name="userCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="startTime" type="org.hibernate.type.TimestampType" />
+		<property name="endTime" type="org.hibernate.type.TimestampType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+</hibernate-mapping>
