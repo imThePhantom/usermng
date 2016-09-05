@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -81,6 +82,11 @@ public interface DepartmentLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public Department addDepartment(Department department);
 
+	public Department addDepartment(java.lang.String departmentCode,
+		java.lang.String departmentName, java.lang.String leaderCode,
+		java.lang.String description, ServiceContext serviceContext)
+		throws PortalException, SystemException;
+
 	/**
 	* Creates a new department with the primary key. Does not add the department to the database.
 	*
@@ -109,6 +115,9 @@ public interface DepartmentLocalService extends BaseLocalService,
 	public Department deleteDepartment(java.lang.String departmentCode)
 		throws PortalException;
 
+	public Department deleteDepartment(java.lang.String departmentCode,
+		ServiceContext serviceContext) throws PortalException, SystemException;
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Department fetchDepartment(java.lang.String departmentCode);
 
@@ -134,6 +143,10 @@ public interface DepartmentLocalService extends BaseLocalService,
 	public Department getDepartment(java.lang.String departmentCode)
 		throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Department getDepartmentByName(java.lang.String departmentName)
+		throws SystemException;
+
 	/**
 	* Returns the department matching the UUID and group.
 	*
@@ -146,6 +159,10 @@ public interface DepartmentLocalService extends BaseLocalService,
 	public Department getDepartmentByUuidAndGroupId(java.lang.String uuid,
 		long groupId) throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Department getDepartmetnByCode(java.lang.String departmentCode)
+		throws SystemException;
+
 	/**
 	* Updates the department in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
@@ -154,6 +171,11 @@ public interface DepartmentLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Department updateDepartment(Department department);
+
+	public Department updateDepartment(java.lang.String departmentCode,
+		java.lang.String departmentName, java.lang.String leaderCode,
+		java.lang.String description, ServiceContext serviceContext)
+		throws PortalException, SystemException;
 
 	/**
 	* Returns the number of departments.
@@ -208,6 +230,9 @@ public interface DepartmentLocalService extends BaseLocalService,
 	*/
 	public <T> List<T> dynamicQuery(DynamicQuery dynamicQuery, int start,
 		int end, OrderByComparator<T> orderByComparator);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Department> getDepartments() throws SystemException;
 
 	/**
 	* Returns a range of all the departments.

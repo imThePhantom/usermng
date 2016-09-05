@@ -71,6 +71,19 @@ public class UserInfoLocalServiceUtil {
 		return getService().addUserInfo(userInfo);
 	}
 
+	public static com.liferay.usermanagement.model.UserInfo addUserInfo(
+		java.lang.String userCode, java.lang.String username, boolean male,
+		java.util.Date birthday, java.lang.String address,
+		java.lang.String email, java.lang.String phone,
+		java.lang.String departmentCode, java.lang.String role,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .addUserInfo(userCode, username, male, birthday, address,
+			email, phone, departmentCode, role, serviceContext);
+	}
+
 	/**
 	* Creates a new user info with the primary key. Does not add the user info to the database.
 	*
@@ -106,6 +119,14 @@ public class UserInfoLocalServiceUtil {
 		return getService().deleteUserInfo(userCode);
 	}
 
+	public static com.liferay.usermanagement.model.UserInfo deleteUserInfo(
+		java.lang.String userCode,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().deleteUserInfo(userCode, serviceContext);
+	}
+
 	public static com.liferay.usermanagement.model.UserInfo fetchUserInfo(
 		java.lang.String userCode) {
 		return getService().fetchUserInfo(userCode);
@@ -136,6 +157,18 @@ public class UserInfoLocalServiceUtil {
 		return getService().getUserInfo(userCode);
 	}
 
+	public static com.liferay.usermanagement.model.UserInfo getUserInfoByCode(
+		java.lang.String userCode)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getUserInfoByCode(userCode);
+	}
+
+	public static com.liferay.usermanagement.model.UserInfo getUserInfoByEmail(
+		java.lang.String email)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getUserInfoByEmail(email);
+	}
+
 	/**
 	* Returns the user info matching the UUID and group.
 	*
@@ -161,6 +194,19 @@ public class UserInfoLocalServiceUtil {
 		return getService().updateUserInfo(userInfo);
 	}
 
+	public static com.liferay.usermanagement.model.UserInfo updateUserInfo(
+		java.lang.String userCode, java.lang.String username, boolean male,
+		java.util.Date birthday, java.lang.String address,
+		java.lang.String email, java.lang.String phone,
+		java.lang.String departmentCode, java.lang.String role,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .updateUserInfo(userCode, username, male, birthday, address,
+			email, phone, departmentCode, role, serviceContext);
+	}
+
 	/**
 	* Returns the number of user infos.
 	*
@@ -168,6 +214,11 @@ public class UserInfoLocalServiceUtil {
 	*/
 	public static int getUserInfosCount() {
 		return getService().getUserInfosCount();
+	}
+
+	public static int getUserInfosCount(long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getUserInfosCount(groupId);
 	}
 
 	/**
@@ -243,6 +294,20 @@ public class UserInfoLocalServiceUtil {
 	public static java.util.List<com.liferay.usermanagement.model.UserInfo> getUserInfos(
 		int start, int end) {
 		return getService().getUserInfos(start, end);
+	}
+
+	public static java.util.List<com.liferay.usermanagement.model.UserInfo> getUserInfos(
+		long groupId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().getUserInfos(groupId);
+	}
+
+	public static java.util.List<com.liferay.usermanagement.model.UserInfo> getUserInfos(
+		long groupId, int start, int end)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().getUserInfos(groupId, start, end);
 	}
 
 	/**

@@ -67,6 +67,17 @@ public class DepartmentLocalServiceWrapper implements DepartmentLocalService,
 		return _departmentLocalService.addDepartment(department);
 	}
 
+	@Override
+	public com.liferay.usermanagement.model.Department addDepartment(
+		java.lang.String departmentCode, java.lang.String departmentName,
+		java.lang.String leaderCode, java.lang.String description,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _departmentLocalService.addDepartment(departmentCode,
+			departmentName, leaderCode, description, serviceContext);
+	}
+
 	/**
 	* Creates a new department with the primary key. Does not add the department to the database.
 	*
@@ -106,6 +117,16 @@ public class DepartmentLocalServiceWrapper implements DepartmentLocalService,
 	}
 
 	@Override
+	public com.liferay.usermanagement.model.Department deleteDepartment(
+		java.lang.String departmentCode,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _departmentLocalService.deleteDepartment(departmentCode,
+			serviceContext);
+	}
+
+	@Override
 	public com.liferay.usermanagement.model.Department fetchDepartment(
 		java.lang.String departmentCode) {
 		return _departmentLocalService.fetchDepartment(departmentCode);
@@ -139,6 +160,13 @@ public class DepartmentLocalServiceWrapper implements DepartmentLocalService,
 		return _departmentLocalService.getDepartment(departmentCode);
 	}
 
+	@Override
+	public com.liferay.usermanagement.model.Department getDepartmentByName(
+		java.lang.String departmentName)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _departmentLocalService.getDepartmentByName(departmentName);
+	}
+
 	/**
 	* Returns the department matching the UUID and group.
 	*
@@ -155,6 +183,13 @@ public class DepartmentLocalServiceWrapper implements DepartmentLocalService,
 			groupId);
 	}
 
+	@Override
+	public com.liferay.usermanagement.model.Department getDepartmetnByCode(
+		java.lang.String departmentCode)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _departmentLocalService.getDepartmetnByCode(departmentCode);
+	}
+
 	/**
 	* Updates the department in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
@@ -165,6 +200,17 @@ public class DepartmentLocalServiceWrapper implements DepartmentLocalService,
 	public com.liferay.usermanagement.model.Department updateDepartment(
 		com.liferay.usermanagement.model.Department department) {
 		return _departmentLocalService.updateDepartment(department);
+	}
+
+	@Override
+	public com.liferay.usermanagement.model.Department updateDepartment(
+		java.lang.String departmentCode, java.lang.String departmentName,
+		java.lang.String leaderCode, java.lang.String description,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _departmentLocalService.updateDepartment(departmentCode,
+			departmentName, leaderCode, description, serviceContext);
 	}
 
 	/**
@@ -238,6 +284,12 @@ public class DepartmentLocalServiceWrapper implements DepartmentLocalService,
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return _departmentLocalService.dynamicQuery(dynamicQuery, start, end,
 			orderByComparator);
+	}
+
+	@Override
+	public java.util.List<com.liferay.usermanagement.model.Department> getDepartments()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _departmentLocalService.getDepartments();
 	}
 
 	/**

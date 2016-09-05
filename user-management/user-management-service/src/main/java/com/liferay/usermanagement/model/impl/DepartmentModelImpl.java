@@ -102,10 +102,10 @@ public class DepartmentModelImpl extends BaseModelImpl<Department>
 				"value.object.column.bitmask.enabled.com.liferay.usermanagement.model.Department"),
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
-	public static final long DEPARTMENTCODE_COLUMN_BITMASK = 2L;
-	public static final long DEPARTMENTNAME_COLUMN_BITMASK = 4L;
-	public static final long GROUPID_COLUMN_BITMASK = 8L;
-	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long DEPARTMENTNAME_COLUMN_BITMASK = 2L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
+	public static final long UUID_COLUMN_BITMASK = 8L;
+	public static final long DEPARTMENTCODE_COLUMN_BITMASK = 16L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.usermanagement.service.util.PropsUtil.get(
 				"lock.expiration.time.com.liferay.usermanagement.model.Department"));
 
@@ -254,17 +254,7 @@ public class DepartmentModelImpl extends BaseModelImpl<Department>
 
 	@Override
 	public void setDepartmentCode(String departmentCode) {
-		_columnBitmask |= DEPARTMENTCODE_COLUMN_BITMASK;
-
-		if (_originalDepartmentCode == null) {
-			_originalDepartmentCode = _departmentCode;
-		}
-
 		_departmentCode = departmentCode;
-	}
-
-	public String getOriginalDepartmentCode() {
-		return GetterUtil.getString(_originalDepartmentCode);
 	}
 
 	@Override
@@ -481,8 +471,6 @@ public class DepartmentModelImpl extends BaseModelImpl<Department>
 
 		departmentModelImpl._originalUuid = departmentModelImpl._uuid;
 
-		departmentModelImpl._originalDepartmentCode = departmentModelImpl._departmentCode;
-
 		departmentModelImpl._originalDepartmentName = departmentModelImpl._departmentName;
 
 		departmentModelImpl._originalGroupId = departmentModelImpl._groupId;
@@ -651,7 +639,6 @@ public class DepartmentModelImpl extends BaseModelImpl<Department>
 	private String _uuid;
 	private String _originalUuid;
 	private String _departmentCode;
-	private String _originalDepartmentCode;
 	private String _departmentName;
 	private String _originalDepartmentName;
 	private String _leaderCode;

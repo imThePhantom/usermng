@@ -71,6 +71,17 @@ public class DepartmentLocalServiceUtil {
 		return getService().addDepartment(department);
 	}
 
+	public static com.liferay.usermanagement.model.Department addDepartment(
+		java.lang.String departmentCode, java.lang.String departmentName,
+		java.lang.String leaderCode, java.lang.String description,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .addDepartment(departmentCode, departmentName, leaderCode,
+			description, serviceContext);
+	}
+
 	/**
 	* Creates a new department with the primary key. Does not add the department to the database.
 	*
@@ -106,6 +117,14 @@ public class DepartmentLocalServiceUtil {
 		return getService().deleteDepartment(departmentCode);
 	}
 
+	public static com.liferay.usermanagement.model.Department deleteDepartment(
+		java.lang.String departmentCode,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().deleteDepartment(departmentCode, serviceContext);
+	}
+
 	public static com.liferay.usermanagement.model.Department fetchDepartment(
 		java.lang.String departmentCode) {
 		return getService().fetchDepartment(departmentCode);
@@ -136,6 +155,12 @@ public class DepartmentLocalServiceUtil {
 		return getService().getDepartment(departmentCode);
 	}
 
+	public static com.liferay.usermanagement.model.Department getDepartmentByName(
+		java.lang.String departmentName)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getDepartmentByName(departmentName);
+	}
+
 	/**
 	* Returns the department matching the UUID and group.
 	*
@@ -150,6 +175,12 @@ public class DepartmentLocalServiceUtil {
 		return getService().getDepartmentByUuidAndGroupId(uuid, groupId);
 	}
 
+	public static com.liferay.usermanagement.model.Department getDepartmetnByCode(
+		java.lang.String departmentCode)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getDepartmetnByCode(departmentCode);
+	}
+
 	/**
 	* Updates the department in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
@@ -159,6 +190,17 @@ public class DepartmentLocalServiceUtil {
 	public static com.liferay.usermanagement.model.Department updateDepartment(
 		com.liferay.usermanagement.model.Department department) {
 		return getService().updateDepartment(department);
+	}
+
+	public static com.liferay.usermanagement.model.Department updateDepartment(
+		java.lang.String departmentCode, java.lang.String departmentName,
+		java.lang.String leaderCode, java.lang.String description,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .updateDepartment(departmentCode, departmentName,
+			leaderCode, description, serviceContext);
 	}
 
 	/**
@@ -227,6 +269,11 @@ public class DepartmentLocalServiceUtil {
 		com.liferay.portal.kernel.util.OrderByComparator<T> orderByComparator) {
 		return getService()
 				   .dynamicQuery(dynamicQuery, start, end, orderByComparator);
+	}
+
+	public static java.util.List<com.liferay.usermanagement.model.Department> getDepartments()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getDepartments();
 	}
 
 	/**

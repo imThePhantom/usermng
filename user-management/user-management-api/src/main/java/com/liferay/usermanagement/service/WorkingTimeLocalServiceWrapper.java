@@ -77,6 +77,17 @@ public class WorkingTimeLocalServiceWrapper implements WorkingTimeLocalService,
 		return _workingTimeLocalService.addWorkingTime(workingTime);
 	}
 
+	@Override
+	public com.liferay.usermanagement.model.WorkingTime addWorkingTime(
+		java.util.Date date, java.lang.String userCode,
+		java.util.Date startTime, java.util.Date endTime,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _workingTimeLocalService.addWorkingTime(date, userCode,
+			startTime, endTime, serviceContext);
+	}
+
 	/**
 	* Creates a new working time with the primary key. Does not add the working time to the database.
 	*
@@ -149,6 +160,14 @@ public class WorkingTimeLocalServiceWrapper implements WorkingTimeLocalService,
 		return _workingTimeLocalService.getWorkingTime(workingTimeId);
 	}
 
+	@Override
+	public com.liferay.usermanagement.model.WorkingTime getWorkingTimeByC_D(
+		java.util.Date date, java.lang.String userCode)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _workingTimeLocalService.getWorkingTimeByC_D(date, userCode);
+	}
+
 	/**
 	* Returns the working time matching the UUID and group.
 	*
@@ -175,6 +194,30 @@ public class WorkingTimeLocalServiceWrapper implements WorkingTimeLocalService,
 	public com.liferay.usermanagement.model.WorkingTime updateWorkingTime(
 		com.liferay.usermanagement.model.WorkingTime workingTime) {
 		return _workingTimeLocalService.updateWorkingTime(workingTime);
+	}
+
+	@Override
+	public com.liferay.usermanagement.model.WorkingTime updateWorkingTime(
+		long workingTimeId, java.util.Date startTime, java.util.Date endTime,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _workingTimeLocalService.updateWorkingTime(workingTimeId,
+			startTime, endTime, serviceContext);
+	}
+
+	@Override
+	public int countWorkingTimeByDate(java.util.Date date)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _workingTimeLocalService.countWorkingTimeByDate(date);
+	}
+
+	@Override
+	public int countWorkingTimeByUserCode(java.lang.String userCode)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _workingTimeLocalService.countWorkingTimeByUserCode(userCode);
 	}
 
 	/**
@@ -265,6 +308,22 @@ public class WorkingTimeLocalServiceWrapper implements WorkingTimeLocalService,
 	public java.util.List<com.liferay.usermanagement.model.WorkingTime> getWorkingTimes(
 		int start, int end) {
 		return _workingTimeLocalService.getWorkingTimes(start, end);
+	}
+
+	@Override
+	public java.util.List<com.liferay.usermanagement.model.WorkingTime> getWorkingTimesByDate(
+		java.util.Date date)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _workingTimeLocalService.getWorkingTimesByDate(date);
+	}
+
+	@Override
+	public java.util.List<com.liferay.usermanagement.model.WorkingTime> getWorkingTimesByUserCode(
+		java.lang.String userCode)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _workingTimeLocalService.getWorkingTimesByUserCode(userCode);
 	}
 
 	/**

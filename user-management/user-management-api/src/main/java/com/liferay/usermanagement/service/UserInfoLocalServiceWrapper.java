@@ -67,6 +67,20 @@ public class UserInfoLocalServiceWrapper implements UserInfoLocalService,
 		return _userInfoLocalService.addUserInfo(userInfo);
 	}
 
+	@Override
+	public com.liferay.usermanagement.model.UserInfo addUserInfo(
+		java.lang.String userCode, java.lang.String username, boolean male,
+		java.util.Date birthday, java.lang.String address,
+		java.lang.String email, java.lang.String phone,
+		java.lang.String departmentCode, java.lang.String role,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _userInfoLocalService.addUserInfo(userCode, username, male,
+			birthday, address, email, phone, departmentCode, role,
+			serviceContext);
+	}
+
 	/**
 	* Creates a new user info with the primary key. Does not add the user info to the database.
 	*
@@ -106,6 +120,15 @@ public class UserInfoLocalServiceWrapper implements UserInfoLocalService,
 	}
 
 	@Override
+	public com.liferay.usermanagement.model.UserInfo deleteUserInfo(
+		java.lang.String userCode,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _userInfoLocalService.deleteUserInfo(userCode, serviceContext);
+	}
+
+	@Override
 	public com.liferay.usermanagement.model.UserInfo fetchUserInfo(
 		java.lang.String userCode) {
 		return _userInfoLocalService.fetchUserInfo(userCode);
@@ -138,6 +161,20 @@ public class UserInfoLocalServiceWrapper implements UserInfoLocalService,
 		return _userInfoLocalService.getUserInfo(userCode);
 	}
 
+	@Override
+	public com.liferay.usermanagement.model.UserInfo getUserInfoByCode(
+		java.lang.String userCode)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _userInfoLocalService.getUserInfoByCode(userCode);
+	}
+
+	@Override
+	public com.liferay.usermanagement.model.UserInfo getUserInfoByEmail(
+		java.lang.String email)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _userInfoLocalService.getUserInfoByEmail(email);
+	}
+
 	/**
 	* Returns the user info matching the UUID and group.
 	*
@@ -165,6 +202,20 @@ public class UserInfoLocalServiceWrapper implements UserInfoLocalService,
 		return _userInfoLocalService.updateUserInfo(userInfo);
 	}
 
+	@Override
+	public com.liferay.usermanagement.model.UserInfo updateUserInfo(
+		java.lang.String userCode, java.lang.String username, boolean male,
+		java.util.Date birthday, java.lang.String address,
+		java.lang.String email, java.lang.String phone,
+		java.lang.String departmentCode, java.lang.String role,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _userInfoLocalService.updateUserInfo(userCode, username, male,
+			birthday, address, email, phone, departmentCode, role,
+			serviceContext);
+	}
+
 	/**
 	* Returns the number of user infos.
 	*
@@ -173,6 +224,12 @@ public class UserInfoLocalServiceWrapper implements UserInfoLocalService,
 	@Override
 	public int getUserInfosCount() {
 		return _userInfoLocalService.getUserInfosCount();
+	}
+
+	@Override
+	public int getUserInfosCount(long groupId)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _userInfoLocalService.getUserInfosCount(groupId);
 	}
 
 	/**
@@ -253,6 +310,22 @@ public class UserInfoLocalServiceWrapper implements UserInfoLocalService,
 	public java.util.List<com.liferay.usermanagement.model.UserInfo> getUserInfos(
 		int start, int end) {
 		return _userInfoLocalService.getUserInfos(start, end);
+	}
+
+	@Override
+	public java.util.List<com.liferay.usermanagement.model.UserInfo> getUserInfos(
+		long groupId)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _userInfoLocalService.getUserInfos(groupId);
+	}
+
+	@Override
+	public java.util.List<com.liferay.usermanagement.model.UserInfo> getUserInfos(
+		long groupId, int start, int end)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _userInfoLocalService.getUserInfos(groupId, start, end);
 	}
 
 	/**

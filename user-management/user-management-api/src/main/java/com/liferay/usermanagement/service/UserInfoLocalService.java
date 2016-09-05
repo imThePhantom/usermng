@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -34,6 +35,7 @@ import com.liferay.usermanagement.model.UserInfo;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -81,6 +83,13 @@ public interface UserInfoLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public UserInfo addUserInfo(UserInfo userInfo);
 
+	public UserInfo addUserInfo(java.lang.String userCode,
+		java.lang.String username, boolean male, Date birthday,
+		java.lang.String address, java.lang.String email,
+		java.lang.String phone, java.lang.String departmentCode,
+		java.lang.String role, ServiceContext serviceContext)
+		throws PortalException, SystemException;
+
 	/**
 	* Creates a new user info with the primary key. Does not add the user info to the database.
 	*
@@ -109,6 +118,9 @@ public interface UserInfoLocalService extends BaseLocalService,
 	public UserInfo deleteUserInfo(java.lang.String userCode)
 		throws PortalException;
 
+	public UserInfo deleteUserInfo(java.lang.String userCode,
+		ServiceContext serviceContext) throws PortalException, SystemException;
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public UserInfo fetchUserInfo(java.lang.String userCode);
 
@@ -134,6 +146,14 @@ public interface UserInfoLocalService extends BaseLocalService,
 	public UserInfo getUserInfo(java.lang.String userCode)
 		throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public UserInfo getUserInfoByCode(java.lang.String userCode)
+		throws SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public UserInfo getUserInfoByEmail(java.lang.String email)
+		throws SystemException;
+
 	/**
 	* Returns the user info matching the UUID and group.
 	*
@@ -155,6 +175,13 @@ public interface UserInfoLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public UserInfo updateUserInfo(UserInfo userInfo);
 
+	public UserInfo updateUserInfo(java.lang.String userCode,
+		java.lang.String username, boolean male, Date birthday,
+		java.lang.String address, java.lang.String email,
+		java.lang.String phone, java.lang.String departmentCode,
+		java.lang.String role, ServiceContext serviceContext)
+		throws PortalException, SystemException;
+
 	/**
 	* Returns the number of user infos.
 	*
@@ -162,6 +189,9 @@ public interface UserInfoLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getUserInfosCount();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getUserInfosCount(long groupId) throws SystemException;
 
 	/**
 	* Returns the OSGi service identifier.
@@ -222,6 +252,14 @@ public interface UserInfoLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<UserInfo> getUserInfos(int start, int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<UserInfo> getUserInfos(long groupId)
+		throws PortalException, SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<UserInfo> getUserInfos(long groupId, int start, int end)
+		throws PortalException, SystemException;
 
 	/**
 	* Returns all the user infos matching the UUID and company.
