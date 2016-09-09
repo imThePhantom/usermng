@@ -132,6 +132,12 @@ public class DepartmentLocalServiceWrapper implements DepartmentLocalService,
 		return _departmentLocalService.fetchDepartment(departmentCode);
 	}
 
+	@Override
+	public com.liferay.usermanagement.model.Department fetchDepartmentByName(
+		java.lang.String departmentName) {
+		return _departmentLocalService.fetchDepartmentByName(departmentName);
+	}
+
 	/**
 	* Returns the department matching the UUID and group.
 	*
@@ -144,6 +150,12 @@ public class DepartmentLocalServiceWrapper implements DepartmentLocalService,
 		java.lang.String uuid, long groupId) {
 		return _departmentLocalService.fetchDepartmentByUuidAndGroupId(uuid,
 			groupId);
+	}
+
+	@Override
+	public com.liferay.usermanagement.model.Department fetchDepartmetnByCode(
+		java.lang.String departmentCode) {
+		return _departmentLocalService.fetchDepartmetnByCode(departmentCode);
 	}
 
 	/**
@@ -160,13 +172,6 @@ public class DepartmentLocalServiceWrapper implements DepartmentLocalService,
 		return _departmentLocalService.getDepartment(departmentCode);
 	}
 
-	@Override
-	public com.liferay.usermanagement.model.Department getDepartmentByName(
-		java.lang.String departmentName)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _departmentLocalService.getDepartmentByName(departmentName);
-	}
-
 	/**
 	* Returns the department matching the UUID and group.
 	*
@@ -181,13 +186,6 @@ public class DepartmentLocalServiceWrapper implements DepartmentLocalService,
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _departmentLocalService.getDepartmentByUuidAndGroupId(uuid,
 			groupId);
-	}
-
-	@Override
-	public com.liferay.usermanagement.model.Department getDepartmetnByCode(
-		java.lang.String departmentCode)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _departmentLocalService.getDepartmetnByCode(departmentCode);
 	}
 
 	/**

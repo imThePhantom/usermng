@@ -1,5 +1,3 @@
 <%@ include file="/init.jsp"%>
 
-<b>
-	Working Time Management Page
-</b>
+<b> Working Time Management Page </b>

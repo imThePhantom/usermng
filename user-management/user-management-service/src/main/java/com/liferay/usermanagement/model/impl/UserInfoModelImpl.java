@@ -117,10 +117,11 @@ public class UserInfoModelImpl extends BaseModelImpl<UserInfo>
 				"value.object.column.bitmask.enabled.com.liferay.usermanagement.model.UserInfo"),
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
-	public static final long EMAIL_COLUMN_BITMASK = 2L;
-	public static final long GROUPID_COLUMN_BITMASK = 4L;
-	public static final long UUID_COLUMN_BITMASK = 8L;
-	public static final long USERCODE_COLUMN_BITMASK = 16L;
+	public static final long DEPARTMENTCODE_COLUMN_BITMASK = 2L;
+	public static final long EMAIL_COLUMN_BITMASK = 4L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
+	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long USERCODE_COLUMN_BITMASK = 32L;
 	public static final long LOCK_EXPIRATION_TIME = GetterUtil.getLong(com.liferay.usermanagement.service.util.PropsUtil.get(
 				"lock.expiration.time.com.liferay.usermanagement.model.UserInfo"));
 
@@ -447,7 +448,17 @@ public class UserInfoModelImpl extends BaseModelImpl<UserInfo>
 
 	@Override
 	public void setDepartmentCode(String departmentCode) {
+		_columnBitmask |= DEPARTMENTCODE_COLUMN_BITMASK;
+
+		if (_originalDepartmentCode == null) {
+			_originalDepartmentCode = _departmentCode;
+		}
+
 		_departmentCode = departmentCode;
+	}
+
+	public String getOriginalDepartmentCode() {
+		return GetterUtil.getString(_originalDepartmentCode);
 	}
 
 	@Override
@@ -631,6 +642,8 @@ public class UserInfoModelImpl extends BaseModelImpl<UserInfo>
 		userInfoModelImpl._originalUuid = userInfoModelImpl._uuid;
 
 		userInfoModelImpl._originalEmail = userInfoModelImpl._email;
+
+		userInfoModelImpl._originalDepartmentCode = userInfoModelImpl._departmentCode;
 
 		userInfoModelImpl._originalGroupId = userInfoModelImpl._groupId;
 
@@ -880,6 +893,7 @@ public class UserInfoModelImpl extends BaseModelImpl<UserInfo>
 	private String _originalEmail;
 	private String _phone;
 	private String _departmentCode;
+	private String _originalDepartmentCode;
 	private String _role;
 	private long _groupId;
 	private long _originalGroupId;

@@ -21,7 +21,6 @@ import java.util.List;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.usermanagement.exception.DepartmentCodeException;
@@ -50,100 +49,102 @@ import com.liferay.usermanagement.service.base.DepartmentLocalServiceBaseImpl;
  */
 @ProviderType
 public class DepartmentLocalServiceImpl extends DepartmentLocalServiceBaseImpl {
-	/*
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. Always use {@link
-	 * com.liferay.usermanagement.service.DepartmentLocalServiceUtil} to access
-	 * the department local service.
-	 */
-	public Department addDepartment(String departmentCode, String departmentName, String leaderCode, String description,
-			ServiceContext serviceContext) throws PortalException, SystemException {
+    /*
+     * NOTE FOR DEVELOPERS:
+     *
+     * Never reference this class directly. Always use {@link
+     * com.liferay.usermanagement.service.DepartmentLocalServiceUtil} to access
+     * the department local service.
+     */
+    public Department addDepartment(String departmentCode, String departmentName, String leaderCode,
+	    String description, ServiceContext serviceContext)
+	    throws PortalException, SystemException {
 
-		long groupId = serviceContext.getScopeGroupId();
-		long companyId = serviceContext.getCompanyId();
-		Date now = new Date();
+	long groupId = serviceContext.getScopeGroupId();
+	long companyId = serviceContext.getCompanyId();
+	Date now = new Date();
 
-		validate(departmentCode, departmentName, leaderCode);
+	validate(departmentCode, departmentName, leaderCode);
 
-		Department department = departmentPersistence.create(departmentCode);
+	Department department = departmentPersistence.create(departmentCode);
 
-		department.setUuid(serviceContext.getUuid());
-		department.setDepartmentName(departmentName);
-		department.setLeaderCode(leaderCode);
-		department.setDescription(description);
-		department.setGroupId(groupId);
-		department.setCompanyId(companyId);
-		department.setCreateDate(serviceContext.getCreateDate(now));
-		department.setModifiedDate(serviceContext.getModifiedDate(now));
+	department.setUuid(serviceContext.getUuid());
+	department.setDepartmentName(departmentName);
+	department.setLeaderCode(leaderCode);
+	department.setDescription(description);
+	department.setGroupId(groupId);
+	department.setCompanyId(companyId);
+	department.setCreateDate(serviceContext.getCreateDate(now));
+	department.setModifiedDate(serviceContext.getModifiedDate(now));
 
-		departmentPersistence.update(department);
+	departmentPersistence.update(department);
 
-		return department;
+	return department;
+    }
+
+    public Department deleteDepartment(String departmentCode, ServiceContext serviceContext)
+	    throws PortalException, SystemException {
+
+	Department department = getDepartment(departmentCode);
+	department = deleteDepartment(departmentCode);
+
+	return department;
+    }
+
+    public List<Department> getDepartments() throws SystemException {
+	return departmentPersistence.findAll();
+    }
+
+    public List<Department> getDepartments(int start, int end) throws SystemException {
+	return departmentPersistence.findAll(start, end);
+    }
+
+    public int getDepartmentsCount() throws SystemException {
+	return departmentPersistence.countAll();
+    }
+
+    public Department fetchDepartmentByName(String departmentName) {
+	return departmentPersistence.fetchByDepartmentName(departmentName);
+    }
+
+    public Department fetchDepartmetnByCode(String departmentCode) {
+	return departmentPersistence.fetchByPrimaryKey(departmentCode);
+    }
+
+    public Department updateDepartment(String departmentCode, String departmentName,
+	    String leaderCode, String description, ServiceContext serviceContext)
+	    throws PortalException, SystemException {
+	
+	long groupId = serviceContext.getScopeGroupId();
+	long companyId = serviceContext.getCompanyId();
+	Date now = new Date();
+	validate(departmentCode, departmentName, leaderCode);
+
+	Department department = getDepartment(departmentCode);
+
+	department.setDepartmentName(departmentName);
+	department.setLeaderCode(leaderCode);
+	department.setDescription(description);
+	department.setGroupId(groupId);
+	department.setCompanyId(companyId);
+	department.setModifiedDate(serviceContext.getModifiedDate(now));
+
+	departmentPersistence.update(department);
+
+	return department;
+    }
+
+    protected void validate(String departmentCode, String departmentName, String leaderCode)
+	    throws PortalException {
+	
+	if (Validator.isNull(departmentCode)) {
+	    throw new DepartmentCodeException();
 	}
-
-	public Department deleteDepartment(String departmentCode, ServiceContext serviceContext)
-			throws PortalException, SystemException {
-
-		Department department = getDepartment(departmentCode);
-
-		department = deleteDepartment(departmentCode);
-
-		return department;
+	if (Validator.isNull(departmentName)) {
+	    throw new DepartmentNameException();
 	}
-
-	public List<Department> getDepartments() throws SystemException {
-		return departmentPersistence.findAll();
+	if (Validator.isNull(leaderCode)) {
+	    throw new DepartmentLeaderCodeException();
 	}
-
-	public List<Department> getDepartments(int start, int end) throws SystemException {
-		return departmentPersistence.findAll(start, end);
-	}
-
-	public int getDepartmentsCount() throws SystemException {
-		return departmentPersistence.countAll();
-	}
-
-	public Department getDepartmentByName(String departmentName) throws SystemException {
-		return departmentPersistence.fetchByDepartmentName(departmentName);
-	}
-
-	public Department getDepartmetnByCode(String departmentCode) throws SystemException {
-		return departmentPersistence.fetchByPrimaryKey(departmentCode);
-	}
-
-	public Department updateDepartment(String departmentCode, String departmentName, String leaderCode,
-			String description, ServiceContext serviceContext) throws PortalException, SystemException {
-		long groupId = serviceContext.getScopeGroupId();
-		long companyId = CompanyLocalServiceUtil.getCompanyByWebId("liferay.com").getCompanyId();
-		Date now = new Date();
-		validate(departmentCode, departmentName, leaderCode);
-
-		Department department = getDepartment(departmentCode);
-
-		department.setUuid(serviceContext.getUuid());
-		department.setDepartmentName(departmentName);
-		department.setLeaderCode(leaderCode);
-		department.setDescription(description);
-		department.setGroupId(groupId);
-		department.setCompanyId(companyId);
-		department.setCreateDate(serviceContext.getCreateDate(now));
-		department.setModifiedDate(serviceContext.getModifiedDate(now));
-
-		departmentPersistence.update(department);
-
-		return department;
-	}
-
-	protected void validate(String departmentCode, String departmentName, String leaderCode) throws PortalException {
-		if (Validator.isNull(departmentCode)) {
-			throw new DepartmentCodeException();
-		}
-		if (Validator.isNull(departmentName)) {
-			throw new DepartmentNameException();
-		}
-		if (Validator.isNull(leaderCode)) {
-			throw new DepartmentLeaderCodeException();
-		}
-	}
+    }
 }

@@ -79,17 +79,6 @@ public class WorkingTimeLocalServiceUtil {
 		return getService().addWorkingTime(workingTime);
 	}
 
-	public static com.liferay.usermanagement.model.WorkingTime addWorkingTime(
-		java.util.Date date, java.lang.String userCode,
-		java.util.Date startTime, java.util.Date endTime,
-		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return getService()
-				   .addWorkingTime(date, userCode, startTime, endTime,
-			serviceContext);
-	}
-
 	/**
 	* Creates a new working time with the primary key. Does not add the working time to the database.
 	*
@@ -155,13 +144,6 @@ public class WorkingTimeLocalServiceUtil {
 		return getService().getWorkingTime(workingTimeId);
 	}
 
-	public static com.liferay.usermanagement.model.WorkingTime getWorkingTimeByC_D(
-		java.util.Date date, java.lang.String userCode)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return getService().getWorkingTimeByC_D(date, userCode);
-	}
-
 	/**
 	* Returns the working time matching the UUID and group.
 	*
@@ -185,28 +167,6 @@ public class WorkingTimeLocalServiceUtil {
 	public static com.liferay.usermanagement.model.WorkingTime updateWorkingTime(
 		com.liferay.usermanagement.model.WorkingTime workingTime) {
 		return getService().updateWorkingTime(workingTime);
-	}
-
-	public static com.liferay.usermanagement.model.WorkingTime updateWorkingTime(
-		long workingTimeId, java.util.Date startTime, java.util.Date endTime,
-		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return getService()
-				   .updateWorkingTime(workingTimeId, startTime, endTime,
-			serviceContext);
-	}
-
-	public static int countWorkingTimeByDate(java.util.Date date)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return getService().countWorkingTimeByDate(date);
-	}
-
-	public static int countWorkingTimeByUserCode(java.lang.String userCode)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return getService().countWorkingTimeByUserCode(userCode);
 	}
 
 	/**
@@ -291,20 +251,6 @@ public class WorkingTimeLocalServiceUtil {
 	public static java.util.List<com.liferay.usermanagement.model.WorkingTime> getWorkingTimes(
 		int start, int end) {
 		return getService().getWorkingTimes(start, end);
-	}
-
-	public static java.util.List<com.liferay.usermanagement.model.WorkingTime> getWorkingTimesByDate(
-		java.util.Date date)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return getService().getWorkingTimesByDate(date);
-	}
-
-	public static java.util.List<com.liferay.usermanagement.model.WorkingTime> getWorkingTimesByUserCode(
-		java.lang.String userCode)
-		throws com.liferay.portal.kernel.exception.PortalException,
-			com.liferay.portal.kernel.exception.SystemException {
-		return getService().getWorkingTimesByUserCode(userCode);
 	}
 
 	/**

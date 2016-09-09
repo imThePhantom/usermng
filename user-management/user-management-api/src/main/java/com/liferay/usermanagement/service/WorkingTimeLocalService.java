@@ -27,7 +27,6 @@ import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
-import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -37,7 +36,6 @@ import com.liferay.usermanagement.model.WorkingTime;
 
 import java.io.Serializable;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -90,10 +88,6 @@ public interface WorkingTimeLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public WorkingTime addWorkingTime(WorkingTime workingTime);
-
-	public WorkingTime addWorkingTime(Date date, java.lang.String userCode,
-		Date startTime, Date endTime, ServiceContext serviceContext)
-		throws PortalException, SystemException;
 
 	/**
 	* Creates a new working time with the primary key. Does not add the working time to the database.
@@ -148,10 +142,6 @@ public interface WorkingTimeLocalService extends BaseLocalService,
 	public WorkingTime getWorkingTime(long workingTimeId)
 		throws PortalException;
 
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public WorkingTime getWorkingTimeByC_D(Date date, java.lang.String userCode)
-		throws PortalException, SystemException;
-
 	/**
 	* Returns the working time matching the UUID and group.
 	*
@@ -172,16 +162,6 @@ public interface WorkingTimeLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public WorkingTime updateWorkingTime(WorkingTime workingTime);
-
-	public WorkingTime updateWorkingTime(long workingTimeId, Date startTime,
-		Date endTime, ServiceContext serviceContext)
-		throws PortalException, SystemException;
-
-	public int countWorkingTimeByDate(Date date)
-		throws PortalException, SystemException;
-
-	public int countWorkingTimeByUserCode(java.lang.String userCode)
-		throws PortalException, SystemException;
 
 	/**
 	* Returns the number of working times.
@@ -250,14 +230,6 @@ public interface WorkingTimeLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<WorkingTime> getWorkingTimes(int start, int end);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<WorkingTime> getWorkingTimesByDate(Date date)
-		throws PortalException, SystemException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<WorkingTime> getWorkingTimesByUserCode(
-		java.lang.String userCode) throws PortalException, SystemException;
 
 	/**
 	* Returns all the working times matching the UUID and company.

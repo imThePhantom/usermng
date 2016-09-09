@@ -1473,7 +1473,7 @@ public class UserInfoPersistenceImpl extends BasePersistenceImpl<UserInfo>
 	private static final String _FINDER_COLUMN_UUID_C_COMPANYID_2 = "userInfo.companyId = ?";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_GROUPID = new FinderPath(UserInfoModelImpl.ENTITY_CACHE_ENABLED,
 			UserInfoModelImpl.FINDER_CACHE_ENABLED, UserInfoImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findBygroupId",
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByGroupId",
 			new String[] {
 				Long.class.getName(),
 				
@@ -1483,12 +1483,12 @@ public class UserInfoPersistenceImpl extends BasePersistenceImpl<UserInfo>
 	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID =
 		new FinderPath(UserInfoModelImpl.ENTITY_CACHE_ENABLED,
 			UserInfoModelImpl.FINDER_CACHE_ENABLED, UserInfoImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findBygroupId",
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByGroupId",
 			new String[] { Long.class.getName() },
 			UserInfoModelImpl.GROUPID_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_GROUPID = new FinderPath(UserInfoModelImpl.ENTITY_CACHE_ENABLED,
 			UserInfoModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBygroupId",
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
 			new String[] { Long.class.getName() });
 
 	/**
@@ -1498,8 +1498,8 @@ public class UserInfoPersistenceImpl extends BasePersistenceImpl<UserInfo>
 	 * @return the matching user infos
 	 */
 	@Override
-	public List<UserInfo> findBygroupId(long groupId) {
-		return findBygroupId(groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	public List<UserInfo> findByGroupId(long groupId) {
+		return findByGroupId(groupId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
@@ -1515,8 +1515,8 @@ public class UserInfoPersistenceImpl extends BasePersistenceImpl<UserInfo>
 	 * @return the range of matching user infos
 	 */
 	@Override
-	public List<UserInfo> findBygroupId(long groupId, int start, int end) {
-		return findBygroupId(groupId, start, end, null);
+	public List<UserInfo> findByGroupId(long groupId, int start, int end) {
+		return findByGroupId(groupId, start, end, null);
 	}
 
 	/**
@@ -1533,9 +1533,9 @@ public class UserInfoPersistenceImpl extends BasePersistenceImpl<UserInfo>
 	 * @return the ordered range of matching user infos
 	 */
 	@Override
-	public List<UserInfo> findBygroupId(long groupId, int start, int end,
+	public List<UserInfo> findByGroupId(long groupId, int start, int end,
 		OrderByComparator<UserInfo> orderByComparator) {
-		return findBygroupId(groupId, start, end, orderByComparator, true);
+		return findByGroupId(groupId, start, end, orderByComparator, true);
 	}
 
 	/**
@@ -1553,7 +1553,7 @@ public class UserInfoPersistenceImpl extends BasePersistenceImpl<UserInfo>
 	 * @return the ordered range of matching user infos
 	 */
 	@Override
-	public List<UserInfo> findBygroupId(long groupId, int start, int end,
+	public List<UserInfo> findByGroupId(long groupId, int start, int end,
 		OrderByComparator<UserInfo> orderByComparator, boolean retrieveFromCache) {
 		boolean pagination = true;
 		FinderPath finderPath = null;
@@ -1663,10 +1663,10 @@ public class UserInfoPersistenceImpl extends BasePersistenceImpl<UserInfo>
 	 * @throws NoSuchUserInfoException if a matching user info could not be found
 	 */
 	@Override
-	public UserInfo findBygroupId_First(long groupId,
+	public UserInfo findByGroupId_First(long groupId,
 		OrderByComparator<UserInfo> orderByComparator)
 		throws NoSuchUserInfoException {
-		UserInfo userInfo = fetchBygroupId_First(groupId, orderByComparator);
+		UserInfo userInfo = fetchByGroupId_First(groupId, orderByComparator);
 
 		if (userInfo != null) {
 			return userInfo;
@@ -1692,9 +1692,9 @@ public class UserInfoPersistenceImpl extends BasePersistenceImpl<UserInfo>
 	 * @return the first matching user info, or <code>null</code> if a matching user info could not be found
 	 */
 	@Override
-	public UserInfo fetchBygroupId_First(long groupId,
+	public UserInfo fetchByGroupId_First(long groupId,
 		OrderByComparator<UserInfo> orderByComparator) {
-		List<UserInfo> list = findBygroupId(groupId, 0, 1, orderByComparator);
+		List<UserInfo> list = findByGroupId(groupId, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1712,10 +1712,10 @@ public class UserInfoPersistenceImpl extends BasePersistenceImpl<UserInfo>
 	 * @throws NoSuchUserInfoException if a matching user info could not be found
 	 */
 	@Override
-	public UserInfo findBygroupId_Last(long groupId,
+	public UserInfo findByGroupId_Last(long groupId,
 		OrderByComparator<UserInfo> orderByComparator)
 		throws NoSuchUserInfoException {
-		UserInfo userInfo = fetchBygroupId_Last(groupId, orderByComparator);
+		UserInfo userInfo = fetchByGroupId_Last(groupId, orderByComparator);
 
 		if (userInfo != null) {
 			return userInfo;
@@ -1741,15 +1741,15 @@ public class UserInfoPersistenceImpl extends BasePersistenceImpl<UserInfo>
 	 * @return the last matching user info, or <code>null</code> if a matching user info could not be found
 	 */
 	@Override
-	public UserInfo fetchBygroupId_Last(long groupId,
+	public UserInfo fetchByGroupId_Last(long groupId,
 		OrderByComparator<UserInfo> orderByComparator) {
-		int count = countBygroupId(groupId);
+		int count = countByGroupId(groupId);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<UserInfo> list = findBygroupId(groupId, count - 1, count,
+		List<UserInfo> list = findByGroupId(groupId, count - 1, count,
 				orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -1769,7 +1769,7 @@ public class UserInfoPersistenceImpl extends BasePersistenceImpl<UserInfo>
 	 * @throws NoSuchUserInfoException if a user info with the primary key could not be found
 	 */
 	@Override
-	public UserInfo[] findBygroupId_PrevAndNext(String userCode, long groupId,
+	public UserInfo[] findByGroupId_PrevAndNext(String userCode, long groupId,
 		OrderByComparator<UserInfo> orderByComparator)
 		throws NoSuchUserInfoException {
 		UserInfo userInfo = findByPrimaryKey(userCode);
@@ -1781,12 +1781,12 @@ public class UserInfoPersistenceImpl extends BasePersistenceImpl<UserInfo>
 
 			UserInfo[] array = new UserInfoImpl[3];
 
-			array[0] = getBygroupId_PrevAndNext(session, userInfo, groupId,
+			array[0] = getByGroupId_PrevAndNext(session, userInfo, groupId,
 					orderByComparator, true);
 
 			array[1] = userInfo;
 
-			array[2] = getBygroupId_PrevAndNext(session, userInfo, groupId,
+			array[2] = getByGroupId_PrevAndNext(session, userInfo, groupId,
 					orderByComparator, false);
 
 			return array;
@@ -1799,7 +1799,7 @@ public class UserInfoPersistenceImpl extends BasePersistenceImpl<UserInfo>
 		}
 	}
 
-	protected UserInfo getBygroupId_PrevAndNext(Session session,
+	protected UserInfo getByGroupId_PrevAndNext(Session session,
 		UserInfo userInfo, long groupId,
 		OrderByComparator<UserInfo> orderByComparator, boolean previous) {
 		StringBundler query = null;
@@ -1911,8 +1911,8 @@ public class UserInfoPersistenceImpl extends BasePersistenceImpl<UserInfo>
 	 * @param groupId the group ID
 	 */
 	@Override
-	public void removeBygroupId(long groupId) {
-		for (UserInfo userInfo : findBygroupId(groupId, QueryUtil.ALL_POS,
+	public void removeByGroupId(long groupId) {
+		for (UserInfo userInfo : findByGroupId(groupId, QueryUtil.ALL_POS,
 				QueryUtil.ALL_POS, null)) {
 			remove(userInfo);
 		}
@@ -1925,7 +1925,7 @@ public class UserInfoPersistenceImpl extends BasePersistenceImpl<UserInfo>
 	 * @return the number of matching user infos
 	 */
 	@Override
-	public int countBygroupId(long groupId) {
+	public int countByGroupId(long groupId) {
 		FinderPath finderPath = FINDER_PATH_COUNT_BY_GROUPID;
 
 		Object[] finderArgs = new Object[] { groupId };
@@ -2201,6 +2201,562 @@ public class UserInfoPersistenceImpl extends BasePersistenceImpl<UserInfo>
 	private static final String _FINDER_COLUMN_EMAIL_EMAIL_1 = "userInfo.email IS NULL";
 	private static final String _FINDER_COLUMN_EMAIL_EMAIL_2 = "userInfo.email = ?";
 	private static final String _FINDER_COLUMN_EMAIL_EMAIL_3 = "(userInfo.email IS NULL OR userInfo.email = '')";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_DEPARTMENTCODE =
+		new FinderPath(UserInfoModelImpl.ENTITY_CACHE_ENABLED,
+			UserInfoModelImpl.FINDER_CACHE_ENABLED, UserInfoImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByDepartmentCode",
+			new String[] {
+				String.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_DEPARTMENTCODE =
+		new FinderPath(UserInfoModelImpl.ENTITY_CACHE_ENABLED,
+			UserInfoModelImpl.FINDER_CACHE_ENABLED, UserInfoImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByDepartmentCode",
+			new String[] { String.class.getName() },
+			UserInfoModelImpl.DEPARTMENTCODE_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_DEPARTMENTCODE = new FinderPath(UserInfoModelImpl.ENTITY_CACHE_ENABLED,
+			UserInfoModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByDepartmentCode",
+			new String[] { String.class.getName() });
+
+	/**
+	 * Returns all the user infos where departmentCode = &#63;.
+	 *
+	 * @param departmentCode the department code
+	 * @return the matching user infos
+	 */
+	@Override
+	public List<UserInfo> findByDepartmentCode(String departmentCode) {
+		return findByDepartmentCode(departmentCode, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the user infos where departmentCode = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link UserInfoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param departmentCode the department code
+	 * @param start the lower bound of the range of user infos
+	 * @param end the upper bound of the range of user infos (not inclusive)
+	 * @return the range of matching user infos
+	 */
+	@Override
+	public List<UserInfo> findByDepartmentCode(String departmentCode,
+		int start, int end) {
+		return findByDepartmentCode(departmentCode, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the user infos where departmentCode = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link UserInfoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param departmentCode the department code
+	 * @param start the lower bound of the range of user infos
+	 * @param end the upper bound of the range of user infos (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching user infos
+	 */
+	@Override
+	public List<UserInfo> findByDepartmentCode(String departmentCode,
+		int start, int end, OrderByComparator<UserInfo> orderByComparator) {
+		return findByDepartmentCode(departmentCode, start, end,
+			orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the user infos where departmentCode = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link UserInfoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param departmentCode the department code
+	 * @param start the lower bound of the range of user infos
+	 * @param end the upper bound of the range of user infos (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the ordered range of matching user infos
+	 */
+	@Override
+	public List<UserInfo> findByDepartmentCode(String departmentCode,
+		int start, int end, OrderByComparator<UserInfo> orderByComparator,
+		boolean retrieveFromCache) {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_DEPARTMENTCODE;
+			finderArgs = new Object[] { departmentCode };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_DEPARTMENTCODE;
+			finderArgs = new Object[] {
+					departmentCode,
+					
+					start, end, orderByComparator
+				};
+		}
+
+		List<UserInfo> list = null;
+
+		if (retrieveFromCache) {
+			list = (List<UserInfo>)finderCache.getResult(finderPath,
+					finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (UserInfo userInfo : list) {
+					if (!Objects.equals(departmentCode,
+								userInfo.getDepartmentCode())) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_USERINFO_WHERE);
+
+			boolean bindDepartmentCode = false;
+
+			if (departmentCode == null) {
+				query.append(_FINDER_COLUMN_DEPARTMENTCODE_DEPARTMENTCODE_1);
+			}
+			else if (departmentCode.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_DEPARTMENTCODE_DEPARTMENTCODE_3);
+			}
+			else {
+				bindDepartmentCode = true;
+
+				query.append(_FINDER_COLUMN_DEPARTMENTCODE_DEPARTMENTCODE_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(UserInfoModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindDepartmentCode) {
+					qPos.add(departmentCode);
+				}
+
+				if (!pagination) {
+					list = (List<UserInfo>)QueryUtil.list(q, getDialect(),
+							start, end, false);
+
+					Collections.sort(list);
+
+					list = Collections.unmodifiableList(list);
+				}
+				else {
+					list = (List<UserInfo>)QueryUtil.list(q, getDialect(),
+							start, end);
+				}
+
+				cacheResult(list);
+
+				finderCache.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first user info in the ordered set where departmentCode = &#63;.
+	 *
+	 * @param departmentCode the department code
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching user info
+	 * @throws NoSuchUserInfoException if a matching user info could not be found
+	 */
+	@Override
+	public UserInfo findByDepartmentCode_First(String departmentCode,
+		OrderByComparator<UserInfo> orderByComparator)
+		throws NoSuchUserInfoException {
+		UserInfo userInfo = fetchByDepartmentCode_First(departmentCode,
+				orderByComparator);
+
+		if (userInfo != null) {
+			return userInfo;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("departmentCode=");
+		msg.append(departmentCode);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchUserInfoException(msg.toString());
+	}
+
+	/**
+	 * Returns the first user info in the ordered set where departmentCode = &#63;.
+	 *
+	 * @param departmentCode the department code
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching user info, or <code>null</code> if a matching user info could not be found
+	 */
+	@Override
+	public UserInfo fetchByDepartmentCode_First(String departmentCode,
+		OrderByComparator<UserInfo> orderByComparator) {
+		List<UserInfo> list = findByDepartmentCode(departmentCode, 0, 1,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last user info in the ordered set where departmentCode = &#63;.
+	 *
+	 * @param departmentCode the department code
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching user info
+	 * @throws NoSuchUserInfoException if a matching user info could not be found
+	 */
+	@Override
+	public UserInfo findByDepartmentCode_Last(String departmentCode,
+		OrderByComparator<UserInfo> orderByComparator)
+		throws NoSuchUserInfoException {
+		UserInfo userInfo = fetchByDepartmentCode_Last(departmentCode,
+				orderByComparator);
+
+		if (userInfo != null) {
+			return userInfo;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("departmentCode=");
+		msg.append(departmentCode);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchUserInfoException(msg.toString());
+	}
+
+	/**
+	 * Returns the last user info in the ordered set where departmentCode = &#63;.
+	 *
+	 * @param departmentCode the department code
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching user info, or <code>null</code> if a matching user info could not be found
+	 */
+	@Override
+	public UserInfo fetchByDepartmentCode_Last(String departmentCode,
+		OrderByComparator<UserInfo> orderByComparator) {
+		int count = countByDepartmentCode(departmentCode);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<UserInfo> list = findByDepartmentCode(departmentCode, count - 1,
+				count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the user infos before and after the current user info in the ordered set where departmentCode = &#63;.
+	 *
+	 * @param userCode the primary key of the current user info
+	 * @param departmentCode the department code
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next user info
+	 * @throws NoSuchUserInfoException if a user info with the primary key could not be found
+	 */
+	@Override
+	public UserInfo[] findByDepartmentCode_PrevAndNext(String userCode,
+		String departmentCode, OrderByComparator<UserInfo> orderByComparator)
+		throws NoSuchUserInfoException {
+		UserInfo userInfo = findByPrimaryKey(userCode);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			UserInfo[] array = new UserInfoImpl[3];
+
+			array[0] = getByDepartmentCode_PrevAndNext(session, userInfo,
+					departmentCode, orderByComparator, true);
+
+			array[1] = userInfo;
+
+			array[2] = getByDepartmentCode_PrevAndNext(session, userInfo,
+					departmentCode, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected UserInfo getByDepartmentCode_PrevAndNext(Session session,
+		UserInfo userInfo, String departmentCode,
+		OrderByComparator<UserInfo> orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(4 +
+					(orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_USERINFO_WHERE);
+
+		boolean bindDepartmentCode = false;
+
+		if (departmentCode == null) {
+			query.append(_FINDER_COLUMN_DEPARTMENTCODE_DEPARTMENTCODE_1);
+		}
+		else if (departmentCode.equals(StringPool.BLANK)) {
+			query.append(_FINDER_COLUMN_DEPARTMENTCODE_DEPARTMENTCODE_3);
+		}
+		else {
+			bindDepartmentCode = true;
+
+			query.append(_FINDER_COLUMN_DEPARTMENTCODE_DEPARTMENTCODE_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(UserInfoModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindDepartmentCode) {
+			qPos.add(departmentCode);
+		}
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(userInfo);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<UserInfo> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the user infos where departmentCode = &#63; from the database.
+	 *
+	 * @param departmentCode the department code
+	 */
+	@Override
+	public void removeByDepartmentCode(String departmentCode) {
+		for (UserInfo userInfo : findByDepartmentCode(departmentCode,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+			remove(userInfo);
+		}
+	}
+
+	/**
+	 * Returns the number of user infos where departmentCode = &#63;.
+	 *
+	 * @param departmentCode the department code
+	 * @return the number of matching user infos
+	 */
+	@Override
+	public int countByDepartmentCode(String departmentCode) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_DEPARTMENTCODE;
+
+		Object[] finderArgs = new Object[] { departmentCode };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_USERINFO_WHERE);
+
+			boolean bindDepartmentCode = false;
+
+			if (departmentCode == null) {
+				query.append(_FINDER_COLUMN_DEPARTMENTCODE_DEPARTMENTCODE_1);
+			}
+			else if (departmentCode.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_DEPARTMENTCODE_DEPARTMENTCODE_3);
+			}
+			else {
+				bindDepartmentCode = true;
+
+				query.append(_FINDER_COLUMN_DEPARTMENTCODE_DEPARTMENTCODE_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindDepartmentCode) {
+					qPos.add(departmentCode);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_DEPARTMENTCODE_DEPARTMENTCODE_1 = "userInfo.departmentCode IS NULL";
+	private static final String _FINDER_COLUMN_DEPARTMENTCODE_DEPARTMENTCODE_2 = "userInfo.departmentCode = ?";
+	private static final String _FINDER_COLUMN_DEPARTMENTCODE_DEPARTMENTCODE_3 = "(userInfo.departmentCode IS NULL OR userInfo.departmentCode = '')";
 
 	public UserInfoPersistenceImpl() {
 		setModelClass(UserInfo.class);
@@ -2588,6 +3144,25 @@ public class UserInfoPersistenceImpl extends BasePersistenceImpl<UserInfo>
 
 				finderCache.removeResult(FINDER_PATH_COUNT_BY_GROUPID, args);
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_GROUPID,
+					args);
+			}
+
+			if ((userInfoModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_DEPARTMENTCODE.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						userInfoModelImpl.getOriginalDepartmentCode()
+					};
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_DEPARTMENTCODE,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_DEPARTMENTCODE,
+					args);
+
+				args = new Object[] { userInfoModelImpl.getDepartmentCode() };
+
+				finderCache.removeResult(FINDER_PATH_COUNT_BY_DEPARTMENTCODE,
+					args);
+				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_DEPARTMENTCODE,
 					args);
 			}
 		}

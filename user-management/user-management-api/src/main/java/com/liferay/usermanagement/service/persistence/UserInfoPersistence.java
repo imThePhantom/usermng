@@ -373,7 +373,7 @@ public interface UserInfoPersistence extends BasePersistence<UserInfo> {
 	* @param groupId the group ID
 	* @return the matching user infos
 	*/
-	public java.util.List<UserInfo> findBygroupId(long groupId);
+	public java.util.List<UserInfo> findByGroupId(long groupId);
 
 	/**
 	* Returns a range of all the user infos where groupId = &#63;.
@@ -387,7 +387,7 @@ public interface UserInfoPersistence extends BasePersistence<UserInfo> {
 	* @param end the upper bound of the range of user infos (not inclusive)
 	* @return the range of matching user infos
 	*/
-	public java.util.List<UserInfo> findBygroupId(long groupId, int start,
+	public java.util.List<UserInfo> findByGroupId(long groupId, int start,
 		int end);
 
 	/**
@@ -403,7 +403,7 @@ public interface UserInfoPersistence extends BasePersistence<UserInfo> {
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @return the ordered range of matching user infos
 	*/
-	public java.util.List<UserInfo> findBygroupId(long groupId, int start,
+	public java.util.List<UserInfo> findByGroupId(long groupId, int start,
 		int end,
 		com.liferay.portal.kernel.util.OrderByComparator<UserInfo> orderByComparator);
 
@@ -421,7 +421,7 @@ public interface UserInfoPersistence extends BasePersistence<UserInfo> {
 	* @param retrieveFromCache whether to retrieve from the finder cache
 	* @return the ordered range of matching user infos
 	*/
-	public java.util.List<UserInfo> findBygroupId(long groupId, int start,
+	public java.util.List<UserInfo> findByGroupId(long groupId, int start,
 		int end,
 		com.liferay.portal.kernel.util.OrderByComparator<UserInfo> orderByComparator,
 		boolean retrieveFromCache);
@@ -434,7 +434,7 @@ public interface UserInfoPersistence extends BasePersistence<UserInfo> {
 	* @return the first matching user info
 	* @throws NoSuchUserInfoException if a matching user info could not be found
 	*/
-	public UserInfo findBygroupId_First(long groupId,
+	public UserInfo findByGroupId_First(long groupId,
 		com.liferay.portal.kernel.util.OrderByComparator<UserInfo> orderByComparator)
 		throws NoSuchUserInfoException;
 
@@ -445,7 +445,7 @@ public interface UserInfoPersistence extends BasePersistence<UserInfo> {
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching user info, or <code>null</code> if a matching user info could not be found
 	*/
-	public UserInfo fetchBygroupId_First(long groupId,
+	public UserInfo fetchByGroupId_First(long groupId,
 		com.liferay.portal.kernel.util.OrderByComparator<UserInfo> orderByComparator);
 
 	/**
@@ -456,7 +456,7 @@ public interface UserInfoPersistence extends BasePersistence<UserInfo> {
 	* @return the last matching user info
 	* @throws NoSuchUserInfoException if a matching user info could not be found
 	*/
-	public UserInfo findBygroupId_Last(long groupId,
+	public UserInfo findByGroupId_Last(long groupId,
 		com.liferay.portal.kernel.util.OrderByComparator<UserInfo> orderByComparator)
 		throws NoSuchUserInfoException;
 
@@ -467,7 +467,7 @@ public interface UserInfoPersistence extends BasePersistence<UserInfo> {
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching user info, or <code>null</code> if a matching user info could not be found
 	*/
-	public UserInfo fetchBygroupId_Last(long groupId,
+	public UserInfo fetchByGroupId_Last(long groupId,
 		com.liferay.portal.kernel.util.OrderByComparator<UserInfo> orderByComparator);
 
 	/**
@@ -479,7 +479,7 @@ public interface UserInfoPersistence extends BasePersistence<UserInfo> {
 	* @return the previous, current, and next user info
 	* @throws NoSuchUserInfoException if a user info with the primary key could not be found
 	*/
-	public UserInfo[] findBygroupId_PrevAndNext(java.lang.String userCode,
+	public UserInfo[] findByGroupId_PrevAndNext(java.lang.String userCode,
 		long groupId,
 		com.liferay.portal.kernel.util.OrderByComparator<UserInfo> orderByComparator)
 		throws NoSuchUserInfoException;
@@ -489,7 +489,7 @@ public interface UserInfoPersistence extends BasePersistence<UserInfo> {
 	*
 	* @param groupId the group ID
 	*/
-	public void removeBygroupId(long groupId);
+	public void removeByGroupId(long groupId);
 
 	/**
 	* Returns the number of user infos where groupId = &#63;.
@@ -497,7 +497,7 @@ public interface UserInfoPersistence extends BasePersistence<UserInfo> {
 	* @param groupId the group ID
 	* @return the number of matching user infos
 	*/
-	public int countBygroupId(long groupId);
+	public int countByGroupId(long groupId);
 
 	/**
 	* Returns the user info where email = &#63; or throws a {@link NoSuchUserInfoException} if it could not be found.
@@ -543,6 +543,142 @@ public interface UserInfoPersistence extends BasePersistence<UserInfo> {
 	* @return the number of matching user infos
 	*/
 	public int countByEmail(java.lang.String email);
+
+	/**
+	* Returns all the user infos where departmentCode = &#63;.
+	*
+	* @param departmentCode the department code
+	* @return the matching user infos
+	*/
+	public java.util.List<UserInfo> findByDepartmentCode(
+		java.lang.String departmentCode);
+
+	/**
+	* Returns a range of all the user infos where departmentCode = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link UserInfoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param departmentCode the department code
+	* @param start the lower bound of the range of user infos
+	* @param end the upper bound of the range of user infos (not inclusive)
+	* @return the range of matching user infos
+	*/
+	public java.util.List<UserInfo> findByDepartmentCode(
+		java.lang.String departmentCode, int start, int end);
+
+	/**
+	* Returns an ordered range of all the user infos where departmentCode = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link UserInfoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param departmentCode the department code
+	* @param start the lower bound of the range of user infos
+	* @param end the upper bound of the range of user infos (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching user infos
+	*/
+	public java.util.List<UserInfo> findByDepartmentCode(
+		java.lang.String departmentCode, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<UserInfo> orderByComparator);
+
+	/**
+	* Returns an ordered range of all the user infos where departmentCode = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link UserInfoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param departmentCode the department code
+	* @param start the lower bound of the range of user infos
+	* @param end the upper bound of the range of user infos (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching user infos
+	*/
+	public java.util.List<UserInfo> findByDepartmentCode(
+		java.lang.String departmentCode, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<UserInfo> orderByComparator,
+		boolean retrieveFromCache);
+
+	/**
+	* Returns the first user info in the ordered set where departmentCode = &#63;.
+	*
+	* @param departmentCode the department code
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching user info
+	* @throws NoSuchUserInfoException if a matching user info could not be found
+	*/
+	public UserInfo findByDepartmentCode_First(
+		java.lang.String departmentCode,
+		com.liferay.portal.kernel.util.OrderByComparator<UserInfo> orderByComparator)
+		throws NoSuchUserInfoException;
+
+	/**
+	* Returns the first user info in the ordered set where departmentCode = &#63;.
+	*
+	* @param departmentCode the department code
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching user info, or <code>null</code> if a matching user info could not be found
+	*/
+	public UserInfo fetchByDepartmentCode_First(
+		java.lang.String departmentCode,
+		com.liferay.portal.kernel.util.OrderByComparator<UserInfo> orderByComparator);
+
+	/**
+	* Returns the last user info in the ordered set where departmentCode = &#63;.
+	*
+	* @param departmentCode the department code
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching user info
+	* @throws NoSuchUserInfoException if a matching user info could not be found
+	*/
+	public UserInfo findByDepartmentCode_Last(java.lang.String departmentCode,
+		com.liferay.portal.kernel.util.OrderByComparator<UserInfo> orderByComparator)
+		throws NoSuchUserInfoException;
+
+	/**
+	* Returns the last user info in the ordered set where departmentCode = &#63;.
+	*
+	* @param departmentCode the department code
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching user info, or <code>null</code> if a matching user info could not be found
+	*/
+	public UserInfo fetchByDepartmentCode_Last(
+		java.lang.String departmentCode,
+		com.liferay.portal.kernel.util.OrderByComparator<UserInfo> orderByComparator);
+
+	/**
+	* Returns the user infos before and after the current user info in the ordered set where departmentCode = &#63;.
+	*
+	* @param userCode the primary key of the current user info
+	* @param departmentCode the department code
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next user info
+	* @throws NoSuchUserInfoException if a user info with the primary key could not be found
+	*/
+	public UserInfo[] findByDepartmentCode_PrevAndNext(
+		java.lang.String userCode, java.lang.String departmentCode,
+		com.liferay.portal.kernel.util.OrderByComparator<UserInfo> orderByComparator)
+		throws NoSuchUserInfoException;
+
+	/**
+	* Removes all the user infos where departmentCode = &#63; from the database.
+	*
+	* @param departmentCode the department code
+	*/
+	public void removeByDepartmentCode(java.lang.String departmentCode);
+
+	/**
+	* Returns the number of user infos where departmentCode = &#63;.
+	*
+	* @param departmentCode the department code
+	* @return the number of matching user infos
+	*/
+	public int countByDepartmentCode(java.lang.String departmentCode);
 
 	/**
 	* Caches the user info in the entity cache if it is enabled.

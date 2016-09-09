@@ -124,6 +124,12 @@ public interface UserInfoLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public UserInfo fetchUserInfo(java.lang.String userCode);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public UserInfo fetchUserInfoByCode(java.lang.String userCode);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public UserInfo fetchUserInfoByEmail(java.lang.String email);
+
 	/**
 	* Returns the user info matching the UUID and group.
 	*
@@ -145,14 +151,6 @@ public interface UserInfoLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public UserInfo getUserInfo(java.lang.String userCode)
 		throws PortalException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public UserInfo getUserInfoByCode(java.lang.String userCode)
-		throws SystemException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public UserInfo getUserInfoByEmail(java.lang.String email)
-		throws SystemException;
 
 	/**
 	* Returns the user info matching the UUID and group.
@@ -181,6 +179,10 @@ public interface UserInfoLocalService extends BaseLocalService,
 		java.lang.String phone, java.lang.String departmentCode,
 		java.lang.String role, ServiceContext serviceContext)
 		throws PortalException, SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getUserInfosByDepartmentCodeCount(
+		java.lang.String departmentCode) throws SystemException;
 
 	/**
 	* Returns the number of user infos.
@@ -259,6 +261,11 @@ public interface UserInfoLocalService extends BaseLocalService,
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<UserInfo> getUserInfos(long groupId, int start, int end)
+		throws PortalException, SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<UserInfo> getUserInfosByDepartmentCode(
+		java.lang.String departmentCode)
 		throws PortalException, SystemException;
 
 	/**

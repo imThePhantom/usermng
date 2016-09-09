@@ -16,22 +16,24 @@ package com.liferay.usermanagement.service.impl;
 
 import aQute.bnd.annotation.ProviderType;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.RoleConstants;
 import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.usermanagement.exception.UserCodeException;
 import com.liferay.usermanagement.exception.UserEmailException;
-import com.liferay.usermanagement.exception.UserPhoneException;
 import com.liferay.usermanagement.exception.UsernameException;
 import com.liferay.usermanagement.model.UserInfo;
 import com.liferay.usermanagement.service.base.UserInfoLocalServiceBaseImpl;
@@ -56,146 +58,192 @@ import com.liferay.usermanagement.service.base.UserInfoLocalServiceBaseImpl;
  */
 @ProviderType
 public class UserInfoLocalServiceImpl extends UserInfoLocalServiceBaseImpl {
-	/*
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. Always use {@link
-	 * com.liferay.usermanagement.service.UserInfoLocalServiceUtil} to access
-	 * the user info local service.
-	 */
+    /*
+     * NOTE FOR DEVELOPERS:
+     *
+     * Never reference this class directly. Always use {@link
+     * com.liferay.usermanagement.service.UserInfoLocalServiceUtil} to access
+     * the user info local service.
+     */
 
-	public UserInfo addUserInfo(String userCode, String username, boolean male, Date birthday, String address,
-			String email, String phone, String departmentCode, String role, ServiceContext serviceContext)
-			throws PortalException, SystemException {
-		long groupId = serviceContext.getScopeGroupId();
-		long companyId = serviceContext.getCompanyId();
-		Date now = new Date();
-		LocalDate localDate = birthday.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		validate(userCode, username, email, phone);
+    public UserInfo addUserInfo(String userCode, String username, boolean male, Date birthday,
+	    String address, String email, String phone, String departmentCode, String role,
+	    ServiceContext serviceContext) throws PortalException, SystemException {
 
-		UserInfo userInfo = userInfoPersistence.create(userCode);
+	validate(userCode, username, email);
+	UserInfo userInfo = userInfoPersistence.create(userCode);
 
-		User user = null;
-		long creatorId = serviceContext.getUserId();
-		boolean autoPassword = false;
-		String password1 = userCode;
-		String password2 = userCode;
-		boolean autoScreenName = false;
-		String screenName = username.replaceAll("\\s+", "").toLowerCase();
-		long facebookId = 0;
-		String openId = "";
-		Locale locale = Locale.US;
-		int prefixId = 0;
-		int suffixId = 0;
-		int birthdayMonth = localDate.getDayOfMonth();
-		int birthdayDay = localDate.getMonthValue();
-		int birthdayYear = localDate.getDayOfYear();
-		String jobTitle = "";
-		boolean sendEmail = false;
+	long groupId = serviceContext.getScopeGroupId();
+	long companyId = serviceContext.getCompanyId();
+	Date now = new Date();
 
-		user = UserLocalServiceUtil.addUser(creatorId, companyId, autoPassword, password1, password2, autoScreenName,
-				screenName, email, facebookId, openId, locale, username, "", "", prefixId, suffixId, male,
-				birthdayMonth, birthdayDay, birthdayYear, jobTitle, null, null, null, null, sendEmail, serviceContext);
-		
-		userInfo.setUuid(serviceContext.getUuid());
-		userInfo.setUserId(user.getUserId());
-		userInfo.setUsername(username);
-		userInfo.setMale(male);
-		userInfo.setBirthday(birthday);
-		userInfo.setAddress(address);
-		userInfo.setEmail(email);
-		userInfo.setPhone(phone);
-		userInfo.setDepartmentCode(departmentCode);
-		userInfo.setRole(role);
-		userInfo.setGroupId(groupId);
-		userInfo.setCompanyId(companyId);
-		userInfo.setCreateDate(serviceContext.getCreateDate(now));
-		userInfo.setModifiedDate(serviceContext.getModifiedDate(now));
+	long creatorId = serviceContext.getUserId();
 
-		userInfoPersistence.update(userInfo);
+	boolean autoPassword = false;
+	String password1 = userCode;
+	String password2 = userCode;
+	boolean autoScreenName = false;
+	String screenName = username.replaceAll("\\s+", "").toLowerCase();
 
-		return userInfo;
+	System.out.println(userCode);
+	System.out.println(email);
+
+	String[] nameTokens = username.split(" ");
+	String firstName = nameTokens[0];
+	String lastName = nameTokens[nameTokens.length - 1];
+	String midleName = "";
+	for (int i = 1; i < nameTokens.length - 1; i++) {
+	    midleName = midleName.concat(nameTokens[i]);
 	}
 
-	public UserInfo deleteUserInfo(String userCode, ServiceContext serviceContext)
-			throws PortalException, SystemException {
+	long facebookId = 0;
+	String openId = "";
+	Locale locale = LocaleUtil.getDefault();
+	int prefixId = 0;
+	int suffixId = 0;
 
-		UserInfo userInfo = getUserInfo(userCode);
-		userInfo = deleteUserInfo(userCode);
-		return userInfo;
+	Calendar cal = Calendar.getInstance();
+	cal.setTime(birthday);
+	int birthdayMonth = cal.get(Calendar.MONTH);
+	int birthdayDay = cal.get(Calendar.DAY_OF_MONTH);
+	int birthdayYear = cal.get(Calendar.YEAR);
+
+	long[] groupIds = null;
+	long[] organizationIds = null;
+	long[] userGroupIds = null;
+	Role roleUser = RoleLocalServiceUtil.getRole(companyId, RoleConstants.USER);
+	long[] roleIds = { roleUser.getRoleId() };
+	String jobTitle = "";
+	boolean sendEmail = false;
+
+	System.out.println("start create liferay user");
+	User user = UserLocalServiceUtil.addUser(creatorId, companyId, autoPassword, password1,
+		password2, autoScreenName, screenName, email, facebookId, openId, locale, firstName,
+		midleName, lastName, prefixId, suffixId, male, birthdayMonth, birthdayDay,
+		birthdayYear, jobTitle, groupIds, organizationIds, roleIds, userGroupIds, sendEmail,
+		serviceContext);
+	System.out.println("created liferay user");
+	userInfo.setUuid(serviceContext.getUuid());
+	userInfo.setUserId(user.getUserId());
+	userInfo.setUsername(username);
+	userInfo.setMale(male);
+	userInfo.setBirthday(birthday);
+	userInfo.setAddress(address);
+	userInfo.setEmail(email);
+	userInfo.setPhone(phone);
+	userInfo.setDepartmentCode(departmentCode);
+	userInfo.setRole(role);
+	userInfo.setGroupId(groupId);
+	userInfo.setCompanyId(companyId);
+	userInfo.setCreateDate(serviceContext.getCreateDate(now));
+	userInfo.setModifiedDate(serviceContext.getModifiedDate(now));
+
+	userInfoPersistence.update(userInfo);
+	return userInfo;
+    }
+
+    public UserInfo deleteUserInfo(String userCode, ServiceContext serviceContext)
+	    throws PortalException, SystemException {
+
+	UserInfo userInfo = getUserInfo(userCode);
+	long userId = userInfo.getUserId();
+	if (UserLocalServiceUtil.fetchUser(userId) != null) {
+	    System.out.println("DELETE Liferay user");
+	    UserLocalServiceUtil.deleteUser(userId);
 	}
+	userInfo = deleteUserInfo(userCode);
 
-	public List<UserInfo> getUserInfos(long groupId) throws PortalException, SystemException {
-		return userInfoPersistence.findBygroupId(groupId);
+	return userInfo;
+    }
+
+    public List<UserInfo> getUserInfos(long groupId) throws PortalException, SystemException {
+	return userInfoPersistence.findByGroupId(groupId);
+    }
+
+    public List<UserInfo> getUserInfos(long groupId, int start, int end)
+	    throws PortalException, SystemException {
+	return userInfoPersistence.findByGroupId(groupId, start, end);
+    }
+
+    public int getUserInfosCount(long groupId) throws SystemException {
+	return userInfoPersistence.countByGroupId(groupId);
+    }
+
+    public List<UserInfo> getUserInfosByDepartmentCode(String departmentCode)
+	    throws PortalException, SystemException {
+	return userInfoPersistence.findByDepartmentCode(departmentCode);
+    }
+
+    public int getUserInfosByDepartmentCodeCount(String departmentCode) throws SystemException {
+	return userInfoPersistence.countByDepartmentCode(departmentCode);
+    }
+
+    public UserInfo fetchUserInfoByEmail(String email) {
+	return userInfoPersistence.fetchByEmail(email);
+    }
+
+    public UserInfo fetchUserInfoByCode(String userCode) {
+	return userInfoPersistence.fetchByPrimaryKey(userCode);
+    }
+
+    public UserInfo updateUserInfo(String userCode, String username, boolean male, Date birthday,
+	    String address, String email, String phone, String departmentCode, String role,
+	    ServiceContext serviceContext) throws PortalException, SystemException {
+
+	long groupId = serviceContext.getScopeGroupId();
+	long companyId = PortalUtil.getDefaultCompanyId();
+	Date now = new Date();
+	String screenName = username.replaceAll("\\s+", "").toLowerCase();
+	departmentCode = departmentCode.replaceAll("\\s+", "").toLowerCase();
+
+	validate(userCode, username, email);
+
+	UserInfo userInfo = getUserInfo(userCode);
+
+	userInfo.setUsername(username);
+	userInfo.setMale(male);
+	userInfo.setAddress(address);
+	userInfo.setBirthday(birthday);
+	userInfo.setEmail(email);
+	userInfo.setPhone(phone);
+	userInfo.setDepartmentCode(departmentCode);
+	userInfo.setRole(role);
+	userInfo.setGroupId(groupId);
+	userInfo.setCompanyId(companyId);
+	userInfo.setModifiedDate(serviceContext.getModifiedDate(now));
+
+	User user = UserLocalServiceUtil.getUser(userInfo.getUserId());
+
+	String[] nameTokens = username.split("\\s+");
+	String firstName = nameTokens[0];
+	String lastName = nameTokens[nameTokens.length - 1];
+	String midleName = "";
+	for (int i = 1; i < nameTokens.length - 1; i++) {
+	    midleName = midleName.concat(nameTokens[i]);
 	}
+	user.setFirstName(firstName);
+	user.setMiddleName(midleName);
+	user.setLastName(lastName);
+	user.setScreenName(screenName);
+	user.getContact().setBirthday(birthday);
+	user.getContact().setMale(male);
+	user.getContact().setEmailAddress(email);
 
-	public List<UserInfo> getUserInfos(long groupId, int start, int end) throws PortalException, SystemException {
-		return userInfoPersistence.findBygroupId(groupId, start, end);
+	UserLocalServiceUtil.updateUser(user);
+	userInfoPersistence.update(userInfo);
+
+	return userInfo;
+    }
+
+    protected void validate(String userCode, String username, String email) throws PortalException {
+	if (Validator.isNull(userCode)) {
+	    throw new UserCodeException("userCode-missing");
 	}
-
-	public int getUserInfosCount(long groupId) throws SystemException {
-		return userInfoPersistence.countBygroupId(groupId);
+	if (Validator.isNull(username)) {
+	    throw new UsernameException("username-missing");
 	}
-
-	public UserInfo getUserInfoByEmail(String email) throws SystemException {
-		return userInfoPersistence.fetchByEmail(email);
+	if (Validator.isNull(email) || !Validator.isEmailAddress(email)) {
+	    throw new UserEmailException("email-invalid");
 	}
-	
-	public UserInfo getUserInfoByCode(String userCode) throws SystemException {
-		return userInfoPersistence.fetchByPrimaryKey(userCode);
-	}
-
-	public UserInfo updateUserInfo(String userCode, String username, boolean male, Date birthday, String address,
-			String email, String phone, String departmentCode, String role, ServiceContext serviceContext)
-			throws PortalException, SystemException {
-		long groupId = serviceContext.getScopeGroupId();
-		long companyId = CompanyLocalServiceUtil.getCompanyByWebId("liferay.com").getCompanyId();
-		Date now = new Date();
-		String screenName = username.replaceAll("\\s+", "").toLowerCase();
-
-		validate(userCode, username, email, phone);
-
-		UserInfo userInfo = getUserInfo(userCode);
-
-		userInfo.setUsername(username);
-		userInfo.setMale(male);
-		userInfo.setAddress(address);
-		userInfo.setBirthday(birthday);
-		userInfo.setEmail(email);
-		userInfo.setPhone(phone);
-		userInfo.setDepartmentCode(departmentCode);
-		userInfo.setRole(role);
-		userInfo.setGroupId(groupId);
-		userInfo.setCompanyId(companyId);
-		userInfo.setModifiedDate(serviceContext.getModifiedDate(now));
-
-		User user = UserLocalServiceUtil.getUser(userInfo.getUserId());
-
-		user.setFirstName(username);
-		user.setScreenName(screenName);
-		user.getContact().setBirthday(birthday);
-		user.getContact().setMale(male);
-		user.getContact().setEmailAddress(email);
-
-		UserLocalServiceUtil.updateUser(user);
-		userInfoPersistence.update(userInfo);
-
-		return userInfo;
-	}
-
-	protected void validate(String userCode, String username, String email, String phone) throws PortalException {
-		if (Validator.isNull(userCode)) {
-			throw new UserCodeException("userCode-missing");
-		}
-		if (Validator.isNull(username) || Validator.isName(username)) {
-			throw new UsernameException("username-missing");
-		}
-		if (Validator.isNull(email) || Validator.isEmailAddress(email)) {
-			throw new UserEmailException("email-invalid");
-		}
-		if (Validator.isPhoneNumber(phone)) {
-			throw new UserPhoneException("phone-invalid");
-		}
-	}
-
+    }
 }

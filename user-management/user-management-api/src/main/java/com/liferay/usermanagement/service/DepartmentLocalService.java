@@ -121,6 +121,9 @@ public interface DepartmentLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Department fetchDepartment(java.lang.String departmentCode);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Department fetchDepartmentByName(java.lang.String departmentName);
+
 	/**
 	* Returns the department matching the UUID and group.
 	*
@@ -131,6 +134,9 @@ public interface DepartmentLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Department fetchDepartmentByUuidAndGroupId(java.lang.String uuid,
 		long groupId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Department fetchDepartmetnByCode(java.lang.String departmentCode);
 
 	/**
 	* Returns the department with the primary key.
@@ -143,10 +149,6 @@ public interface DepartmentLocalService extends BaseLocalService,
 	public Department getDepartment(java.lang.String departmentCode)
 		throws PortalException;
 
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Department getDepartmentByName(java.lang.String departmentName)
-		throws SystemException;
-
 	/**
 	* Returns the department matching the UUID and group.
 	*
@@ -158,10 +160,6 @@ public interface DepartmentLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Department getDepartmentByUuidAndGroupId(java.lang.String uuid,
 		long groupId) throws PortalException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Department getDepartmetnByCode(java.lang.String departmentCode)
-		throws SystemException;
 
 	/**
 	* Updates the department in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.

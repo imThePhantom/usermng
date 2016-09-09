@@ -132,6 +132,16 @@ public class UserInfoLocalServiceUtil {
 		return getService().fetchUserInfo(userCode);
 	}
 
+	public static com.liferay.usermanagement.model.UserInfo fetchUserInfoByCode(
+		java.lang.String userCode) {
+		return getService().fetchUserInfoByCode(userCode);
+	}
+
+	public static com.liferay.usermanagement.model.UserInfo fetchUserInfoByEmail(
+		java.lang.String email) {
+		return getService().fetchUserInfoByEmail(email);
+	}
+
 	/**
 	* Returns the user info matching the UUID and group.
 	*
@@ -155,18 +165,6 @@ public class UserInfoLocalServiceUtil {
 		java.lang.String userCode)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getUserInfo(userCode);
-	}
-
-	public static com.liferay.usermanagement.model.UserInfo getUserInfoByCode(
-		java.lang.String userCode)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().getUserInfoByCode(userCode);
-	}
-
-	public static com.liferay.usermanagement.model.UserInfo getUserInfoByEmail(
-		java.lang.String email)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().getUserInfoByEmail(email);
 	}
 
 	/**
@@ -205,6 +203,12 @@ public class UserInfoLocalServiceUtil {
 		return getService()
 				   .updateUserInfo(userCode, username, male, birthday, address,
 			email, phone, departmentCode, role, serviceContext);
+	}
+
+	public static int getUserInfosByDepartmentCodeCount(
+		java.lang.String departmentCode)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getUserInfosByDepartmentCodeCount(departmentCode);
 	}
 
 	/**
@@ -308,6 +312,13 @@ public class UserInfoLocalServiceUtil {
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		return getService().getUserInfos(groupId, start, end);
+	}
+
+	public static java.util.List<com.liferay.usermanagement.model.UserInfo> getUserInfosByDepartmentCode(
+		java.lang.String departmentCode)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().getUserInfosByDepartmentCode(departmentCode);
 	}
 
 	/**

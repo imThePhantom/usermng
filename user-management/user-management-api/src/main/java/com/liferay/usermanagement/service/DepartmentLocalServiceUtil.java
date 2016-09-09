@@ -130,6 +130,11 @@ public class DepartmentLocalServiceUtil {
 		return getService().fetchDepartment(departmentCode);
 	}
 
+	public static com.liferay.usermanagement.model.Department fetchDepartmentByName(
+		java.lang.String departmentName) {
+		return getService().fetchDepartmentByName(departmentName);
+	}
+
 	/**
 	* Returns the department matching the UUID and group.
 	*
@@ -140,6 +145,11 @@ public class DepartmentLocalServiceUtil {
 	public static com.liferay.usermanagement.model.Department fetchDepartmentByUuidAndGroupId(
 		java.lang.String uuid, long groupId) {
 		return getService().fetchDepartmentByUuidAndGroupId(uuid, groupId);
+	}
+
+	public static com.liferay.usermanagement.model.Department fetchDepartmetnByCode(
+		java.lang.String departmentCode) {
+		return getService().fetchDepartmetnByCode(departmentCode);
 	}
 
 	/**
@@ -155,12 +165,6 @@ public class DepartmentLocalServiceUtil {
 		return getService().getDepartment(departmentCode);
 	}
 
-	public static com.liferay.usermanagement.model.Department getDepartmentByName(
-		java.lang.String departmentName)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().getDepartmentByName(departmentName);
-	}
-
 	/**
 	* Returns the department matching the UUID and group.
 	*
@@ -173,12 +177,6 @@ public class DepartmentLocalServiceUtil {
 		java.lang.String uuid, long groupId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService().getDepartmentByUuidAndGroupId(uuid, groupId);
-	}
-
-	public static com.liferay.usermanagement.model.Department getDepartmetnByCode(
-		java.lang.String departmentCode)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().getDepartmetnByCode(departmentCode);
 	}
 
 	/**
